@@ -46,7 +46,7 @@
         var sp_fqdn = "http://api.auth.adobe.com/api/v1/";
         var url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
         var url_hdr_alt = 'Mozilla 5.10';
-        var redirect_url = 'http://www.foxnow.com';
+        var redirect_url = 'http%3A%2F%2Fadobe.com%3A5500%2FSecondScreen.html';//'http://www.foxnow.com';
         var mvpdList = [];
         var REQUESTOR, RESOURCE = "sample_requestor_Id", REGCODE = null, mso = 'Cablevision', picker, mvpds;
         var counter = false;
@@ -60,6 +60,7 @@
             if(http.readyState == 4 && http.status == 200) {
                 var a = JSON.stringify(http.responseText);
                 document.getElementById('textbox').value += '\n'+a;
+                //window.location.replace(url);
             } else {
                 var a = JSON.stringify(http.responseText);
                 document.getElementById('textbox').value += '\n'+a;
@@ -135,6 +136,7 @@
         
         }
         /* --- Authentication Flow --- */
+        /*
         function _callback(data) {
            if(data != null){
            console.log('Data is there!');
@@ -164,14 +166,20 @@
             console.error(e);
           }
         xmlhttp.send();
+        }*/
+
+        function login(_url){
+
+            window.location.replace(_url);
         }
         
         function authenticate(){
         mso = document.getElementById('mvpdList').value;
         REQUESTOR = document.getElementById('requestor').value;
         REGCODE = document.getElementById('regcode').value;
-        url = `${sp_fqdn}authenticate?reg_code=${REGCODE}&requestor_id=${REQUESTOR}&domain_name=adobe.com&noflash=true&no_iframe=true&mso_id=${mso}&redirect_url=${redirect_url}`;
-        login(url, _callback);
+        var url = `${sp_fqdn}authenticate?reg_code=${REGCODE}&requestor_id=${REQUESTOR}&domain_name=adobe.com&noflash=true&no_iframe=true&mso_id=${mso}&redirect_url=${redirect_url}`;
+        //login(url, _callback);
+        login(url);
         }
         
         
