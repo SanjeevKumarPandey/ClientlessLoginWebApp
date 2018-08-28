@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<Author: Sanjeev Kumar Pandey| Ver.: Dev>
+<!--{Author: Sanjeev Pandey| Ver.: Dev}-->
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -9,103 +9,179 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Clientless App - SecondScreen</title>
+    <title>Clientless App - LoginWebApp</title>
     <link href="./Asset_files/bootstrap.css" rel="stylesheet">
     <link href="./Asset_files/index_content.css" rel="stylesheet">
-    <link rel="stylesheet" src="lib/jquery/jquery-ui.css">
-    <link rel="stylesheet" src="lib/ionicons/css/ionicons.css">
+    <link href="./Asset_files/customstyle.css" rel="stylesheet">
     <link href="./Asset_files/style.css" rel="stylesheet">
     <script src="./Asset_files/jquery.min.js.download"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-	<!-------------------------------------------------------+
-    [Clietless App]
-    Author: Sanjeev Pandey
-    sanpande@adobe.com
-    ---------------------------------------------------------+-->
-<style>
-body {
-    background-color: transparent;
-    /*background-position: center !important;*/
-    background: url("stewie.png");
-    background-repeat: no-repeat;
-}
+    <script type="text/javascript">
 
-.login-form {
-    position: relative;
-    width: 400px;
-    height: 280px;
-    padding: 15px 25px 0 25px;
-    margin: auto;
-    margin-top: 121;
-    cursor: default;
- 
-    background-color: none;/*#141517;*/
-}
+        var mvpd_picker = document.getElementById('reg');
+        window.onclick = function(event) {
+            if (event.target == mvpd_picker) {
+                mvpd_picker.style.display = "none";
+            }
+        }
+            
+        //Flow
+        /*
+        Enter Regcode
+        Enter requestor ID
+        hit enter
+        (regcode goes to requestor ID + other stuff)
+        Open the MVPD selection page on enter
+        (Mso id is set)
+        Send the authenticate call
+        (let browser handle the redirects, set this html page as redirect_url)
+        */
+        
+        var uuid_filename = 'uuid.txt',
+        login_page = 'mvpdLoginPage.html',
+        deviceId = 'sanjeev',
+        redirect_page = 'redirect_complete.html';
+        var reggie_fqdn = 'http://api.auth.adobe.com/reggie/v1/';
+        var sp_fqdn = "http://api.auth.adobe.com/api/v1/";
+        var url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
+        var url_hdr_alt = 'Mozilla 5.10';
+        var redirect_url = 'http://www.foxnow.com';
+        var mvpdList = [];
+        var REQUESTOR, RESOURCE = "sample_requestor_Id", REGCODE = null, mso = 'Cablevision', picker, mvpds;
+        var counter = false;
+        
+        function regRecord(requestor_id, regcode){
+        var http = new XMLHttpRequest();
+        var url = `${reggie_fqdn}${requestor_id}/regcode/${regcode}?format=json`;
+        var params = JSON.stringify({'deviceId': deviceId, 'User-Agent': url_hdr});
+        http.open("GET", url, true);
+        http.onreadystatechange = function() {
+            if(http.readyState == 4 && http.status == 200) {
+                var a = JSON.stringify(http.responseText);
+                document.getElementById('textbox').value += '\n'+a;
+            } else {
+                var a = JSON.stringify(http.responseText);
+                document.getElementById('textbox').value += '\n'+a;
+            }
+        }
+        http.send(params);
+        }
+        
+        
+        function getMVPD(requestor_id){
+        var url = `https://sp.auth.adobe.com/adobe-services/config/${requestor_id}`;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState==4 || xmlhttp.status==200)
+        {
+            document.getElementById('textbox').value += xmlhttp.responseText;
+            try {
+            var x =  $.parseXML(xmlhttp.responseText);
+            mvpds = $(x).find('mvpd');
+            picker = $('#mvpdPicker');
+            var providersMenu = $('<select id="mvpdList" multiple></select>');
+            
+            var promise = new Promise(function(resolve, reject) {
+                $.each(mvpds, function(k, v) {
+                            var mvpdID = $(v).find("id").text();
+                            var mvpdName = $(v).find("displayName").text();
+                            providersMenu.append($('<option></option>', {value:mvpdID}).text(mvpdName));
+                            //mvpdList.push(mvpds[v].childNodes[0].textContent);
+                            mvpdList.push($(v).find("id").text());
+                            //return mvpdList;
+                            counter = true;
+                        });
+            
+                if(counter){
+                
+                function createPicker(){
+                    picker.append(providersMenu);
+                        picker.append($('<br/>'));
+                        picker.append($('<input type="button" class="login-stuff" onclick="authenticate()" value="login" style="width:auto;" />'));
+                        picker.append($('<input type="button" class="login-stuff" onclick="cancelPicker()" value="cancel" style="width:auto; background-color:orange;" />'));
+                        counter = false;
+                        };
+                
+                resolve (createPicker());
+                
+                } else {
+                        reject(Error("It broke"));
+                }				
+            });
+            
+            var askMe = function () {
+            promise
+                .then(function (fulfilled) {
+                    //console.log(fulfilled);
+                })
+                .catch(function (error) {
+                    console.log(error.message);
+                });
+        };
+        
+        askMe();
+            
+            } catch (ex) {
+                console.log('Error');
+            }
+            
+        }
+        }
+        xmlhttp.open('GET',url,true);
+        xmlhttp.send();
+        
+        //document.getElementById(&#39;reg&#39;).style.display=&#39;block&#39;
+        
+        }
+        /* --- Authentication Flow --- */
+        function _callback(data) {
+           if(data != null){
+           console.log('Data is there!');
+           return data;
+           }
+        return data;
+        }
+        
+        var url;
+        function login(url, callback){
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState==4 || xmlhttp.status==200)
+        {
+            //url =	xmlhttp.response;
+            callback(xmlhttp.response);
+            window.location.assign(xmlhttp.response);
+            
+        }else{
+            console.log('Oops! Login failed');
+        }
+        }
+        xmlhttp.open('GET',url,true);
+        try {
+            xmlhttp.responseType = 'document';
+          } catch(e) {
+            console.error(e);
+          }
+        xmlhttp.send();
+        }
+        
+        function authenticate(){
+        mso = document.getElementById('mvpdList').value;
+        REQUESTOR = document.getElementById('requestor').value;
+        REGCODE = document.getElementById('regcode').value;
+        url = `${sp_fqdn}authenticate?reg_code=${REGCODE}&requestor_id=${REQUESTOR}&domain_name=adobe.com&noflash=true&no_iframe=true&mso_id=${mso}&redirect_url=${redirect_url}`;
+        login(url, _callback);
+        }
+        
+        
+        function checkauthn(){
+        
+        var url3 = `${sp_fqdn}checkauthn/regcode`;
+        
+        }
+</script>        
 
-.mvpd_picker {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
-    padding-top: 60px;
-}
-
-.mvpd_picker-content {
-    background-color: #fefefe;
-    margin: 5% auto 5% auto;
-    border: 1px solid #888;
-    width: 20%;
-	position: relative;
-}
-
-.login-stuff {
- 
-    -webkit-transition: all .15s ease-in-out;
-    -moz-transition: all .15s ease-in-out;
-    -o-transition: all .15s ease-in-out;
-    transition: all .15s ease-in-out;
-    background: #333;
-    border: medium none;
-    border-radius: 30px;
-    color: #fff;
-    font-size: 12px;
-    height: 50px;
-    line-height: 50px;
-    padding: 0 30px;
-    text-transform: uppercase;
-}
-
-.login-stuff button:hover, .login-stuff button:focus {
-  color: #fff;
-}
-
-
-.gps_ring {
-        display: none;
-        border: 3px solid #999;
-         -webkit-border-radius: 30px;
-         height: 18px;
-         width: 18px;       
-        -webkit-animation: pulsate 1s ease-out;
-        -webkit-animation-iteration-count: infinite; 
-        /*opacity: 0.0*/
-        margin: 80 2.5%;
-}
-    
-    @-webkit-keyframes pulsate {
-            0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
-            50% {opacity: 1.0;}
-            100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
-}
-
-</style>
 </head>
 <body>
 <div class="container-fluid">
@@ -127,10 +203,9 @@ body {
 		  <textarea cols="50" rows="4" name="comment" class='tb' id='textbox' style="width:330px; height:200px;"></textarea>
 		  <button type="button" class="login-stuff" id='test' onclick="getMVPD(document.getElementById('requestor').value)" style="width:auto; background-color:green;">Test</button>
 		  <button type="button" class="login-stuff" id="create" style="width:auto;" >Download Logs</button>
-		  
         </div>
 
-        <!---MVPD Picker--->
+        <!--MVPD Picker-->
         <div class="mvpd_picker" id="reg">
           <div class="mvpd_picker-content animate">
             <div class="imgcontainer">
@@ -150,228 +225,46 @@ body {
   </div>
 </div>
 <p id="demo"></p>
-<script type="text/javascript">
-
-var mvpd_picker = document.getElementById('reg');
-window.onclick = function(event) {
-    if (event.target == mvpd_picker) {
-        mvpd_picker.style.display = "none";
-    }
-}
-	
-//Flow
-/*
-Enter Regcode
-Enter requestor ID
-hit enter
-(regcode goes to requestor ID + other stuff)
-Open the MVPD selection page on enter
-(Mso id is set)
-Send the authenticate call
-(let browser handle the redirects, set this html page as redirect_url)
-*/
-
-var uuid_filename = 'uuid.txt',
-login_page = 'mvpdLoginPage.html',
-deviceId = 'sanjeev',
-redirect_page = 'redirect_complete.html';
-var reggie_fqdn = 'http://api.auth.adobe.com/reggie/v1/';
-var sp_fqdn = "http://api.auth.adobe.com/api/v1/";
-var url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
-var url_hdr_alt = 'Mozilla 5.10';
-var redirect_url = 'http://www.foxnow.com';
-var mvpdList = [];
-var REQUESTOR, RESOURCE = "sample_requestor_Id", REGCODE = null, mso = 'Cablevision', picker, mvpds;
-var counter = false;
-
-function regRecord(requestor_id, regcode){
-var http = new XMLHttpRequest();
-var url = reggie_fqdn+requestor_id+"/regcode/"+regcode+'?format=json';
-var params = JSON.stringify({'deviceId': deviceId, 'User-Agent': url_hdr});
-http.open("GET", url, true);
-http.onreadystatechange = function() {
-    if(http.readyState == 4 && http.status == 200) {
-        var a = JSON.stringify(http.responseText);
-		//var resp = http.responseText;
-		document.getElementById('textbox').value += '\n'+a;
-    } else {
-		var a = JSON.stringify(http.responseText);
-		document.getElementById('textbox').value += '\n'+a;
-	}
-}
-http.send(params);
-}
-
-
-function getMVPD(requestor_id){
-var url = 'https://sp.auth.adobe.com/adobe-services/config/' + requestor_id;
-var xmlhttp = new XMLHttpRequest();
-xmlhttp.onreadystatechange=function(){
-if (xmlhttp.readyState==4 || xmlhttp.status==200)
-{
-	document.getElementById('textbox').value += xmlhttp.responseText;
-	try {
-	var x =  $.parseXML(xmlhttp.responseText);
-	mvpds = $(x).find('mvpd');
-	picker = $('#mvpdPicker');
-    var providersMenu = $('<select id="mvpdList" multiple></select>');
-	
-	var promise = new Promise(function(resolve, reject) {
-		$.each(mvpds, function(k, v) {
-                    var mvpdID = $(v).find("id").text();
-                    var mvpdName = $(v).find("displayName").text();
-                    providersMenu.append($('<option></option>', {value:mvpdID}).text(mvpdName));
-					//mvpdList.push(mvpds[v].childNodes[0].textContent);
-					mvpdList.push($(v).find("id").text());
-					//return mvpdList;
-                    counter = true;
-                });
-	
-		if(counter){
-		
-		function createPicker(){
-			picker.append(providersMenu);
-                picker.append($('<br/>'));
-                picker.append($('<input type="button" class="login-stuff" onclick="authenticate()" value="login" style="width:auto;" />'));
-                picker.append($('<input type="button" class="login-stuff" onclick="cancelPicker()" value="cancel" style="width:auto; background-color:orange;" />'));
-				counter = false;
-				};
-		
-		resolve (createPicker());
-		
-		} else{
-				reject(Error("It broke"));
-		}
-				
-				
-	});
-	
-	var askMe = function () {
-    promise
-        .then(function (fulfilled) {
-            //console.log(fulfilled);
-        })
-        .catch(function (error) {
-            console.log(error.message);
-        });
-};
-
-askMe();
-	
-	} catch (ex) {
-		console.log('Error');
-	}
-	
-}
-}
-xmlhttp.open('GET',url,true);
-xmlhttp.send();
-
-//document.getElementById(&#39;reg&#39;).style.display=&#39;block&#39;
-
-}
-
-function mycallback(data) {
-   if(data != null){
-   console.log('Data is there!');};
-}
-
-var url;
-function login(url, callback){ 
-//var url = sp_fqdn +"authenticate?reg_code="+REGCODE+"&requestor_id="+REQUESTOR+"&domain_name=adobe.com&noflash=true&no_iframe=true&mso_id="+mso+"&redirect_url="+redirect_url; 
-var xmlhttp = new XMLHttpRequest();
-xmlhttp.onreadystatechange=function(){
-if (xmlhttp.readyState==4 || xmlhttp.status==200)
-{
-	//url =	xmlhttp.response;
-	callback(xmlhttp.response);	
-	
-}else{
-	//document.getElementById("CRL").innerHTML= 'FAILED!';};
-}}
-xmlhttp.open('GET',url,true);
-/*try {
-    xmlhttp.responseType = 'document';
-  } catch(e) {
-    console.error(e);
-  }*/
-xmlhttp.send();
-}
-
-function authenticate(){
-mso = document.getElementById('mvpdList').value;
-REQUESTOR = document.getElementById('requestor').value;
-REGCODE = document.getElementById('regcode').value;
-url = `${sp_fqdn}authenticate?reg_code=${REGCODE}&requestor_id=${REQUESTOR}&domain_name=adobe.com&noflash=true&no_iframe=true&mso_id=${mso}&redirect_url=${redirect_url}`;
-login(url, mycallback);
-}
-// checkauthn (2nd Screen)
-/*
-add_args__ = {'requestor':requestor_id, 'format': 'xml'}
-data__ = urllib.urlencode(add_args__)
-url3 = str(sp_fqdn) + str("checkauthn/") + str(regcode+'?') +  str(data__)
-print url3
-request3 = urllib2.Request(url3)
-#request3.add_header('deviceId', 'sanjeev')
-request3.add_header('User-agent', url_header)
-#request3.add_header('Authorization',theheader)
-request3.add_header('format','xml')
-try:
-        response3 = urllib2.urlopen(request3)
-        html3 = response3.read()
-        print html3
-        open_new_tab(redirect_page)
-except URLError, g:
-        print g.code
-        print g.reason
-        print g.read().split('<message>')[1]
-
-
-function pickMVPD() {
-var url = sp_fqdn + reqestor_id + '/checkauthn';
-}
-
-*/
-
-try{
-	var textFile = null,
-  					makeTextFile = function (text) {
-    				var data = new Blob([text], {type: 'text/plain'});
-
-    				// while replacing a previously generated file, manually revoking the object-URL to avoid memory leaks.
-    				if (textFile !== null) {
-      				window.URL.revokeObjectURL(textFile);
-    				}
-
-    				textFile = window.URL.createObjectURL(data);
-
-    				// returns a URL to be used as a href
-    				return textFile;
-  					};
-
-					var create = document.getElementById('create'),
-    				textbox = document.getElementById('textbox');
-
-  					create.addEventListener('click', function () {
-    				var link = document.createElement('a');
-    				link.setAttribute('download', 'xmlData.xml');
-    				link.href = makeTextFile(textbox.value);
-    				document.body.appendChild(link);
-
-    				// wait for the link to be added to the document
-    				window.requestAnimationFrame(function () {
-      				var event = new MouseEvent('click');
-      				link.dispatchEvent(event);
-      				document.body.removeChild(link);
-    				});
-
-  					}, false);
-
-					} catch (ex) {
-					console.error(ex);
-					}
-</script>
 <hr style='margin-top:25%;'>
 &copy;Sanjeev Pandey
+<script lang="javascript">
+    try{
+            var textFile = null,
+                              makeTextFile = function (text) {
+                            var data = new Blob([text], {type: 'text/plain'});
+        
+                            // while replacing a previously generated file, manually revoking the object-URL to avoid memory leaks.
+                            if (textFile !== null) {
+                              window.URL.revokeObjectURL(textFile);
+                            }
+        
+                            textFile = window.URL.createObjectURL(data);
+        
+                            // returns a URL to be used as a href
+                            return textFile;
+                              };
+        
+                            var create = document.getElementById('create'),
+                            textbox = document.getElementById('textbox');
+        
+                              create.addEventListener('click', function () {
+                            var link = document.createElement('a');
+                            link.setAttribute('download', 'xmlData.xml');
+                            link.href = makeTextFile(textbox.value);
+                            document.body.appendChild(link);
+        
+                            // wait for the link to be added to the document
+                            window.requestAnimationFrame(function () {
+                              var event = new MouseEvent('click');
+                              link.dispatchEvent(event);
+                              document.body.removeChild(link);
+                            });
+        
+                              }, false);
+        
+                            } catch (ex) {
+                            console.error(ex);
+                            }
+</script>
 </body>
 </html>

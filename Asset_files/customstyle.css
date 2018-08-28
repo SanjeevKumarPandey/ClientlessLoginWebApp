@@ -1,0 +1,80 @@
+body {
+    background-color: transparent;
+    /*background-position: center !important;*/
+    background: url("stewie.png");
+    background-repeat: no-repeat;
+}
+
+.login-form {
+    position: relative;
+    width: 400px;
+    height: 280px;
+    padding: 15px 25px 0 25px;
+    margin: auto;
+    margin-top: 121;
+    cursor: default;
+ 
+    background-color: none;/*#141517;*/
+}
+
+.mvpd_picker {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.mvpd_picker-content {
+    background-color: #fefefe;
+    margin: 5% auto 5% auto;
+    border: 1px solid #888;
+    width: 20%;
+	position: relative;
+}
+
+.login-stuff {
+ 
+    -webkit-transition: all .15s ease-in-out;
+    -moz-transition: all .15s ease-in-out;
+    -o-transition: all .15s ease-in-out;
+    transition: all .15s ease-in-out;
+    background: #333;
+    border: medium none;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 12px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 30px;
+    text-transform: uppercase;
+}
+
+.login-stuff button:hover, .login-stuff button:focus {
+  color: #fff;
+}
+
+
+.gps_ring {
+        display: none;
+        border: 3px solid #999;
+         -webkit-border-radius: 30px;
+         height: 18px;
+         width: 18px;       
+        -webkit-animation: pulsate 1s ease-out;
+        -webkit-animation-iteration-count: infinite; 
+        /*opacity: 0.0*/
+        margin: 80 2.5%;
+}
+    
+    @-webkit-keyframes pulsate {
+            0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
+            50% {opacity: 1.0;}
+            100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+}
