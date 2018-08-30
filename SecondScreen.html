@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--{Author: Sanjeev Pandey| Ver.: Dev}-->
+<!--{Author: Sanjeev Pandey| Ver.: Beta}-->
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -28,14 +28,12 @@
             
         //Flow
         /*
-        Enter Regcode
-        Enter requestor ID
-        hit enter
-        (regcode goes to requestor ID + other stuff)
-        Open the MVPD selection page on enter
-        (Mso id is set)
-        Send the authenticate call
-        (let browser handle the redirects, set this html page as redirect_url)
+        Enter Regcode, and requestor ID
+        hit Submit; (registration record is fetched)
+        If record is available --> MVPD Picker is created
+        Pick the MVPD (mso id is set); click Login to send the authenticate call
+        (let browser handle the redirects, set _this_ html page as redirect_url*)
+        *By spoofing the localhost to adobe.com.
         */
         
         var uuid_filename = 'uuid.txt',
@@ -46,12 +44,18 @@
         var sp_fqdn = "http://api.auth.adobe.com/api/v1/";
         var url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
         var url_hdr_alt = 'Mozilla 5.10';
-        var redirect_url = 'http%3A%2F%2Fadobe.com%3A5500%2FSecondScreen.html';//'http://www.foxnow.com';
+        var redirect_url = 'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FSecondScreen.html'; //'http%3A%2F%2Fadobe.com%3A5500%2FSecondScreen.html';//'http://www.foxnow.com';
         var mvpdList = [];
         var REQUESTOR, RESOURCE = "sample_requestor_Id", REGCODE = null, mso = 'Cablevision', picker, mvpds;
         var counter = false;
         
         function regRecord(requestor_id, regcode){
+        document.getElementById('dir').innerHTML = `Enter \${${regcode}}, and \${${requestor_id}}
+            hit Submit (registration record is fetched).
+            <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
+            Pick the MVPD (\${mso} id is set); click <span style="font-weight:bold;">Login</span> to send the authenticate call
+            (browser handles redirects & cookies). Set <span style="font-style:italic;">this</span> html page as redirect_url*.
+            <br>*By spoofing the localhost to adobe.com.`;
         var http = new XMLHttpRequest();
         var url = `${reggie_fqdn}${requestor_id}/regcode/${regcode}.json`;
         var params = JSON.stringify({'deviceId': deviceId, 'User-Agent': url_hdr});
@@ -185,12 +189,13 @@
         
         
         function checkauthn(req, regC){
-        var url = `${sp_fqdn}checkauthn/${regC}?requestor=${req}`;
+        var url = `${sp_fqdn}checkauthn/${regC}.json?requestor=${req}`;
         var xhr = new XMLHttpRequest;
         xhr.onreadystatechange = function(){
             if (xhr.readyState==4 || xhr.status==200){
                 var rt = xhr.responseText;
-                document.getElementById('textbox').value += 'Authentication Status: '+rt;
+                var rr = xhr.response;
+                document.getElementById('textbox').value += 'Authentication Status: '+rt +" "+ rr;
             } else {
                 console.log('[/checkauthn] XHR Error');
             }
@@ -231,13 +236,21 @@
               <h1>Pick MVPD</h1>
             </div>
 			<div id="container3">
-            <input type="text" name="email" placeholder="Pick mso id" id="pick_mso"> 
+            <input type="text" name="mso_id" placeholder="Pick mso id" id="pick_mso"> 
 			<select id='mvpdlist'></select>
             <button type="button" class="login-stuff" onclick="authenticate(document.getElementById('pick_mso').value)" style="width:auto;">Set</button>
             <button type="button" onclick="document.getElementById('reg').style.display='none';" class="login-stuff" style="width:auto; background-color:orange">Cancel</button>
           </div>
           </div>
         </div>
+        <!--Directions-->
+        <div class="col-lg-4 col-md-4 "><h1>Directions-</h1>
+        <p id='dir'>Enter ${REGCODE}, and ${REQUESTOR ID}
+            hit Submit (registration record is fetched).
+            <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
+            Pick the MVPD (${mso} id is set); click <span style="font-weight:bold;">Login</span> to send the authenticate call
+            (browser handles redirects & cookies). Set <span style="font-style:italic;">this</span> html page as redirect_url*.
+            <br>*By spoofing the localhost to adobe.com.</p></div>
       </div>
     </div>
   </div>
@@ -251,14 +264,14 @@
                               makeTextFile = function (text) {
                             var data = new Blob([text], {type: 'text/plain'});
         
-                            // while replacing a previously generated file, manually revoking the object-URL to avoid memory leaks.
+                            //Manually revoke the object-URL to avoid memory leaks while previous file is replaced
                             if (textFile !== null) {
                               window.URL.revokeObjectURL(textFile);
                             }
         
                             textFile = window.URL.createObjectURL(data);
         
-                            // returns a URL to be used as a href
+                            // This returned url is being used as a href
                             return textFile;
                               };
         
