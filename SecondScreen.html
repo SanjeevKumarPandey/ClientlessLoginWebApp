@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!--{Author: Sanjeev Pandey| Ver.: Beta}-->
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="LoginWebApp">
     <meta name="author" content="Sanjeev Pandey">
+    <meta name="version=" content="1.0">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -91,7 +91,7 @@
         var url = `https://sp.auth.adobe.com/adobe-services/config/${requestor_id}.json`;
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange=function(){
-        if (xmlhttp.readyState==4 || xmlhttp.status==200)
+        if (xmlhttp.readyState===4 && xmlhttp.status===200)
         {
             document.getElementById('textbox').value += xmlhttp.responseText;
             try {
@@ -149,42 +149,10 @@
         xmlhttp.open('GET',url,true);
         xmlhttp.send();
         
-        //document.getElementById(&#39;reg&#39;).style.display=&#39;block&#39;
+        //document.getElementById("reg").style.display="block";
         
         }
-        /* --- Authentication (INCORRECT) Flow --- */
-        /*
-        function _callback(data) {
-           if(data != null){
-           console.log('Data is there!');
-           return data;
-           }
-        return data;
-        }
         
-        var url;
-        function login(url, callback){
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange=function(){
-        if (xmlhttp.readyState==4 || xmlhttp.status==200)
-        {
-            //url =	xmlhttp.response;
-            callback(xmlhttp.response);
-            window.location.assign(xmlhttp.response);
-            
-        }else{
-            console.log('Oops! Login failed');
-        }
-        }
-        xmlhttp.open('GET',url,true);
-        try {
-            xmlhttp.responseType = 'document';
-          } catch(e) {
-            console.error(e);
-          }
-        xmlhttp.send();
-        }*/
-
         function login(_url){
 
             window.location.replace(_url);
