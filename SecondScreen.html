@@ -190,7 +190,7 @@
         
         function checkauthn(req, regC){
         var url = `${sp_fqdn}checkauthn/${regC}.json?requestor=${req}`;
-        var xhr = new XMLHttpRequest;
+        var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(){
             if (xhr.readyState==4 || xhr.status==200){
                 var rt = xhr.responseText;
