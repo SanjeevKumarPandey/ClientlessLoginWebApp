@@ -9,11 +9,23 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Clientless App - LoginWebApp</title>
+    <title>LoginWebApp by Sanjeev</title>
     <link href="./Asset_files/bootstrap.css" rel="stylesheet">
     <link href="./Asset_files/index_content.css" rel="stylesheet">
     <link href="./Asset_files/customstyle.css" rel="stylesheet">
     <link href="./Asset_files/style.css" rel="stylesheet">
+    <style>
+    body {
+    background-color: transparent;
+    /* background-position: right !important; */
+    background: url('./Asset_files/stewie.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 12%;
+    background-position: 20px 20px;
+    }
+    </style>
+
     <script src="./Asset_files/jquery.min.js.download"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
@@ -189,13 +201,12 @@
         
         
         function checkauthn(req, regC){
-        var url = `${sp_fqdn}checkauthn/${regC}.json?requestor=${req}`;
+        var url = `${sp_fqdn}checkauthn/${regC}.json?requestor=${req}&deviceId=${deviceId}`;
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(){
-            if (xhr.readyState==4 || xhr.status==200){
+            if (xhr.readyState===4 && xhr.status===200){
                 var rt = xhr.responseText;
-                var rr = xhr.response;
-                document.getElementById('textbox').value += 'Authentication Status: '+rt +" "+ rr;
+                document.getElementById('textbox').value += 'Authentication Status: '+rt;
             } else {
                 console.log('[/checkauthn] XHR Error');
             }
