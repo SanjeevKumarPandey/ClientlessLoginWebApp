@@ -1,9 +1,9 @@
-body {
+/* body {
     background-color: transparent;
-    /*background-position: center !important;*/
+    background-position: center !important;
     background: url('stewie.png');
     background-repeat: no-repeat;
-}
+} */
 
 .login-form {
     position: relative;
