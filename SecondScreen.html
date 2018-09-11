@@ -59,8 +59,20 @@
         var redirect_url = 'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html';
         //'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FSecondScreen.html'; //'http%3A%2F%2Fadobe.com%3A5500%2FSecondScreen.html';//'http://www.foxnow.com';
         var mvpdList = [];
-        var REQUESTOR, RESOURCE = "sample_requestor_Id", REGCODE = null, mso = 'Cablevision', picker, mvpds;
+        var REQUESTOR, RESOURCE = "sample_resource_Id", REGCODE = null, mso = 'Cablevision', picker, mvpds;
         var counter = false;
+
+        var appConfig = {
+            deviceId: deviceId,
+            reggie_fqdn: reggie_fqdn,
+            sp_fqdn: sp_fqdn,
+            User_Agent: url_hdr,
+            redirect_url: redirect_url,
+            requestorId: 'sample',
+            resourceId: RESOURCE,
+            regcode: REGCODE,
+            mvpdID: mso
+        };
         
         function regRecord(requestor_id, regcode){
         document.getElementById('dir').innerHTML = `Enter \${${regcode}}, and \${${requestor_id}}
@@ -211,51 +223,53 @@
             <h1 class="App-title">Clientless Login Web App v1.0</h1>
             <h1>Activation Screen</h1><br>
     </header>
-  <div class="row">
-    <div class="col-sm-12" style="background-color:none;">
-      <div class="col-lg-12 col-md-12">
-        <div id="gps_ring" class="gps_ring"></div>
-        <div class="login-form">
-          <!--<Activation Form>-->
-		  <!-- <h1>Activation Screen</h1><br> -->
-          <input type="text" name="regcode" placeholder="REGCODE" id="regcode"><br>
-          <input type="text" name="requestor" placeholder="REQUESTOR ID" id="requestor"><br>
-          <button type="button" class="login-stuff" onclick="regRecord(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto;">Submit</button>
-          <button id="register_btn" class="login-stuff" onclick="document.getElementById('reg').style.display='block';" style="width:auto; display:none;">Set MVPD</button><br>
-          <p id="unauths"></p>
-          <p id="unauthe" class="animate"></p>
-		  <div id="mvpdPicker"></div>
-		  <textarea cols="50" rows="4" name="comment" class='tb' id='textbox' style="width:330px; height:200px; display: block"></textarea>
-		  <button type="button" class="login-stuff" id='test' onclick="checkauthn(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto; background-color:green;">Check Auth</button>
-		  <button type="button" class="login-stuff" id="create" style="width:auto;" >Download Logs</button>
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">.col-sm-4
+            <div class="col-lg-4 col-md-4 "><h3>HOW TO USE:</h3>
+                <p id='dir'>Enter ${REGCODE}, and ${REQUESTOR ID}
+                    hit Submit (registration record is fetched).
+                    <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
+                    Pick the MVPD (${mso} id is set); click <span style="font-weight:bold;">Login</span> 
+                    to send the authenticate call
+                    (browser handles redirects & cookies). Set <span style="font-style:italic;">this
+                    </span> html page as redirect_url by spoofing the localhost to adobe.com.</p>
+            </div>   
         </div>
-
-        <!--MVPD Picker - THIS IS NOT USED BY IS ON STANDBY FOR FUTURE IMPLEMENTATIONS-->
-        <div class="mvpd_picker" id="reg">
-          <div class="mvpd_picker-content animate">
-            <div class="imgcontainer">
-              <span onclick="document.getElementById('reg').style.display='none';" class="close" title="Close mvpd_picker">×</span>
-              <h1>Pick MVPD</h1>
+        <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">.col-sm-4
+            <div class="login-form">
+                <input type="text" name="regcode" placeholder="REGCODE" id="regcode"><br>
+                <input type="text" name="requestor" placeholder="REQUESTOR ID" id="requestor"><br>
+                <button type="button" class="login-stuff" onclick="regRecord(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto;">Submit</button>
+                <button id="register_btn" class="login-stuff" onclick="document.getElementById('reg').style.display='block';" style="width:auto; display:none;">Set MVPD</button><br>
+                <p id="unauths"></p>
+                <p id="unauthe" class="animate"></p>
+                <div id="mvpdPicker"></div>
+                <textarea cols="50" rows="4" name="comment" class='tb' id='textbox' style="width:330px; height:200px; display: block"></textarea>
+                <button type="button" class="login-stuff" id='test' onclick="checkauthn(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto; background-color:green;">Check Auth</button>
+                <button type="button" class="login-stuff" id="create" style="width:auto;" >Download Logs</button>
             </div>
-			<div id="container3">
-            <input type="text" name="mso_id" placeholder="Pick mso id" id="pick_mso"> 
-			<select id='mvpdlist'></select>
-            <button type="button" class="login-stuff" onclick="authenticate(document.getElementById('pick_mso').value)" style="width:auto;">Set</button>
-            <button type="button" onclick="document.getElementById('reg').style.display='none';" class="login-stuff" style="width:auto; background-color:orange">Cancel</button>
-          </div>
-          </div>
         </div>
-        <!--Directions-->
-        <div class="col-lg-4 col-md-4 "><h3>HOW TO USE:</h3>
-        <p id='dir'>Enter ${REGCODE}, and ${REQUESTOR ID}
-            hit Submit (registration record is fetched).
-            <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
-            Pick the MVPD (${mso} id is set); click <span style="font-weight:bold;">Login</span> to send the authenticate call
-            (browser handles redirects & cookies). Set <span style="font-style:italic;">this</span> html page as redirect_url by spoofing the localhost to adobe.com.</p></div>
-      </div>
+        <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">.col-sm-4
+            <div class="login-form" id="reg">
+                <div class="animate">
+                  <div class="imgcontainer">
+                    <span onclick="document.getElementById('reg').style.display='none';" class="close" title="Close mvpd_picker">×</span>
+                    <h1>Set Params</h1>
+                  </div>
+                  <div id="container3">
+                  <input type="text" name="mso_id" placeholder="Pick mso id" id="pick_mso"> 
+                  <select id='ua'>
+                      <option>SAML</option>
+                      <option>OAUTH</option>
+                  </select><br>
+                  <button type="button" class="login-stuff" onclick="authenticate(document.getElementById('pick_mso').value)" style="width:auto;">Set</button>
+                  <button type="button" onclick="document.getElementById('reg').style.display='none';" class="login-stuff" style="width:auto; background-color:orange">Cancel</button>
+                </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
+</div>    
 <p id="demo"></p>
 <hr style='margin-top:25%;'>
 &copy;Sanjeev Pandey

@@ -75,6 +75,16 @@
         /*opacity: 0.0*/
         margin: 80 2.5%;
 }
+
+
+#img img {
+    width: 55px;
+    height: 50px;
+    float: right;
+    filter: grayscale(1);
+    filter: blur(115);
+    display: none;
+}
     
     @-webkit-keyframes pulsate {
             0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
