@@ -22,7 +22,7 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 12%;
-    background-position: 20px 150px;
+    background-position: 20px 180px;
     }
     </style>
 
@@ -213,29 +213,36 @@
             y.style.display = 'none';
         }, 3000) 
         }}
+
+        function paramSet() {
+            deviceId = document.getElementById('Device-Id').value;
+            url_hdr = document.getElementById('User-Agent').value;
+        }
+
 </script>        
 
 </head>
 <body>
 <div class="container-fluid">
     <header class="App-header">
-        <img src='./Asset_files/logo.svg' class="App-logo" alt="logo" />
+        <img src='./Asset_files/ptlogo.png' class="App-logo" alt="logo" />
             <h1 class="App-title">Clientless Login Web App v1.0</h1>
             <h1>Activation Screen</h1><br>
     </header>
     <div class="row">
-        <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">.col-sm-4
-            <div class="col-lg-4 col-md-4 "><h3>HOW TO USE:</h3>
+        <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
+            <div class="col-lg-4 col-md-4 ">
+                <!-- <h3>HOW TO USE:</h3>
                 <p id='dir'>Enter ${REGCODE}, and ${REQUESTOR ID}
                     hit Submit (registration record is fetched).
                     <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
                     Pick the MVPD (${mso} id is set); click <span style="font-weight:bold;">Login</span> 
                     to send the authenticate call
                     (browser handles redirects & cookies). Set <span style="font-style:italic;">this
-                    </span> html page as redirect_url by spoofing the localhost to adobe.com.</p>
+                    </span> html page as redirect_url by spoofing the localhost to adobe.com.</p> -->
             </div>   
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">.col-sm-4
+        <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
             <div class="login-form">
                 <input type="text" name="regcode" placeholder="REGCODE" id="regcode"><br>
                 <input type="text" name="requestor" placeholder="REQUESTOR ID" id="requestor"><br>
@@ -249,23 +256,28 @@
                 <button type="button" class="login-stuff" id="create" style="width:auto;" >Download Logs</button>
             </div>
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">.col-sm-4
+        <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
             <div class="login-form" id="reg">
                 <div class="animate">
-                  <div class="imgcontainer">
-                    <span onclick="document.getElementById('reg').style.display='none';" class="close" title="Close mvpd_picker">×</span>
-                    <h1>Set Params</h1>
-                  </div>
                   <div id="container3">
-                  <input type="text" name="mso_id" placeholder="Pick mso id" id="pick_mso"> 
-                  <select id='ua'>
+                  <input type="text" name="Device-Id" placeholder="Device ID" id="Device-Id">
+                  <input type="text" name="User-Agent" placeholder="User-Agent" id="User-Agent"> 
+                  <!-- <select id='ua'>
                       <option>SAML</option>
                       <option>OAUTH</option>
-                  </select><br>
-                  <button type="button" class="login-stuff" onclick="authenticate(document.getElementById('pick_mso').value)" style="width:auto;">Set</button>
-                  <button type="button" onclick="document.getElementById('reg').style.display='none';" class="login-stuff" style="width:auto; background-color:orange">Cancel</button>
+                  </select><br> -->
+                  <button type="button" class="login-stuff" onclick="paramSet()" style="width:auto;">Set</button>
                 </div>
                 </div>
+                <h3>HOW TO USE:</h3>
+                <p id='dir'>Enter ${REGCODE}, and ${REQUESTOR ID}
+                    hit Submit (registration record is fetched).
+                    <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
+                    Pick the MVPD (${mso} id is set); click <span style="font-weight:bold;">Login</span> 
+                    to send the authenticate call
+                    (browser handles redirects & cookies). Set <span style="font-style:italic;">this
+                    </span> html page as redirect_url by spoofing the localhost to adobe.com. If you do not enter a deviceId
+                and User-Agent, default will be set. Check default by calling appConfig;</p>
             </div>
         </div>
     </div>
