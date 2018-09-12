@@ -216,7 +216,9 @@
 
         function paramSet() {
             deviceId = document.getElementById('Device-Id').value;
+            appConfig.deviceId = deviceId;
             url_hdr = document.getElementById('User-Agent').value;
+            appConfig.User_Agent = url_hdr;
         }
 
 </script>        
@@ -244,8 +246,10 @@
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
             <div class="login-form">
-                <input type="text" name="regcode" placeholder="REGCODE" id="regcode"><br>
-                <input type="text" name="requestor" placeholder="REQUESTOR ID" id="requestor"><br>
+                <input type="text" style="border-radius: 5px; border-left: 6px solid #0099ff;
+                background-color: lightgray;" name="regcode" placeholder="REGCODE" id="regcode"><br>
+                <input type="text" style="border-radius: 5px; border-left: 6px solid #0099ff;
+                background-color: lightgray;" name="requestor" placeholder="REQUESTOR ID" id="requestor"><br>
                 <button type="button" class="login-stuff" onclick="regRecord(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto;">Submit</button>
                 <button id="register_btn" class="login-stuff" onclick="document.getElementById('reg').style.display='block';" style="width:auto; display:none;">Set MVPD</button><br>
                 <p id="unauths"></p>
@@ -260,8 +264,10 @@
             <div class="login-form" id="reg">
                 <div class="animate">
                   <div id="container3">
-                  <input type="text" name="Device-Id" placeholder="Device ID" id="Device-Id">
-                  <input type="text" name="User-Agent" placeholder="User-Agent" id="User-Agent"> 
+                  <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid red;
+                  background-color: lightgrey;" name="Device-Id" placeholder="Device ID" id="Device-Id">
+                  <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid red;
+                  background-color: lightgrey;" name="User-Agent" placeholder="User-Agent" id="User-Agent"> 
                   <!-- <select id='ua'>
                       <option>SAML</option>
                       <option>OAUTH</option>

@@ -60,6 +60,12 @@
   color: #fff;
 }
 
+.custom {
+
+    border-radius: 5px;
+
+}
+
 
 .gps_ring {
         display: none;
