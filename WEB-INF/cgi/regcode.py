@@ -13,7 +13,7 @@ from pyquery import PyQuery
 from webbrowser import open_new_tab
 
 uuid_filename = 'uuid.txt'
-requestor_id = "BET" #"fbc-fox"
+requestor_id = "BET"
 deviceId = 'sanjeev'
 
 def buildAuthHeader(refid):
