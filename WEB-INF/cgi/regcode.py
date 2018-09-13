@@ -18,14 +18,6 @@ deviceId = 'sanjeev'
 
 def buildAuthHeader(refid):
 
-	# fbc-fox
-	# rfSbthMG7RvLSWkMCcU7H5hEhDFHA13N
-	# IBx4ckmQGZALgn5P
-	# BET - last DMB6EL5
-	# gYbHOKtY5knQ7rO7d80lTRFxrvMPuZfN
-	# 5jys0zLJOz4VJvlQ
-	public_key = 'gYbHOKtY5knQ7rO7d80lTRFxrvMPuZfN'
-	private_key = '5jys0zLJOz4VJvlQ'
 	print 'HEADER START\n\n'
 
 	uuidvalue = str(uuid4())
