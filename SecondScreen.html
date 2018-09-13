@@ -22,7 +22,7 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 12%;
-    background-position: 20px 180px;
+    background-position: 20px 170px;
     }
     </style>
 
@@ -233,16 +233,19 @@
     </header>
     <div class="row">
         <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
-            <div class="col-lg-4 col-md-4 ">
-                <!-- <h3>HOW TO USE:</h3>
-                <p id='dir'>Enter ${REGCODE}, and ${REQUESTOR ID}
-                    hit Submit (registration record is fetched).
-                    <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
-                    Pick the MVPD (${mso} id is set); click <span style="font-weight:bold;">Login</span> 
-                    to send the authenticate call
-                    (browser handles redirects & cookies). Set <span style="font-style:italic;">this
-                    </span> html page as redirect_url by spoofing the localhost to adobe.com.</p> -->
-            </div>   
+            <form action="cgi-bin/regcode.py" method="get">
+                <diV class="login-form" style="margin: 200px 0 0 50px;">
+                <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                background-color: lightgray;" name="PUBLIC_KEY" placeholder="PUBLIC KEY" id="PUBLIC_KEY"><br>
+                <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                background-color: lightgray;" name="PRIV_KEY" placeholder="PRIVATE KEY" id="PRIV_KEY"><br>
+                <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                background-color: lightgray;" name="REQID" placeholder="REQUESTOR" id="REQID"><br>
+                <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                background-color: lightgray;" name="DEVID" placeholder="Device-Id" id="DEVID"><br>
+                <input type="submit" class="login-stuff" id='sub1' value="Submit"/>
+                </diV>
+            </form>   
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
             <div class="login-form">

@@ -60,8 +60,8 @@ img.avatar {
 #container3 {
     width: 300px;
     height: auto;
-    text-align: center;
-    align-items: center;
+    /* text-align: center; */
+    /* align-items: center; */
     /* padding: 16px; */
     background-color: white;
     border-radius: 5px;
