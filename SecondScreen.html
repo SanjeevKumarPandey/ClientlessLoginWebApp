@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="LoginWebApp">
     <meta name="author" content="Sanjeev Pandey">
-    <meta name="version=" content="1.0">
+    <meta name="version=" content="2.0">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -59,8 +59,9 @@
         var redirect_url = 'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html';
         //'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FSecondScreen.html'; //'http%3A%2F%2Fadobe.com%3A5500%2FSecondScreen.html';//'http://www.foxnow.com';
         var mvpdList = [];
-        var REQUESTOR, RESOURCE = "sample_resource_Id", REGCODE = null, mso = 'Cablevision', picker, mvpds;
+        var REQUESTOR="", RESOURCE = "sample_resource_Id", REGCODE = null, mso = 'Cablevision', picker, mvpds;
         var counter = false;
+        var PUBKEY="", PRIVKEY="";
 
         var appConfig = {
             deviceId: deviceId,
@@ -219,6 +220,9 @@
             appConfig.deviceId = deviceId;
             url_hdr = document.getElementById('User-Agent').value;
             appConfig.User_Agent = url_hdr;
+            PUBKEY = document.getElementById('PUBLIC_KEY').value;
+            PRIVKEY = document.getElementById('PRIV_KEY').value;
+            REQUESTOR = document.getElementById('REQID').value;
         }
 
 </script>        
@@ -227,25 +231,26 @@
 <body>
 <div class="container-fluid">
     <header class="App-header">
-        <img src='./Asset_files/ptlogo.png' class="App-logo" alt="logo" />
-            <h1 class="App-title">Clientless Login Web App v1.0</h1>
-            <h1>Activation Screen</h1><br>
+        <div class="row">
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                        <img src='./Asset_files/ptlogo.png' class="App-logo" alt="logo" />
+                        <h1 class="App-title">Clientless Login Web App v2.0</h1> 
+                        <h1>Activation Screen</h1>
+                </div>
+                <div class="col-sm-8 col-md-8 col-lg-8">
+                        <h6>HOW TO USE:<small style="color:gray;" id="dir"> Enter ${REGCODE}, and ${REQUESTOR ID}
+                            . Hit Submit (registration record is fetched).
+                            <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
+                            Pick the MVPD (${mso} id is set); click <span style="font-weight:bold;">Login</span> 
+                            to send the authenticate call (browser handles redirects & cookies). Spoof localhost to adobe.com. If you do not enter a deviceId
+                        and User-Agent, default will be set. Call <code>appConfig</code> for defaults.</small></h6>
+                </div>
+        </div>
     </header>
     <div class="row">
         <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
-            <form action="cgi-bin/regcode.py" method="get">
-                <diV class="login-form" style="margin: 200px 0 0 50px;">
-                <input type="text" style="border-radius: 5px; border-left: 6px solid green;
-                background-color: lightgray;" name="PUBLIC_KEY" placeholder="PUBLIC KEY" id="PUBLIC_KEY"><br>
-                <input type="text" style="border-radius: 5px; border-left: 6px solid green;
-                background-color: lightgray;" name="PRIV_KEY" placeholder="PRIVATE KEY" id="PRIV_KEY"><br>
-                <input type="text" style="border-radius: 5px; border-left: 6px solid green;
-                background-color: lightgray;" name="REQID" placeholder="REQUESTOR" id="REQID"><br>
-                <input type="text" style="border-radius: 5px; border-left: 6px solid green;
-                background-color: lightgray;" name="DEVID" placeholder="Device-Id" id="DEVID"><br>
-                <input type="submit" class="login-stuff" id='sub1' value="Submit"/>
-                </diV>
-            </form>   
+                <textarea cols="50" rows="4" name="comment" class='tb' id='textbox' style="width:330px; height:500px;
+                margin: 25px 0px 0px 40%; border-left:steelblue solid 6px; border-radius: 5px;"></textarea>
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
             <div class="login-form">
@@ -254,13 +259,11 @@
                 <input type="text" style="border-radius: 5px; border-left: 6px solid #0099ff;
                 background-color: lightgray;" name="requestor" placeholder="REQUESTOR ID" id="requestor"><br>
                 <button type="button" class="login-stuff" onclick="regRecord(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto;">Submit</button>
-                <button id="register_btn" class="login-stuff" onclick="document.getElementById('reg').style.display='block';" style="width:auto; display:none;">Set MVPD</button><br>
+                <button type="button" class="login-stuff" id='test' onclick="checkauthn(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto; background-color:green;">Check Auth</button>
+                <button type="button" class="login-stuff" id="create" style="width:auto;" >Download Logs</button>
                 <p id="unauths"></p>
                 <p id="unauthe" class="animate"></p>
                 <div id="mvpdPicker"></div>
-                <textarea cols="50" rows="4" name="comment" class='tb' id='textbox' style="width:330px; height:200px; display: block"></textarea>
-                <button type="button" class="login-stuff" id='test' onclick="checkauthn(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto; background-color:green;">Check Auth</button>
-                <button type="button" class="login-stuff" id="create" style="width:auto;" >Download Logs</button>
             </div>
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
@@ -271,22 +274,20 @@
                   background-color: lightgrey;" name="Device-Id" placeholder="Device ID" id="Device-Id">
                   <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid red;
                   background-color: lightgrey;" name="User-Agent" placeholder="User-Agent" id="User-Agent"> 
+                  <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                  background-color: lightgray;" name="PUBLIC_KEY" placeholder="PUBLIC KEY" id="PUBLIC_KEY"><br>
+                  <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                  background-color: lightgray;" name="PRIV_KEY" placeholder="PRIVATE KEY" id="PRIV_KEY"><br>
+                  <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                  background-color: lightgray;" name="REQID" placeholder="REQUESTOR" id="REQID"><br>
                   <!-- <select id='ua'>
                       <option>SAML</option>
                       <option>OAUTH</option>
                   </select><br> -->
                   <button type="button" class="login-stuff" onclick="paramSet()" style="width:auto;">Set</button>
+                  <button id="reg_btn" class="login-stuff" onclick="document.getElementById('reg').style.display='block';" style="width:auto;">Generate Regcode</button>
                 </div>
                 </div>
-                <h3>HOW TO USE:</h3>
-                <p id='dir'>Enter ${REGCODE}, and ${REQUESTOR ID}
-                    hit Submit (registration record is fetched).
-                    <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
-                    Pick the MVPD (${mso} id is set); click <span style="font-weight:bold;">Login</span> 
-                    to send the authenticate call
-                    (browser handles redirects & cookies). Set <span style="font-style:italic;">this
-                    </span> html page as redirect_url by spoofing the localhost to adobe.com. If you do not enter a deviceId
-                and User-Agent, default will be set. Check default by calling appConfig;</p>
             </div>
         </div>
     </div>
@@ -332,6 +333,33 @@
                             } catch (ex) {
                             console.error(ex);
                             }
+
+$(document).ready(function(){
+
+$("#reg_btn").click(function(){
+
+$.ajax({
+
+method: "POST",
+
+url: "cgi-bin/regcode.py",
+
+data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId},
+
+dataType: "text",
+
+success: function(result){
+
+var data__=JSON.stringify(result);
+
+console.log(data__);
+
+document.getElementById('textbox').value += '\n'+data__;
+
+}
+
+}); });});
+
 </script>
 </body>
 </html>
