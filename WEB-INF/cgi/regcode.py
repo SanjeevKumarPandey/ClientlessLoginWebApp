@@ -1,8 +1,5 @@
 #!/usr/bin/python
-<<<<<<< HEAD
 print "Content-type: text/html\n\n";
-=======
->>>>>>> 431c62b556decec6fc8209427311b1c2817e2b41
 import sys
 from uuid import uuid4
 import hmac
@@ -16,7 +13,6 @@ from urllib2 import Request, urlopen, URLError
 from pyquery import PyQuery
 from webbrowser import open_new_tab
 
-<<<<<<< HEAD
 form = cgi.FieldStorage() 
 
 pub  = form.getvalue('PUBLIC_KEY')
@@ -29,14 +25,6 @@ def buildAuthHeader(refid):
 
 	public_key = pub
 	private_key = priv
-=======
-uuid_filename = 'uuid.txt'
-requestor_id = "BET"
-deviceId = 'sanjeev'
-
-def buildAuthHeader(refid):
-
->>>>>>> 431c62b556decec6fc8209427311b1c2817e2b41
 	print 'HEADER START\n\n'
 
 	uuidvalue = str(uuid4())
@@ -68,13 +56,8 @@ theheader = buildAuthHeader(requestor_id)
 reggie_fqdn = "http://api.auth.adobe.com/reggie/v1/"
 url_header = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)"
 url_hdr_alt = 'Mozilla 5.10'
-<<<<<<< HEAD
 #add_args = {'deviceId':deviceId, 'uuid':getUUID()}
 #data = urllib.urlencode(add_args)
-=======
-add_args = {'deviceId':deviceId, 'uuid':getUUID()}
-data = urllib.urlencode(add_args)
->>>>>>> 431c62b556decec6fc8209427311b1c2817e2b41
 
 # get regcode 
 url = str(reggie_fqdn) + requestor_id + str("/regcode")
@@ -86,26 +69,15 @@ request.add_header('Authorization',theheader)
 try:
         response = urllib2.urlopen(request)
         html = response.read()
-<<<<<<< HEAD
         print html
-=======
-        #print html
->>>>>>> 431c62b556decec6fc8209427311b1c2817e2b41
 except URLError, e:
         print e.code
         print e.reason
         print e.read()
 # parse the regcode from xml
-<<<<<<< HEAD
 '''
-=======
->>>>>>> 431c62b556decec6fc8209427311b1c2817e2b41
 pq = PyQuery(html)
 tag = pq('code') # or     tag = pq('div.class')
 device_info = pq('info').text()
 print 'Regcode: '+tag.text()
-<<<<<<< HEAD
 print 'device_info: '+device_info.split('\n\t *')[0]'''
-=======
-print 'device_info: '+device_info.split('\n\t *')[0]
->>>>>>> 431c62b556decec6fc8209427311b1c2817e2b41
