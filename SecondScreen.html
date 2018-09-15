@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>LoginWebApp by Sanjeev</title>
+    <title>WebApp by Sanjeev Pandey</title>
     <link href="./Asset_files/bootstrap.css" rel="stylesheet">
     <link href="./Asset_files/index_content.css" rel="stylesheet">
     <link href="./Asset_files/customstyle.css" rel="stylesheet">
@@ -22,7 +22,7 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 12%;
-    background-position: 20px 170px;
+    background-position: 820px 120px;
     }
     </style>
 
@@ -31,31 +31,12 @@
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script type="text/javascript">
 
-        var mvpd_picker = document.getElementById('reg');
-        window.onclick = function(event) {
-            if (event.target == mvpd_picker) {
-                mvpd_picker.style.display = "none";
-            }
-        }
-            
-        //Flow
-        /*
-        Enter Regcode, and requestor ID
-        hit Submit; (registration record is fetched)
-        If record is available --> MVPD Picker is created
-        Pick the MVPD (mso id is set); click Login to send the authenticate call
-        (let browser handle the redirects, set _this_ html page as redirect_url*)
-        *By spoofing the localhost to adobe.com.
-        */
-        
         var uuid_filename = 'uuid.txt',
         login_page = 'mvpdLoginPage.html',
-        deviceId = 'sanjeev',
-        redirect_page = 'redirect_complete.html';
+        deviceId, redirect_page = 'redirect_complete.html';
         var reggie_fqdn = 'http://api.auth.adobe.com/reggie/v1/';
         var sp_fqdn = "http://api.auth.adobe.com/api/v1/";
-        var url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
-        var url_hdr_alt = 'Mozilla 5.10';
+        var url_hdr, url_hdr_alt = 'Mozilla 5.10';
         var redirect_url = 'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html';
         //'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FSecondScreen.html'; //'http%3A%2F%2Fadobe.com%3A5500%2FSecondScreen.html';//'http://www.foxnow.com';
         var mvpdList = [];
@@ -76,12 +57,11 @@
         };
         
         function regRecord(requestor_id, regcode){
-        document.getElementById('dir').innerHTML = `Enter \${${regcode}}, and \${${requestor_id}}
-            hit Submit (registration record is fetched).
-            <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
-            Pick the MVPD (\${mso} id is set); click <span style="font-weight:bold;">Login</span> to send the authenticate call
-            (browser handles redirects & cookies). Set <span style="font-style:italic;">this</span> html page as redirect_url*.
-            <br>*By spoofing the localhost to adobe.com.`;
+        document.getElementById('dir').innerHTML = ` Enter \${${regcode}}, and \${${requestor_id}}. Hit Submit (registration record is fetched).
+                            <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
+                            Pick the MVPD (\${mso} id is set); click <span style="font-weight:bold;">Login</span> 
+                            to send the authenticate call (browser handles redirects & cookies). Spoof localhost to adobe.com. If you do not enter a deviceId
+                        and User-Agent, default will be set. Call <code>appConfig</code> for defaults.</small></h6>`;
         if(requestor_id && regcode){
         var http = new XMLHttpRequest();
         var url = `${reggie_fqdn}${requestor_id}/regcode/${regcode}.json`;
@@ -216,13 +196,26 @@
         }}
 
         function paramSet() {
-            deviceId = document.getElementById('Device-Id').value;
-            appConfig.deviceId = deviceId;
-            url_hdr = document.getElementById('User-Agent').value;
-            appConfig.User_Agent = url_hdr;
+            var di = document.getElementById('Device-Id').value;
+            if(di != ""){
+                deviceId = di;
+                appConfig.deviceId = deviceId;
+            } else {
+                deviceId = "sanjeev";
+                appConfig.deviceId = deviceId;
+            }
+            var ua = document.getElementById('User-Agent').value;
+            if (ua != ""){
+                url_hdr = ua;
+                appConfig.User_Agent = url_hdr;
+            } else {
+                url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
+                appConfig.User_Agent = url_hdr;
+            }
             PUBKEY = document.getElementById('PUBLIC_KEY').value;
             PRIVKEY = document.getElementById('PRIV_KEY').value;
             REQUESTOR = document.getElementById('REQID').value;
+            document.getElementById('reg_btn').style.display = 'inline-block';
         }
 
 </script>        
@@ -234,8 +227,7 @@
         <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4">
                         <img src='./Asset_files/ptlogo.png' class="App-logo" alt="logo" />
-                        <h1 class="App-title">Clientless Login Web App v2.0</h1> 
-                        <h1>Activation Screen</h1>
+                        <h1 class="App-title">Clientless Login Web App <small style="color:gray;">v2.0</small></h1>
                 </div>
                 <div class="col-sm-8 col-md-8 col-lg-8">
                         <h6>HOW TO USE:<small style="color:gray;" id="dir"> Enter ${REGCODE}, and ${REQUESTOR ID}
@@ -249,24 +241,8 @@
     </header>
     <div class="row">
         <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
-<<<<<<< HEAD
-                <textarea cols="50" rows="4" name="comment" class='tb' id='textbox' style="width:330px; height:500px;
-                margin: 25px 0px 0px 40%; border-left:steelblue solid 6px; border-radius: 5px;"></textarea>
-=======
-            <form action="cgi-bin/regcode.py" method="get">
-                <diV class="login-form" style="margin: 200px 0 0 50px;">
-                <input type="text" style="border-radius: 5px; border-left: 6px solid green;
-                background-color: lightgray;" name="PUBLIC_KEY" placeholder="PUBLIC KEY" id="PUBLIC_KEY"><br>
-                <input type="text" style="border-radius: 5px; border-left: 6px solid green;
-                background-color: lightgray;" name="PRIV_KEY" placeholder="PRIVATE KEY" id="PRIV_KEY"><br>
-                <input type="text" style="border-radius: 5px; border-left: 6px solid green;
-                background-color: lightgray;" name="REQID" placeholder="REQUESTOR" id="REQID"><br>
-                <input type="text" style="border-radius: 5px; border-left: 6px solid green;
-                background-color: lightgray;" name="DEVID" placeholder="Device-Id" id="DEVID"><br>
-                <input type="submit" class="login-stuff" id='sub1' value="Submit"/>
-                </diV>
-            </form>   
->>>>>>> 431c62b556decec6fc8209427311b1c2817e2b41
+                <textarea cols="50" rows="4" name="comment" class='tb' id='textbox' style="width:80%; height:500px;
+                margin: 25px 0px 0px 10%; border-left:steelblue solid 6px; background-color: lightgray; border-radius: 5px;"></textarea>
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
             <div class="login-form">
@@ -301,16 +277,14 @@
                       <option>OAUTH</option>
                   </select><br> -->
                   <button type="button" class="login-stuff" onclick="paramSet()" style="width:auto;">Set</button>
-                  <button id="reg_btn" class="login-stuff" onclick="document.getElementById('reg').style.display='block';" style="width:auto;">Generate Regcode</button>
+                  <button id="reg_btn" class="login-stuff" style="width:auto; display:none">Generate Regcode</button>
                 </div>
                 </div>
             </div>
         </div>
+        <p style="font-size: smaller; font-style: italic;">&copy;sanpande.2018</p>
     </div>
-</div>    
-<p id="demo"></p>
-<hr style='margin-top:25%;'>
-&copy;Sanjeev Pandey
+</div>
 <script lang="javascript">
     try{
             var textFile = null,
@@ -360,7 +334,7 @@ method: "POST",
 
 url: "cgi-bin/regcode.py",
 
-data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId},
+data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr},
 
 dataType: "text",
 

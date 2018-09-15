@@ -17,6 +17,7 @@ pub  = form.getvalue('PUBLIC_KEY')
 priv  = form.getvalue('PRIV_KEY')
 requestor_id = form.getvalue('REQID')
 deviceId = form.getvalue('DEVID')
+ua = form.getvalue('UA')
 uuid_filename = 'uuid.txt'
 
 def buildAuthHeader(refid):
@@ -52,16 +53,14 @@ def getUUID():
 theheader = buildAuthHeader(requestor_id)
 
 reggie_fqdn = "http://api.auth.adobe.com/reggie/v1/"
-url_header = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)"
-url_hdr_alt = 'Mozilla 5.10'
 add_args = {'deviceId':deviceId, 'uuid':getUUID()}
 data = urllib.urlencode(add_args)
-
+url_hdr = ua
 # get regcode 
 url = str(reggie_fqdn) + requestor_id + str("/regcode")
 print url
 request = urllib2.Request(url, data)
-request.add_header('User-agent', url_header)
+request.add_header('User-agent', url_hdr)
 request.add_header('Authorization',theheader)
 # Sends the request and catches the response
 try:
@@ -73,7 +72,6 @@ except URLError, e:
         print e.reason
         print e.read()
 # parse the regcode from xml
-
 pq = PyQuery(html)
 tag = pq('code') # or     tag = pq('div.class')
 device_info = pq('info').text()
