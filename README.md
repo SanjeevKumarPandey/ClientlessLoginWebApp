@@ -1,17 +1,19 @@
 # Project Title
 
-One Paragraph of project description goes here
+**Clientless Login WebApp** is a web application that uses REST APIs to interact with an authentication system and lets you obtain the asset playback authorization tokens and user metadata, along with the play token. This app lets you customize all inputs such as user-agent, device information, and params for REST endpoint.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Simply download the package and deploy on local server. Feel free to fork it. 
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+- [Python 2.7](https://www.python.org/download/releases/2.7/)
+- [Apache Tomact](https://tomcat.apache.org/tomcat-7.0-doc/setup.html)
+- [cgi](https://httpd.apache.org/docs/2.4/howto/cgi.html) 
 
 ```
-Give examples
+https://httpd.apache.org/docs/2.4/howto/cgi.html#libraries
 ```
 
 ### Installing
@@ -34,7 +36,7 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+Deploy the package and use the channel and Pay-TV provider information to run a simple test.
 
 ### Break down into end to end tests
 
@@ -54,13 +56,15 @@ Give an example
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Download the package and deploy on a local Apache Tomcat server with cgi capabilities enabled.
+- Make sure to have python 2.7 installed (Code is not written for latest version of Python)
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Bootstrap](https://getbootstrap.com/docs/4.1/getting-started/introduction/) - The web framework used
+* [jQuery](https://learn.jquery.com/about-jquery/how-jquery-works/) - Used for native functionalities 
+* [Python](https://www.python.org/download/releases/2.7/) - Used for backend - to generate regcode
+* [Adobe Authentication Clientless API](http://tve.helpdocsonline.com/clientless-api-reference) - Used to interact with authentication server
 
 ## Contributing
 
@@ -68,21 +72,21 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/SanjeevKumarPandey/ClientlessLoginWebApp/tags). 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Sanjeev Pandey** - *Lead developer* - [ClientlessLoginWebApp](https://github.com/SanjeevKumarPandey)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/SanjeevKumarPandey/ClientlessLoginWebApp/graphs/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed as **OpenSource** License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* Bob W.
+* My peers at work
+* OpenSource community
 
