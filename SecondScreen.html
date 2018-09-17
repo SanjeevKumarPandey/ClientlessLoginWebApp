@@ -21,8 +21,8 @@
     background: url('./Asset_files/stewie.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: 12%;
-    background-position: 820px 120px;
+    background-size: 9%;
+    background-position: 73% 88%;
     }
     </style>
 
@@ -216,6 +216,7 @@
             PRIVKEY = document.getElementById('PRIV_KEY').value;
             REQUESTOR = document.getElementById('REQID').value;
             document.getElementById('reg_btn').style.display = 'inline-block';
+
         }
 
 </script>        
@@ -278,6 +279,9 @@
                   </select><br> -->
                   <button type="button" class="login-stuff" onclick="paramSet()" style="width:auto;">Set</button>
                   <button id="reg_btn" class="login-stuff" style="width:auto; display:none">Generate Regcode</button>
+                  <br><p style="font-style:italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your REGCODE is here! &#8595;</p>
+                  <canvas id="canvas" width="270%" height="80" style="border:1px solid #d3d3d3;">
+                    Your browser does not support the HTML5 canvas tag.</canvas>                    
                 </div>
                 </div>
             </div>
@@ -340,11 +344,21 @@ dataType: "text",
 
 success: function(result){
 
-var data__=JSON.stringify(result);
+var data__=JSON.parse(result);
 
 console.log(data__);
 
 document.getElementById('textbox').value += '\n'+data__;
+
+var d = ((data__.split('Regcode: ')[1]).split('device_info')[0]).slice(0, 7);
+
+document.getElementById('regcode').value = d;
+
+var c = document.getElementById("canvas");
+		var ctx = c.getContext("2d");
+        ctx.clearRect(0, 0, c.width, c.height);
+		ctx.font = "30px Arial";
+		ctx.fillText(d,10,50);
 
 }
 
