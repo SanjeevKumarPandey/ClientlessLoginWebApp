@@ -26,7 +26,7 @@ deviceId = form.getvalue('DEVID')
 ua = form.getvalue('UA')
 uuid_filename = 'uuid.txt'
 login_page = 'mvpdLoginPage.html'
-mrss_res = form.gervalue('RESID')#'<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title>BET</title><item><title></title><guid></guid><media:rating scheme="urn:v-chip">tv-14</media:rating></item></channel></rss>'
+mrss_res = form.getvalue('RESID')
 
 def buildAuthHeader(refid):
 

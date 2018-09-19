@@ -417,22 +417,11 @@ dataType: "text",
 
 success: function(result){
 
-var data__=JSON.stringify(result);
+var __data__=JSON.stringify(result);
 
-console.log(data__);
+console.log(__data__);
 
-document.getElementById('textbox').value += '\n'+data__;
-
-var d = ((data__.split('Regcode: ')[1]).split('device_info')[0]).slice(0, 7);
-
-document.getElementById('regcode').value = d;
-
-var c = document.getElementById("canvas");
-		var ctx = c.getContext("2d");
-        ctx.clearRect(0, 0, c.width, c.height);
-		ctx.font = "30px Arial";
-		ctx.fillText(d,10,50);
-
+document.getElementById('textbox').value += '\n'+__data__;
 }
 
 }); });
