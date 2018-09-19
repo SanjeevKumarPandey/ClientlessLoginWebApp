@@ -18,7 +18,7 @@
     body {
     background-color: transparent;
     /* background-position: right !important; */
-    background: url('./Asset_files/stewie.png');
+    /* background: url('./Asset_files/stewie.png'); */
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 9%;
@@ -40,7 +40,7 @@
         var redirect_url = 'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html';
         //'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FSecondScreen.html'; //'http%3A%2F%2Fadobe.com%3A5500%2FSecondScreen.html';//'http://www.foxnow.com';
         var mvpdList = [];
-        var REQUESTOR="", RESOURCE = "sample_resource_Id", REGCODE = null, mso = 'Cablevision', picker, mvpds;
+        var REQUESTOR="", RESOURCE, REGCODE = null, mso = 'Cablevision', picker, mvpds;
         var counter = false;
         var PUBKEY="", PRIVKEY="";
 
@@ -215,6 +215,14 @@
             PUBKEY = document.getElementById('PUBLIC_KEY').value;
             PRIVKEY = document.getElementById('PRIV_KEY').value;
             REQUESTOR = document.getElementById('REQID').value;
+            var r = document.getElementById('RESID').value;
+            if(r != ""){
+                RESOURCE = r;
+                appConfig.resourceId = r;
+            } else {
+                RESOURCE = '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title>BET</title><item><title></title><guid></guid><media:rating scheme="urn:v-chip">tv-14</media:rating></item></channel></rss>';
+                appConfig.resourceId = RESOURCE;
+            }
             document.getElementById('reg_btn').style.display = 'inline-block';
 
         }
@@ -273,6 +281,8 @@
                   background-color: lightgray;" name="PRIV_KEY" placeholder="PRIVATE KEY" id="PRIV_KEY"><br>
                   <input type="text" style="border-radius: 5px; border-left: 6px solid green;
                   background-color: lightgray;" name="REQID" placeholder="REQUESTOR" id="REQID"><br>
+                  <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                  background-color: lightgray;" name="RES" placeholder="RESOURCE" id="RESID"><br>
                   <!-- <select id='ua'>
                       <option>SAML</option>
                       <option>OAUTH</option>
