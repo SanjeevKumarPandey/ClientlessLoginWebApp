@@ -14,6 +14,7 @@
     <link href="./Asset_files/index_content.css" rel="stylesheet">
     <link href="./Asset_files/customstyle.css" rel="stylesheet">
     <link href="./Asset_files/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
     body {
     background-color: transparent;
@@ -28,7 +29,10 @@
 
     <script src="./Asset_files/jquery.min.js.download"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript">
 
         var uuid_filename = 'uuid.txt',
@@ -215,6 +219,10 @@
             PUBKEY = document.getElementById('PUBLIC_KEY').value;
             PRIVKEY = document.getElementById('PRIV_KEY').value;
             REQUESTOR = document.getElementById('REQID').value;
+            document.getElementById('reg_btn').style.display = 'inline-block';
+        }
+
+        function authorize(){
             var r = document.getElementById('RESID').value;
             if(r != ""){
                 RESOURCE = r;
@@ -223,8 +231,6 @@
                 RESOURCE = '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title>BET</title><item><title></title><guid></guid><media:rating scheme="urn:v-chip">tv-14</media:rating></item></channel></rss>';
                 appConfig.resourceId = RESOURCE;
             }
-            document.getElementById('reg_btn').style.display = 'inline-block';
-
         }
 
 </script>        
@@ -261,7 +267,8 @@
                 background-color: lightgray;" name="requestor" placeholder="REQUESTOR ID" id="requestor"><br>
                 <button type="button" class="login-stuff" onclick="regRecord(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto;">Submit</button>
                 <button type="button" class="login-stuff" id='test' onclick="checkauthn(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto; background-color:green;">Check Auth</button>
-                <button type="button" class="login-stuff" id="create" style="width:auto;" >Download Logs</button>
+                <br><br>
+                <button type="button" class="login-stuff" id="create" style="width:auto;" >Logs <i class="fa fa-download"></i></button>
                 <p id="unauths"></p>
                 <p id="unauthe" class="animate"></p>
                 <div id="mvpdPicker"></div>
@@ -269,31 +276,53 @@
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
             <div class="login-form" id="reg">
-                <div class="animate">
-                  <div id="container3">
-                  <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid red;
-                  background-color: lightgrey;" name="Device-Id" placeholder="Device ID" id="Device-Id">
-                  <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid red;
-                  background-color: lightgrey;" name="User-Agent" placeholder="User-Agent" id="User-Agent"> 
-                  <input type="text" style="border-radius: 5px; border-left: 6px solid green;
-                  background-color: lightgray;" name="PUBLIC_KEY" placeholder="PUBLIC KEY" id="PUBLIC_KEY"><br>
-                  <input type="text" style="border-radius: 5px; border-left: 6px solid green;
-                  background-color: lightgray;" name="PRIV_KEY" placeholder="PRIVATE KEY" id="PRIV_KEY"><br>
-                  <input type="text" style="border-radius: 5px; border-left: 6px solid green;
-                  background-color: lightgray;" name="REQID" placeholder="REQUESTOR" id="REQID"><br>
-                  <input type="text" style="border-radius: 5px; border-left: 6px solid green;
-                  background-color: lightgray;" name="RES" placeholder="RESOURCE" id="RESID"><br>
-                  <!-- <select id='ua'>
-                      <option>SAML</option>
-                      <option>OAUTH</option>
-                  </select><br> -->
-                  <button type="button" class="login-stuff" onclick="paramSet()" style="width:auto;">Set</button>
-                  <button id="reg_btn" class="login-stuff" style="width:auto; display:none">Generate Regcode</button>
-                  <br><p style="font-style:italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your REGCODE is here! &#8595;</p>
-                  <canvas id="canvas" width="270%" height="80" style="border:1px solid #d3d3d3;">
-                    Your browser does not support the HTML5 canvas tag.</canvas>                    
-                </div>
-                </div>
+
+                    <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#AUTHN">AUTHN</a></li>
+                            <li><a data-toggle="tab" href="#AUTHZ">AUTHZ</a></li>
+                            <li><a data-toggle="tab" href="#Dummy">Dummy</a></li>
+                          </ul>
+                        
+                          <div class="tab-content">
+                            <div id="AUTHN" class="tab-pane fade in active">
+                              <!-- <h6>HOME</h6>
+                              <h6>Enter the params, and hit Set.</h6> -->
+                              <div class="animate">
+                                    <div id="container3">
+                                    <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid red;
+                                    background-color: lightgrey;" name="Device-Id" placeholder="Device ID" id="Device-Id">
+                                    <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid red;
+                                    background-color: lightgrey;" name="User-Agent" placeholder="User-Agent" id="User-Agent"> 
+                                    <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                                    background-color: lightgray;" name="PUBLIC_KEY" placeholder="PUBLIC KEY" id="PUBLIC_KEY"><br>
+                                    <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                                    background-color: lightgray;" name="PRIV_KEY" placeholder="PRIVATE KEY" id="PRIV_KEY"><br>
+                                    <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                                    background-color: lightgray;" name="REQID" placeholder="REQUESTOR" id="REQID"><br>
+                                    <!-- <select id='ua'>
+                                        <option>SAML</option>
+                                        <option>OAUTH</option>
+                                    </select><br> -->
+                                    <button type="button" class="login-stuff" onclick="paramSet()" style="width:auto;">Set</button>
+                                    <button id="reg_btn" class="login-stuff" style="width:auto; display:none">Generate Regcode</button>
+                                    <br><p style="font-style:italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your REGCODE is here! &#8595;</p>
+                                    <canvas id="canvas" width="270%" height="80" style="border:1px solid #d3d3d3;">
+                                      Your browser does not support the HTML5 canvas tag.</canvas>                    
+                                  </div>
+                                  </div>
+                            </div>
+                            <div id="AUTHZ" class="tab-pane fade">
+                              <h3>You're here!</h3>
+                              <p>Enter the resource ID - Plain OR MRSS, and hit Authorize.</p>
+                              <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                                    background-color: lightgray;" name="RES" placeholder="RESOURCE" id="RESID"><br>
+                            <button id="authz_btn" type="button" class="login-stuff" onclick="authorize()" style="width:auto;">Authorize</button>
+                            </div>
+                            <div id="Dummy" class="tab-pane fade">
+                              <h3>Menu 2</h3>
+                              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                            </div>
+                          </div>
             </div>
         </div>
         <p style="font-size: smaller; font-style: italic;">&copy;sanpande.2018</p>
@@ -354,7 +383,7 @@ dataType: "text",
 
 success: function(result){
 
-var data__=JSON.parse(result);
+var data__=JSON.stringify(result);
 
 console.log(data__);
 
@@ -372,7 +401,43 @@ var c = document.getElementById("canvas");
 
 }
 
-}); });});
+}); });
+
+$("#authz_btn").click(function(){
+
+$.ajax({
+
+method: "POST",
+
+url: "cgi-bin/theApp.py",
+
+data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "RESID": RESOURCE },
+
+dataType: "text",
+
+success: function(result){
+
+var data__=JSON.stringify(result);
+
+console.log(data__);
+
+document.getElementById('textbox').value += '\n'+data__;
+
+var d = ((data__.split('Regcode: ')[1]).split('device_info')[0]).slice(0, 7);
+
+document.getElementById('regcode').value = d;
+
+var c = document.getElementById("canvas");
+		var ctx = c.getContext("2d");
+        ctx.clearRect(0, 0, c.width, c.height);
+		ctx.font = "30px Arial";
+		ctx.fillText(d,10,50);
+
+}
+
+}); });
+
+});
 
 </script>
 </body>
