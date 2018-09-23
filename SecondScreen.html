@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="LoginWebApp">
     <meta name="author" content="Sanjeev Pandey">
-    <meta name="version=" content="2.0">
+    <meta name="version=" content="3.0">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -65,7 +65,7 @@
                             <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
                             Pick the MVPD (\${mso} id is set); click <span style="font-weight:bold;">Login</span> 
                             to send the authenticate call (browser handles redirects & cookies). Spoof localhost to adobe.com. If you do not enter a deviceId
-                        and User-Agent, default will be set. Call <code>appConfig</code> for defaults.</small></h6>`;
+                        and User-Agent, default will be set. Call <code onClick='alert(JSON.stringify(appConfig));'>appConfig</code> for defaults.</small></h6>`;
         if(requestor_id && regcode){
         var http = new XMLHttpRequest();
         var url = `${reggie_fqdn}${requestor_id}/regcode/${regcode}.json`;
@@ -232,6 +232,78 @@
                 appConfig.resourceId = RESOURCE;
             }
         }
+        
+        function setCookie(){
+            //TO-DO
+        }
+
+        /*--SAMPLE Cookie Block -- Handling WebPage Cookie*/
+
+        if(document.referrer != 'http://localhost:8080/DX-Logger'){ 
+        //change localhost url with server's
+        //To-to - implement - get method from redirct page - get params - use the cookie from below implementation
+        history.pushState(null, null, ''); //can replace blank with index.html
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, '');
+        });
+    }
+
+    //prevents from going back to index.html from main page when logged in
+    if(localStorage['LDAP'] !== undefined){
+		document.getElementById('LDAPY').value = localStorage['LDAP'];
+        /*[Fix For Manual Override]
+        *@params: Form that should be submitted again - 15/06/2018
+        */
+		$("#sucker").submit();
+    //window.location.href = 'cgi-bin/test.py';
+    }
+
+    var x = getCookie('userC');
+    var y = getCookie('pwdC');
+    if (x != "" && y != ""){
+        document.getElementById("username").value = x;
+        document.getElementById("password").value = y;
+    } else {
+        //console.log('No Cookie');
+    }
+});
+
+
+function storeCookie(usrname, pswd){
+
+    if(document.getElementById('checkbox').checked){
+        setCookie('userC',usrname, 14);
+        setCookie('pwdC', pswd, 14);
+    } else {
+         //console.log(usrname+'not stored');
+    }
+ }
+
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {   
+    document.cookie = name+'=; Max-Age=-99999999;';  
+}
+
 
 </script>        
 
@@ -242,7 +314,7 @@
         <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4">
                         <img src='./Asset_files/ptlogo.png' class="App-logo" alt="logo" />
-                        <h1 class="App-title">Clientless Login Web App <small style="color:gray;">v2.0</small></h1>
+                        <h1 class="App-title" style="display:inline;">TVE Clientless WebApp <small style="color:lightgray;">v3.0</small></h1>
                 </div>
                 <div class="col-sm-8 col-md-8 col-lg-8">
                         <h6>HOW TO USE:<small style="color:gray;" id="dir"> Enter ${REGCODE}, and ${REQUESTOR ID}
@@ -250,7 +322,7 @@
                             <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
                             Pick the MVPD (${mso} id is set); click <span style="font-weight:bold;">Login</span> 
                             to send the authenticate call (browser handles redirects & cookies). Spoof localhost to adobe.com. If you do not enter a deviceId
-                        and User-Agent, default will be set. Call <code>appConfig</code> for defaults.</small></h6>
+                        and User-Agent, default will be set. Call <code onClick='alert(JSON.stringify(appConfig));'>appConfig</code> for defaults.</small></h6>
                 </div>
         </div>
     </header>
@@ -319,8 +391,8 @@
                             <button id="authz_btn" type="button" class="login-stuff" onclick="authorize()" style="width:auto;">Authorize</button>
                             </div>
                             <div id="Dummy" class="tab-pane fade">
-                              <h3>Menu 2</h3>
-                              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                              <h3>Extra!!</h3>
+                              <p>That's right, we're ready for future enhancements! Send your wishlist/ suggestion to me.</p>
                             </div>
                           </div>
             </div>
