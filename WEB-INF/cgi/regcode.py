@@ -18,6 +18,7 @@ priv  = form.getvalue('PRIV_KEY')
 requestor_id = form.getvalue('REQID')
 deviceId = form.getvalue('DEVID')
 ua = form.getvalue('UA')
+reggie_fqdn = form.getvalue('REG_FQDN')
 uuid_filename = 'uuid.txt'
 
 def buildAuthHeader(refid):
@@ -52,7 +53,7 @@ def getUUID():
 
 theheader = buildAuthHeader(requestor_id)
 
-reggie_fqdn = "http://api.auth.adobe.com/reggie/v1/"
+#reggie_fqdn = "http://api.auth.adobe.com/reggie/v1/"
 add_args = {'deviceId':deviceId, 'uuid':getUUID()}
 data = urllib.urlencode(add_args)
 url_hdr = ua

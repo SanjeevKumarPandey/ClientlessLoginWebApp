@@ -14,6 +14,7 @@
     <link href="./Asset_files/index_content.css" rel="stylesheet">
     <link href="./Asset_files/customstyle.css" rel="stylesheet">
     <link href="./Asset_files/style.css" rel="stylesheet">
+    <link href="./Asset_files/toggle.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
     body {
@@ -40,6 +41,7 @@
         deviceId, redirect_page = 'redirect_complete.html';
         var reggie_fqdn = 'http://api.auth.adobe.com/reggie/v1/';
         var sp_fqdn = "http://api.auth.adobe.com/api/v1/";
+        var sp_url = "https://sp.auth.adobe.com/";
         var url_hdr, url_hdr_alt = 'Mozilla 5.10';
         var redirect_url = 'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html';
         //'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FSecondScreen.html'; //'http%3A%2F%2Fadobe.com%3A5500%2FSecondScreen.html';//'http://www.foxnow.com';
@@ -77,7 +79,7 @@
                 var a = JSON.stringify(http.responseText);
                 document.getElementById('textbox').value += '\n'+a;
                 //window.location.replace(url);
-                getMVPD(document.getElementById('requestor').value);
+                getMVPD(document.getElementById('requestor').value, sp_url);
             } else {
                 var a = JSON.stringify(http.responseText);
                 document.getElementById('textbox').value += '\n'+a;
@@ -94,8 +96,8 @@
         }
         
         
-        function getMVPD(requestor_id){
-        var url = `https://sp.auth.adobe.com/adobe-services/config/${requestor_id}.json`;
+        function getMVPD(requestor_id, sp_url){
+        var url = `${sp_url}adobe-services/config/${requestor_id}.json`;
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange=function(){
         if (xmlhttp.readyState===4 && xmlhttp.status===200)
@@ -232,79 +234,6 @@
                 appConfig.resourceId = RESOURCE;
             }
         }
-        
-        function setCookie(){
-            //TO-DO
-        }
-
-        /*--SAMPLE Cookie Block -- Handling WebPage Cookie*/
-
-        if(document.referrer != 'http://localhost:8080/DX-Logger'){ 
-        //change localhost url with server's
-        //To-to - implement - get method from redirct page - get params - use the cookie from below implementation
-        history.pushState(null, null, ''); //can replace blank with index.html
-        window.addEventListener('popstate', function () {
-            history.pushState(null, null, '');
-        });
-    }
-
-    //prevents from going back to index.html from main page when logged in
-    if(localStorage['LDAP'] !== undefined){
-		document.getElementById('LDAPY').value = localStorage['LDAP'];
-        /*[Fix For Manual Override]
-        *@params: Form that should be submitted again - 15/06/2018
-        */
-		$("#sucker").submit();
-    //window.location.href = 'cgi-bin/test.py';
-    }
-
-    var x = getCookie('userC');
-    var y = getCookie('pwdC');
-    if (x != "" && y != ""){
-        document.getElementById("username").value = x;
-        document.getElementById("password").value = y;
-    } else {
-        //console.log('No Cookie');
-    }
-});
-
-
-function storeCookie(usrname, pswd){
-
-    if(document.getElementById('checkbox').checked){
-        setCookie('userC',usrname, 14);
-        setCookie('pwdC', pswd, 14);
-    } else {
-         //console.log(usrname+'not stored');
-    }
- }
-
-function setCookie(name,value,days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-}
-
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-
-function eraseCookie(name) {   
-    document.cookie = name+'=; Max-Age=-99999999;';  
-}
-
-
 </script>        
 
 </head>
@@ -315,6 +244,11 @@ function eraseCookie(name) {
                 <div class="col-sm-4 col-md-4 col-lg-4">
                         <img src='./Asset_files/ptlogo.png' class="App-logo" alt="logo" />
                         <h1 class="App-title" style="display:inline;">TVE Clientless WebApp <small style="color:lightgray;">v3.0</small></h1>
+                        <br><br>
+                        <label class="switch">
+                            <input type="checkbox" onclick="boxDisable($(this))" checked>
+                            <span class="slider round"></span><br><p id='env'>PROD</p>
+                        </label>
                 </div>
                 <div class="col-sm-8 col-md-8 col-lg-8">
                         <h6>HOW TO USE:<small style="color:gray;" id="dir"> Enter ${REGCODE}, and ${REQUESTOR ID}
@@ -449,7 +383,7 @@ method: "POST",
 
 url: "cgi-bin/regcode.py",
 
-data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr},
+data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "REG_FQDN": reggie_fqdn},
 
 dataType: "text",
 
@@ -483,7 +417,7 @@ method: "POST",
 
 url: "cgi-bin/theApp.py",
 
-data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "RESID": RESOURCE },
+data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "RESID": RESOURCE, "REG_FQDN": reggie_fqdn, "SP_FQDN":sp_fqdn },
 
 dataType: "text",
 
@@ -499,6 +433,22 @@ document.getElementById('textbox').value += '\n'+__data__;
 }); });
 
 });
+
+function boxDisable(t) {
+    if (t.is(':checked')) {
+        reggie_fqdn = 'http://api.auth.adobe.com/reggie/v1/';
+        sp_fqdn = "http://api.auth.adobe.com/api/v1/";
+        sp_url = "https://sp.auth.adobe.com/";
+        document.getElementById('env').innerHTML = 'PROD';
+        console.log('PROD: '+reggie_fqdn+sp_fqdn+sp_url);
+    } else {
+        reggie_fqdn = 'http://api.auth-staging.adobe.com/reggie/v1/';
+        sp_fqdn = "http://api.auth-staging.adobe.com/api/v1/";
+        sp_url = "https://sp.auth-staging.adobe.com/";
+        document.getElementById('env').innerHTML = 'STAGE';
+        console.log('STAGE: '+reggie_fqdn+sp_fqdn+sp_url);
+    }
+}
 
 </script>
 </body>

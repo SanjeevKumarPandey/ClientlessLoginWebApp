@@ -24,6 +24,8 @@ priv  = form.getvalue('PRIV_KEY')
 requestor_id = form.getvalue('REQID')
 deviceId = form.getvalue('DEVID')
 ua = form.getvalue('UA')
+sp_fqdn = form.getvalue('SP_FQDN')
+reggie_fqdn = form.getvalue('REG_FGQN')
 uuid_filename = 'uuid.txt'
 login_page = 'mvpdLoginPage.html'
 mrss_res = form.getvalue('RESID')
@@ -66,12 +68,12 @@ def outLOGINPage(_html):
 
 theheader = buildAuthHeader(requestor_id)
 
-reggie_fqdn = "http://api.auth.adobe.com/reggie/v1/"
+#reggie_fqdn = "http://api.auth.adobe.com/reggie/v1/"
 url_header = ua
 url_hdr_alt = 'Mozilla 5.10'
 add_args = {'deviceId':deviceId, 'uuid':getUUID()}
 data = urllib.urlencode(add_args)
-sp_fqdn = "http://api.auth.adobe.com/api/v1/"
+#sp_fqdn = "http://api.auth.adobe.com/api/v1/"
 auth_token = 'authToken.txt'
 add_params = {'deviceId':deviceId, 'requestor':requestor_id, 'resource': 'fox'}
 add_params_mrss = {'deviceId':deviceId, 'requestor':requestor_id, 'resource':mrss_res}
