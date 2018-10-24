@@ -6,7 +6,7 @@
 
 ## Getting Started
 
-Simply download the package and deploy on local server. Feel free to fork it. 
+Simply download the package and deploy on local server. Make sure to enable cgi for your local webserver and install Python 2.7. 
 
 ### Prerequisites
 
@@ -20,40 +20,41 @@ https://httpd.apache.org/docs/2.4/howto/cgi.html#libraries
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+To get a development env running, put the project on a local webserver and open the 'LoginWebApp' project folder in your IDE.
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
+The main UI file:
 
 ```
-until finished
+SecondScreen.html
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+Backend - Python scripts:
+
+```
+WEB-INF/cgi/regcode.py //Generates the regcode to be used furing registration and login process.
+WEB-INF/cgi/theApp.py //Runs the rest of the flow i.e. authorization and beyond.
+```
+
+Download the logs on-the-way by using download button. Logs are shown in the in-app console.
 
 ## Running the tests
 
 Deploy the package and use the channel and Pay-TV provider information to run a simple test.
 
-### Break down into end to end tests
+### Running end to end Authentication test
 
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
+First test is AuthN
 
 ```
-Give an example
+Use the first tab 'AUTHN' for it
+```
+
+### More tests
+
+Authorization and further flow
+
+```
+Use 'AUTHZ' tab to run authorization test which also runs further tests for media-token and usermetadata
 ```
 
 ## Deployment
