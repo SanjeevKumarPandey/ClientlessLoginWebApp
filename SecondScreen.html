@@ -463,10 +463,12 @@ function toggleTheme(t) {
         document.getElementById('theme').innerHTML = 'DEFAULT';
         $('.App-header').css('background-color', '#222');
         $('.App-header').css('color', 'white');
+        $('body').css('background-color', 'transparent');
     } else {
-        document.getElementById('theme').innerHTML = 'WHITE';
+        document.getElementById('theme').innerHTML = 'NIGHTMODE';
         $('.App-header').css('background-color', 'white');
         $('.App-header').css('color', '#222');
+        $('body').css('background-color', 'gray');
     }
 }
 
