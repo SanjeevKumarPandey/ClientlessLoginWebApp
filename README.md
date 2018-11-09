@@ -2,7 +2,7 @@
 
 **Clientless WebApp** is a web application that uses REST APIs to interact with an authentication system and lets you obtain the asset playback authorization tokens and user metadata, along with the play token. This app lets you customize all inputs such as user-agent, device information, and params for REST endpoint.
 
-![UI](/app-UI.png)
+![UI](/app-UI_New.png)
 
 ## Getting Started
 
