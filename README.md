@@ -25,7 +25,7 @@ To get a development env running, put the project on a local webserver and open 
 The main UI file:
 
 ```
-SecondScreen.html
+index.html
 ```
 
 Backend - Python scripts:

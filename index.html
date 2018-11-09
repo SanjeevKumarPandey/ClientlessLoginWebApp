@@ -19,12 +19,12 @@
     <style>
     body {
     background-color: transparent;
-    /* background-position: right !important; */
-    /* background: url('./Asset_files/stewie.png'); */
+    background-position: right !important;
+    background: url('./Asset_files/pt_graphic.jpeg');
     background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: 9%;
-    background-position: 73% 88%;
+    /* background-attachment: fixed; */
+    background-size: 180%;
+    /* background-position: 73% 88%; */
     }
     </style>
 
@@ -44,7 +44,7 @@
         var sp_url = "https://sp.auth.adobe.com/";
         var url_hdr, url_hdr_alt = 'Mozilla 5.10';
         var redirect_url = 'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html';
-        //'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FSecondScreen.html'; //'http%3A%2F%2Fadobe.com%3A5500%2FSecondScreen.html';//'http://www.foxnow.com';
+        //'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%index.html'; //'http%3A%2F%2Fadobe.com%3A5500%2Findex.html';//'http://www.foxnow.com';
         var mvpdList = [];
         var REQUESTOR="", RESOURCE, REGCODE = null, mso = 'Cablevision', picker, mvpds;
         var counter = false;
@@ -94,7 +94,6 @@
         }, 3000) 
         }
         }
-        
         
         function getMVPD(requestor_id, sp_url){
         var url = `${sp_url}adobe-services/config/${requestor_id}.json`;
@@ -242,22 +241,28 @@
     <header class="App-header">
         <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="row">
+                        <div class="col-sm-10 col-md-10 col-lg-10">
                         <img src='./Asset_files/ptlogo.png' class="App-logo" alt="logo" />
                         <h1 class="App-title" style="display:inline;">TVE Clientless WebApp <small style="color:lightgray;">v3.1</small></h1>
-                        
+                        </div>
+                        <div class="col-sm-2 col-md-2 col-lg-2">
                         <label class="switch">
                             <input type="checkbox" onclick="boxDisable($(this))" checked>
                             <span class="slider round"></span><br><p id='env'>PROD</p>
                         </label>
+                        </div>
+                    </div>    
                 </div>
                 <div class="col-sm-8 col-md-8 col-lg-8">
-                    <div class="row"></div>
+                    <div class="row">
                         <div class="col-sm-10 col-md-10 col-lg-10"><h6>HOW TO USE:<small style="color:gray;" id="dir"> Enter ${REGCODE}, and ${REQUESTOR ID}
                             . Hit Submit (registration record is fetched).
                             <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
                             Pick the MVPD (${mso} id is set); click <span style="font-weight:bold;">Login</span> 
                             to send the authenticate call (browser handles redirects & cookies). Spoof localhost to adobe.com. If you do not enter a deviceId
-                        and User-Agent, default will be set. Call <code onClick='alert(JSON.stringify(appConfig));'>appConfig</code> for defaults.</small></h6></div>
+                        and User-Agent, default will be set. Call <code onClick='alert(JSON.stringify(appConfig));'>appConfig</code> for defaults.</small></h6>
+                        </div>
                         <div class="col-sm-2 col-md-2 col-lg-2">
                                 <label class="switch">
                                         <input type="checkbox" onclick="toggleTheme($(this))" checked>
