@@ -20,14 +20,14 @@
     body {
     background-color: transparent;
     background-position: right !important;
-    background: url('./Asset_files/pt_graphic.jpeg');
+    /* background: url('./Asset_files/pt_graphic.jpeg'); */
     background-repeat: no-repeat;
     /* background-attachment: fixed; */
     background-size: 180%;
     /* background-position: 73% 88%; */
     }
     </style>
-
+    <link rel="shortcut icon" href="./Asset_files/Adobe-Logo-Small.png">
     <script src="./Asset_files/jquery.min.js.download"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
@@ -238,15 +238,19 @@
 </head>
 <body>
 <div class="container-fluid">
-    <header class="App-header">
-        <div class="row">
-                <div class="col-sm-4 col-md-4 col-lg-4">
+    <div class="row" id="t1" style="background-color:transparent;">
+        <div class="col-sm-12 col-md-12 col-lg-12" id="t2" style="background-color:transparent;">
+            <header class="App-header">
+                <div class="row">
+                <div class="col-sm-5 col-md-5 col-lg-5" id="t3" style="background-color:transparent;">
                     <div class="row">
-                        <div class="col-sm-10 col-md-10 col-lg-10">
+                        <div class="col-sm-4 col-md-4 col-lg-3" id="t4" style="background-color:transparent;">
                         <img src='./Asset_files/ptlogo.png' class="App-logo" alt="logo" />
-                        <h1 class="App-title" style="display:inline;">TVE Clientless WebApp <small style="color:lightgray;">v3.1</small></h1>
                         </div>
-                        <div class="col-sm-2 col-md-2 col-lg-2">
+                        <div class="col-sm-5 col-md-5 col-lg-5" id="t5" style="background-color:transparent;">
+                        <h1 class="App-title" style="display:inline;">TVE Clientless WebApp <small style="color:gray;">v3.1.1</small></h1>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3" id="t6" style="background-color:transparent;">
                         <label class="switch">
                             <input type="checkbox" onclick="boxDisable($(this))" checked>
                             <span class="slider round"></span><br><p id='env'>PROD</p>
@@ -254,16 +258,17 @@
                         </div>
                     </div>    
                 </div>
-                <div class="col-sm-8 col-md-8 col-lg-8">
+                <div class="col-sm-7 col-md-7 col-lg-7" id="t7" style="background-color:transparent;">
                     <div class="row">
-                        <div class="col-sm-10 col-md-10 col-lg-10"><h6>HOW TO USE:<small style="color:gray;" id="dir"> Enter ${REGCODE}, and ${REQUESTOR ID}
+                        <div class="col-sm-10 col-md-10 col-lg-10" id="t8" style="background-color:transparent;">
+                            <h6>HOW TO USE:<small style="color:gray;" id="dir"> Enter ${REGCODE}, and ${REQUESTOR ID}
                             . Hit Submit (registration record is fetched).
                             <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
                             Pick the MVPD (${mso} id is set); click <span style="font-weight:bold;">Login</span> 
                             to send the authenticate call (browser handles redirects & cookies). Spoof localhost to adobe.com. If you do not enter a deviceId
                         and User-Agent, default will be set. Call <code onClick='alert(JSON.stringify(appConfig));'>appConfig</code> for defaults.</small></h6>
                         </div>
-                        <div class="col-sm-2 col-md-2 col-lg-2">
+                        <div class="col-sm-2 col-md-2 col-lg-2" id="t9" style="background-color:transparent;">
                                 <label class="switch">
                                         <input type="checkbox" onclick="toggleTheme($(this))" checked>
                                         <span class="slider2 round"></span><br><p id='theme'>DEFAULT</p>
@@ -271,15 +276,18 @@
                         </div>
                     </div>
                 </div>
+                </div>
+            </header>
         </div>
-    </header>
+    </div>
     <div class="row">
-        <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
-                <textarea cols="50" rows="4" name="comment" class='tb' id='textbox' style="width:80%; height:500px;
-                margin: 25px 0px 0px 10%; border-left:steelblue solid 6px; background-color: lightgray; border-radius: 5px;"></textarea>
+        <div class="col-sm-4 col-md-4 col-lg-4" id="t10" style="background-color:transparent;">
+                <textarea cols="50" rows="4" name="comment" class='tb' id='textbox' style="width:80%; height:180%;
+                margin: 25px 0px 0px 10%; border-left:steelblue solid 6px; background-color: lightgray; border-radius: 5px;">
+                LOGS CONSOLE - READ ONLY</textarea>
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
-            <div class="login-form">
+        <div class="col-sm-4 col-md-4 col-lg-4" id="t11" style="background-color:transparent;">
+            <div class="login-form" id="t13">
                 <input type="text" style="border-radius: 5px; border-left: 6px solid #0099ff;
                 background-color: lightgray;" name="regcode" placeholder="REGCODE" id="regcode"><br>
                 <input type="text" style="border-radius: 5px; border-left: 6px solid #0099ff;
@@ -293,7 +301,7 @@
                 <div id="mvpdPicker"></div>
             </div>
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4" style="background-color:none;">
+        <div class="col-sm-4 col-md-4 col-lg-4" id="t12" style="background-color:transparent;">
             <div class="login-form" id="reg">
 
                     <ul class="nav nav-tabs">
@@ -302,7 +310,7 @@
                             <li><a data-toggle="tab" href="#Dummy">Dummy</a></li>
                           </ul>
                         
-                          <div class="tab-content">
+                          <div class="tab-content" id="t14">
                             <div id="AUTHN" class="tab-pane fade in active">
                               <!-- <h6>HOME</h6>
                               <h6>Enter the params, and hit Set.</h6> -->
@@ -325,7 +333,7 @@
                                     <button type="button" class="login-stuff" onclick="paramSet()" style="width:auto;">Set</button>
                                     <button id="reg_btn" class="login-stuff" style="width:auto; display:none">Generate Regcode</button>
                                     <br><p style="font-style:italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your REGCODE is here! &#8595;</p>
-                                    <canvas id="canvas" width="270%" height="80" style="border:1px solid #d3d3d3;">
+                                    <canvas id="canvas" width="270%" height="80%" style="border:1px solid #d3d3d3;">
                                       Your browser does not support the HTML5 canvas tag.</canvas>                    
                                   </div>
                                   </div>
@@ -344,7 +352,7 @@
                           </div>
             </div>
         </div>
-        <p style="font-size: smaller; font-style: italic;">&copy;sanpande.2018</p>
+        <p style="font-size: smaller; font-style: italic;">sanpande.2018</p>
     </div>
 </div>
 <script lang="javascript">
@@ -387,6 +395,7 @@
                             }
 
 $(document).ready(function(){
+    $('#textbox').attr('readonly', true);
 
 $("#reg_btn").click(function(){
 
@@ -468,12 +477,31 @@ function toggleTheme(t) {
         document.getElementById('theme').innerHTML = 'DEFAULT';
         $('.App-header').css('background-color', '#222');
         $('.App-header').css('color', 'white');
+        for(i=1; i < 15; i++){
+            var th = '#t'+i;
+            $(th).css('background-color', 'transparent');
+        }
         $('body').css('background-color', 'transparent');
     } else {
-        document.getElementById('theme').innerHTML = 'NIGHTMODE';
-        $('.App-header').css('background-color', 'white');
+        document.getElementById('theme').innerHTML = 'DEBUGMODE';
+        $('.App-header').css('background-color', 'black');
         $('.App-header').css('color', '#222');
-        $('body').css('background-color', 'gray');
+        //$('body').css('background-color', 'gray');
+        //$('.container-fluid').children
+        $("#t1").css('background-color', 'peru');
+        $("#t2").css('background-color', 'yellowgreen');
+        $("#t3").css('background-color', 'navajowhite');
+        $("#t4").css('background-color', 'lightcoral');
+        $("#t5").css('background-color', 'lightsalmon');
+        $("#t6").css('background-color', 'gold');
+        $("#t7").css('background-color', 'orchid');
+        $("#t8").css('background-color', 'mediumaquamarine');
+        $("#t9").css('background-color', 'mediumvioletred');
+        $("#t10").css('background-color', 'red');
+        $("#t11").css('background-color', 'orangered');
+        $("#t12").css('background-color', 'orange');
+        $("#t13").css('background-color', 'slateblue');
+        $("#t14").css('background-color', 'peachpuff');
     }
 }
 
