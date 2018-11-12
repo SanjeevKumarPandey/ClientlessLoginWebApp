@@ -57,6 +57,12 @@ Authorization and further flow
 Use 'AUTHZ' tab to run authorization test which also runs further tests for media-token and usermetadata
 ```
 
+### Debugging UI
+
+To facilitate the UI debugging so that you can see where it is broken use theme toggle button on the top right and switch to UI Debug Mode
+
+![UI](/app-UI_Debug.png)
+
 ## Deployment
 
 Download the package and deploy on a local Apache Tomcat server with cgi capabilities enabled.
