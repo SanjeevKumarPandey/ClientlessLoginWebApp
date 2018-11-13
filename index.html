@@ -44,7 +44,7 @@
         var sp_url = "https://sp.auth.adobe.com/";
         var url_hdr, url_hdr_alt = 'Mozilla 5.10';
         var redirect_url = 'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html';
-        //'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%index.html'; //'http%3A%2F%2Fadobe.com%3A5500%2Findex.html';//'http://www.foxnow.com';
+        /*'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%index.html'; //'http%3A%2F%2Fadobe.com%3A5500%2Findex.html';//'http://www.foxnow.com';*/
         var mvpdList = [];
         var REQUESTOR="", RESOURCE, REGCODE = null, mso = 'Cablevision', picker, mvpds;
         var counter = false;
@@ -78,7 +78,7 @@
             if(http.readyState == 4 && http.status == 200) {
                 var a = JSON.stringify(http.responseText);
                 document.getElementById('textbox').value += '\n'+a;
-                //window.location.replace(url);
+                /*window.location.replace(url);*/
                 getMVPD(document.getElementById('requestor').value, sp_url);
             } else {
                 var a = JSON.stringify(http.responseText);
@@ -114,9 +114,9 @@
                             var mvpdID = $(v).find("id").text();
                             var mvpdName = $(v).find("displayName").text();
                             providersMenu.append($('<option></option>', {value:mvpdID}).text(mvpdName));
-                            //mvpdList.push(mvpds[v].childNodes[0].textContent);
+                            /*mvpdList.push(mvpds[v].childNodes[0].textContent);*/
                             mvpdList.push($(v).find("id").text());
-                            //return mvpdList;
+                            /*return mvpdList;*/
                             counter = true;
                         });
             
@@ -140,7 +140,7 @@
             var askMe = function () {
             promise
                 .then(function (fulfilled) {
-                    //console.log(fulfilled);
+                    /*console.log(fulfilled);*/
                 })
                 .catch(function (error) {
                     console.log(error.message);
@@ -158,7 +158,7 @@
         xmlhttp.open('GET',url,true);
         xmlhttp.send();
         
-        //document.getElementById("reg").style.display="block";
+        /*document.getElementById("reg").style.display="block";*/
         
         }
         
@@ -172,7 +172,7 @@
         REQUESTOR = document.getElementById('requestor').value;
         REGCODE = document.getElementById('regcode').value;
         var url = `${sp_fqdn}authenticate?reg_code=${REGCODE}&requestor_id=${REQUESTOR}&domain_name=adobe.com&noflash=true&no_iframe=true&mso_id=${mso}&redirect_url=${redirect_url}`;
-        //login(url, _callback);
+        /*login(url, _callback);*/
         login(url);
         }
         
@@ -238,19 +238,19 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row" id="t1" style="background-color:transparent;">
-        <div class="col-sm-12 col-md-12 col-lg-12" id="t2" style="background-color:transparent;">
+    <div class="row" id="t1" style="background-color:none;">
+        <div class="col-sm-12 col-md-12 col-lg-12" id="t2" style="background-color:none;">
             <header class="App-header">
                 <div class="row">
-                <div class="col-sm-5 col-md-5 col-lg-5" id="t3" style="background-color:transparent;">
+                <div class="col-sm-5 col-md-5 col-lg-5" id="t3" style="background-color:none;">
                     <div class="row">
-                        <div class="col-sm-4 col-md-4 col-lg-3" id="t4" style="background-color:transparent;">
+                        <div class="col-sm-4 col-md-4 col-lg-3" id="t4" style="background-color:none;">
                         <img src='./Asset_files/ptlogo.png' class="App-logo" alt="logo" />
                         </div>
-                        <div class="col-sm-5 col-md-5 col-lg-5" id="t5" style="background-color:transparent;">
+                        <div class="col-sm-5 col-md-5 col-lg-5" id="t5" style="background-color:none;">
                         <h1 class="App-title" style="display:inline;">TVE Clientless WebApp <small style="color:gray;">v3.1.1</small></h1>
                         </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3" id="t6" style="background-color:transparent;">
+                        <div class="col-sm-3 col-md-3 col-lg-3" id="t6" style="background-color:none;">
                         <label class="switch">
                             <input type="checkbox" onclick="boxDisable($(this))" checked>
                             <span class="slider round"></span><br><p id='env'>PROD</p>
@@ -258,9 +258,9 @@
                         </div>
                     </div>    
                 </div>
-                <div class="col-sm-7 col-md-7 col-lg-7" id="t7" style="background-color:transparent;">
+                <div class="col-sm-7 col-md-7 col-lg-7" id="t7" style="background-color:none;">
                     <div class="row">
-                        <div class="col-sm-10 col-md-10 col-lg-10" id="t8" style="background-color:transparent;">
+                        <div class="col-sm-10 col-md-10 col-lg-10" id="t8" style="background-color:none;">
                             <h6>HOW TO USE:<small style="color:gray;" id="dir"> Enter ${REGCODE}, and ${REQUESTOR ID}
                             . Hit Submit (registration record is fetched).
                             <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
@@ -268,7 +268,7 @@
                             to send the authenticate call (browser handles redirects & cookies). Spoof localhost to adobe.com. If you do not enter a deviceId
                         and User-Agent, default will be set. Call <code onClick='alert(JSON.stringify(appConfig));'>appConfig</code> for defaults.</small></h6>
                         </div>
-                        <div class="col-sm-2 col-md-2 col-lg-2" id="t9" style="background-color:transparent;">
+                        <div class="col-sm-2 col-md-2 col-lg-2" id="t9" style="background-color:none;">
                                 <label class="switch">
                                         <input type="checkbox" onclick="toggleTheme($(this))" checked>
                                         <span class="slider2 round"></span><br><p id='theme'>DEFAULT</p>
@@ -281,12 +281,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-4 col-md-4 col-lg-4" id="t10" style="background-color:transparent;">
+        <div class="col-sm-4 col-md-4 col-lg-4" id="t10" style="background-color:none;">
                 <textarea cols="50" rows="4" name="comment" class='tb' id='textbox' style="width:80%; height:180%;
                 margin: 25px 0px 0px 10%; border-left:steelblue solid 6px; background-color: lightgray; border-radius: 5px;">
                 LOGS CONSOLE - READ ONLY</textarea>
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4" id="t11" style="background-color:transparent;">
+        <div class="col-sm-4 col-md-4 col-lg-4" id="t11" style="background-color:none;">
             <div class="login-form" id="t13">
                 <input type="text" style="border-radius: 5px; border-left: 6px solid #0099ff;
                 background-color: lightgray;" name="regcode" placeholder="REGCODE" id="regcode"><br>
@@ -301,7 +301,7 @@
                 <div id="mvpdPicker"></div>
             </div>
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4" id="t12" style="background-color:transparent;">
+        <div class="col-sm-4 col-md-4 col-lg-4" id="t12" style="background-color:none;">
             <div class="login-form" id="reg">
 
                     <ul class="nav nav-tabs">
@@ -347,7 +347,9 @@
                             </div>
                             <div id="Dummy" class="tab-pane fade">
                               <h3>Extra!!</h3>
-                              <p>That's right, we're ready for future enhancements! Send your wishlist/ suggestion to me.</p>
+                              <p>That's right, we're ready for future enhancements! Email your wishlist to me.</p>
+                              <a id="thumbnail" href="#"><img src="http://dummyimage.com/150x150/0066ff/fff"></a>
+                              <div id="title">placeholder image</div>
                             </div>
                           </div>
             </div>
@@ -361,14 +363,14 @@
                               makeTextFile = function (text) {
                             var data = new Blob([text], {type: 'text/plain'});
         
-                            //Manually revoke the object-URL to avoid memory leaks while previous file is replaced
+                            /*Manually revoke the object-URL to avoid memory leaks while previous file is replaced*/
                             if (textFile !== null) {
                               window.URL.revokeObjectURL(textFile);
                             }
         
                             textFile = window.URL.createObjectURL(data);
         
-                            // This returned url is being used as a href
+                            /* This returned url is being used as a href*/
                             return textFile;
                               };
         
@@ -381,7 +383,7 @@
                             link.href = makeTextFile(textbox.value);
                             document.body.appendChild(link);
         
-                            // wait for the link to be added to the document
+                            /* wait for the link to be added to the document*/
                             window.requestAnimationFrame(function () {
                               var event = new MouseEvent('click');
                               link.dispatchEvent(event);
@@ -477,17 +479,17 @@ function toggleTheme(t) {
         document.getElementById('theme').innerHTML = 'DEFAULT';
         $('.App-header').css('background-color', '#222');
         $('.App-header').css('color', 'white');
+        $('link[rel=stylesheet][href~="./Asset_files/debug.css"]').remove();
         for(i=1; i < 15; i++){
             var th = '#t'+i;
             $(th).css('background-color', 'transparent');
         }
         $('body').css('background-color', 'transparent');
+        $(".App-logo").attr('src', './Asset_files/ptlogo.png');
     } else {
         document.getElementById('theme').innerHTML = 'DEBUGMODE';
         $('.App-header').css('background-color', 'black');
         $('.App-header').css('color', '#222');
-        //$('body').css('background-color', 'gray');
-        //$('.container-fluid').children
         $("#t1").css('background-color', 'peru');
         $("#t2").css('background-color', 'yellowgreen');
         $("#t3").css('background-color', 'navajowhite');
@@ -502,6 +504,9 @@ function toggleTheme(t) {
         $("#t12").css('background-color', 'orange');
         $("#t13").css('background-color', 'slateblue');
         $("#t14").css('background-color', 'peachpuff');
+        $('head').append('<link rel="stylesheet" type="text/css" href="./Asset_files/debug.css">');
+        $(".App-logo").attr('src', './Asset_files/bug.svg');
+        /*$(".App-logo").css("animation", "none");*/
     }
 }
 
