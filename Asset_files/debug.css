@@ -1,0 +1,36 @@
+/*
+  Theme Name: TVE Clientless WebApp
+  Author: Sanjeev Pandey (sanpande@adobe.com)
+  Version: 3.1.1
+  Stylesheet: Attaching Debug Mode
+*/
+
+[class*="col"]:hover { background: #000; }
+[class*="col"] [class*="col"]:hover { background: red; }
+[class*="col"]:hover { background-color:rgba(194,57,142,0.2);
+    border:1px solid rgba(194,57,142,1);}
+[class*="col"] [class*="col"]:hover { background-color:rgba(194,57,142,0.2);
+    border:1px solid rgba(194,57,142,1);}
+
+
+#thumbnail {
+	display: block;
+
+	width: 150px;
+	height: 150px;
+}
+
+#thumbnail:hover + #title {
+    display: block;
+}
+
+#title {
+	display: none;
+
+	color: #ffffff;
+	background-color: #000000;
+  text-align: center;
+  
+  width: 130px;
+  padding: 10px;
+}

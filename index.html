@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="LoginWebApp">
+    <meta name="author" content="Sanjeev Pandey">
+    <meta name="version=" content="3.1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>WebApp by Sanjeev Pandey</title>
+    <link href="./Asset_files/bootstrap.css" rel="stylesheet">
+    <link href="./Asset_files/index_content.css" rel="stylesheet">
+    <link href="./Asset_files/customstyle.css" rel="stylesheet">
+    <link href="./Asset_files/style.css" rel="stylesheet">
+    <link href="./Asset_files/toggle.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+    body {
+    background-color: transparent;
+    background-position: right !important;
+    /* background: url('./Asset_files/pt_graphic.jpeg'); */
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    background-size: 180%;
+    /* background-position: 73% 88%; */
+    }
+    </style>
+    <link rel="shortcut icon" href="./Asset_files/Adobe-Logo-Small.png">
+    <script src="./Asset_files/jquery.min.js.download"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+
+        var uuid_filename = 'uuid.txt',
+        login_page = 'mvpdLoginPage.html',
+        deviceId, redirect_page = 'redirect_complete.html';
+        var reggie_fqdn = 'http://api.auth.adobe.com/reggie/v1/';
+        var sp_fqdn = "http://api.auth.adobe.com/api/v1/";
+        var sp_url = "https://sp.auth.adobe.com/";
+        var url_hdr, url_hdr_alt = 'Mozilla 5.10';
+        var redirect_url = 'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html';
+        /*'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%index.html'; //'http%3A%2F%2Fadobe.com%3A5500%2Findex.html';//'http://www.foxnow.com';*/
+        var mvpdList = [];
+        var REQUESTOR="", RESOURCE, REGCODE = null, mso = 'Cablevision', picker, mvpds;
+        var counter = false;
+        var PUBKEY="", PRIVKEY="";
+
+        var appConfig = {
+            deviceId: deviceId,
+            reggie_fqdn: reggie_fqdn,
+            sp_fqdn: sp_fqdn,
+            User_Agent: url_hdr,
+            redirect_url: redirect_url,
+            requestorId: 'sample',
+            resourceId: RESOURCE,
+            regcode: REGCODE,
+            mvpdID: mso
+        };
+        
+        function regRecord(requestor_id, regcode){
+        document.getElementById('dir').innerHTML = ` Enter \${${regcode}}, and \${${requestor_id}}. Hit Submit (registration record is fetched).
+                            <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
+                            Pick the MVPD (\${mso} id is set); click <span style="font-weight:bold;">Login</span> 
+                            to send the authenticate call (browser handles redirects & cookies). Spoof localhost to adobe.com. If you do not enter a deviceId
+                        and User-Agent, default will be set. Call <code onClick='alert(JSON.stringify(appConfig));'>appConfig</code> for defaults.</small></h6>`;
+        if(requestor_id && regcode){
+        var http = new XMLHttpRequest();
+        var url = `${reggie_fqdn}${requestor_id}/regcode/${regcode}.json`;
+        var params = JSON.stringify({'deviceId': deviceId, 'User-Agent': url_hdr});
+        http.open("GET", url, true);
+        document.getElementById('textbox').value += '\n'+url;
+        http.onreadystatechange = function() {
+            if(http.readyState == 4 && http.status == 200) {
+                var a = JSON.stringify(http.responseText);
+                document.getElementById('textbox').value += '\n'+a;
+                /*window.location.replace(url);*/
+                getMVPD(document.getElementById('requestor').value, sp_url);
+            } else {
+                var a = JSON.stringify(http.responseText);
+                document.getElementById('textbox').value += '\n'+a;
+            }
+        }
+        http.send(params);
+        } else {var y = document.getElementById('unauthe');
+        y.style.display = 'block';
+        y.innerHTML = 'This will throw SC 404. \nEnter RequestorID and Regcode.';
+        var to = setTimeout(function(){
+            y.style.display = 'none';
+        }, 3000) 
+        }
+        }
+        
+        function getMVPD(requestor_id, sp_url){
+        var url = `${sp_url}adobe-services/config/${requestor_id}.json`;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState===4 && xmlhttp.status===200)
+        {
+            document.getElementById('textbox').value += '\n'+url;
+            document.getElementById('textbox').value += '\n'+xmlhttp.responseText;
+            try {
+            var x =  $.parseXML(xmlhttp.responseText);
+            mvpds = $(x).find('mvpd');
+            picker = $('#mvpdPicker');
+            var providersMenu = $('<select id="mvpdList" multiple></select>');
+            
+            var promise = new Promise(function(resolve, reject) {
+                $.each(mvpds, function(k, v) {
+                            var mvpdID = $(v).find("id").text();
+                            var mvpdName = $(v).find("displayName").text();
+                            providersMenu.append($('<option></option>', {value:mvpdID}).text(mvpdName));
+                            /*mvpdList.push(mvpds[v].childNodes[0].textContent);*/
+                            mvpdList.push($(v).find("id").text());
+                            /*return mvpdList;*/
+                            counter = true;
+                        });
+            
+                if(counter){
+                
+                function createPicker(){
+                    picker.append(providersMenu);
+                        picker.append($('<br/>'));
+                        picker.append($('<input type="button" class="login-stuff" onclick="authenticate()" value="login" style="width:auto;" />'));
+                        picker.append($('<input type="button" class="login-stuff" onclick="cancelPicker()" value="cancel" style="width:auto; background-color:orange;" />'));
+                        counter = false;
+                        };
+                
+                resolve (createPicker());
+                
+                } else {
+                        reject(Error("It broke"));
+                }				
+            });
+            
+            var askMe = function () {
+            promise
+                .then(function (fulfilled) {
+                    /*console.log(fulfilled);*/
+                })
+                .catch(function (error) {
+                    console.log(error.message);
+                });
+        };
+        
+        askMe();
+            
+            } catch (ex) {
+                console.log('Error');
+            }
+            
+        }
+        }
+        xmlhttp.open('GET',url,true);
+        xmlhttp.send();
+        
+        /*document.getElementById("reg").style.display="block";*/
+        
+        }
+        
+        function login(_url){
+
+            window.location.replace(_url);
+        }
+        
+        function authenticate(){
+        mso = document.getElementById('mvpdList').value;
+        REQUESTOR = document.getElementById('requestor').value;
+        REGCODE = document.getElementById('regcode').value;
+        var url = `${sp_fqdn}authenticate?reg_code=${REGCODE}&requestor_id=${REQUESTOR}&domain_name=adobe.com&noflash=true&no_iframe=true&mso_id=${mso}&redirect_url=${redirect_url}`;
+        /*login(url, _callback);*/
+        login(url);
+        }
+        
+        
+        function checkauthn(req, regC){
+            if(req && regC){
+        var url = `${sp_fqdn}checkauthn/${regC}.json?requestor=${req}&deviceId=${deviceId}`;
+        document.getElementById('textbox').value += '\n'+url;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState===4 && xhr.status===200){
+                var rt = xhr.responseText, st = xhr.status;
+                document.getElementById('textbox').value += 'Authentication Status: '+st+rt;
+            } else {
+                document.getElementById('textbox').value += '\n'+xhr.status;
+            }
+        }
+        xhr.open('GET', url, true);
+        xhr.send();
+        } else {var y = document.getElementById('unauthe');
+        y.style.display = 'block';
+        y.innerHTML = '404! Enter RequestorID and Regcode.';
+        var to = setTimeout(function(){
+            y.style.display = 'none';
+        }, 3000) 
+        }}
+
+        function paramSet() {
+            var di = document.getElementById('Device-Id').value;
+            if(di != ""){
+                deviceId = di;
+                appConfig.deviceId = deviceId;
+            } else {
+                deviceId = "sanjeev";
+                appConfig.deviceId = deviceId;
+            }
+            var ua = document.getElementById('User-Agent').value;
+            if (ua != ""){
+                url_hdr = ua;
+                appConfig.User_Agent = url_hdr;
+            } else {
+                url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
+                appConfig.User_Agent = url_hdr;
+            }
+            PUBKEY = document.getElementById('PUBLIC_KEY').value;
+            PRIVKEY = document.getElementById('PRIV_KEY').value;
+            REQUESTOR = document.getElementById('REQID').value;
+            document.getElementById('reg_btn').style.display = 'inline-block';
+        }
+
+        function authorize(){
+            var r = document.getElementById('RESID').value;
+            if(r != ""){
+                RESOURCE = r;
+                appConfig.resourceId = r;
+            } else {
+                RESOURCE = '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title>BET</title><item><title></title><guid></guid><media:rating scheme="urn:v-chip">tv-14</media:rating></item></channel></rss>';
+                appConfig.resourceId = RESOURCE;
+            }
+        }
+</script>        
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row" id="t1" style="background-color:none;">
+        <div class="col-sm-12 col-md-12 col-lg-12" id="t2" style="background-color:none;">
+            <header class="App-header">
+                <div class="row">
+                <div class="col-sm-5 col-md-5 col-lg-5" id="t3" style="background-color:none;">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-3" id="t4" style="background-color:none;">
+                        <img src='./Asset_files/ptlogo.png' class="App-logo" alt="logo" />
+                        </div>
+                        <div class="col-sm-5 col-md-5 col-lg-5" id="t5" style="background-color:none;">
+                        <h1 class="App-title" style="display:inline;">TVE Clientless WebApp <small style="color:gray;">v3.1.1</small></h1>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3" id="t6" style="background-color:none;">
+                        <label class="switch">
+                            <input type="checkbox" onclick="boxDisable($(this))" checked>
+                            <span class="slider round"></span><br><p id='env'>PROD</p>
+                        </label>
+                        </div>
+                    </div>    
+                </div>
+                <div class="col-sm-7 col-md-7 col-lg-7" id="t7" style="background-color:none;">
+                    <div class="row">
+                        <div class="col-sm-10 col-md-10 col-lg-10" id="t8" style="background-color:none;">
+                            <h6>HOW TO USE:<small style="color:gray;" id="dir"> Enter ${REGCODE}, and ${REQUESTOR ID}
+                            . Hit Submit (registration record is fetched).
+                            <span style="font-weight:bold;">If</span> record is available -> MVPD Picker is created.
+                            Pick the MVPD (${mso} id is set); click <span style="font-weight:bold;">Login</span> 
+                            to send the authenticate call (browser handles redirects & cookies). Spoof localhost to adobe.com. If you do not enter a deviceId
+                        and User-Agent, default will be set. Call <code onClick='alert(JSON.stringify(appConfig));'>appConfig</code> for defaults.</small></h6>
+                        </div>
+                        <div class="col-sm-2 col-md-2 col-lg-2" id="t9" style="background-color:none;">
+                                <label class="switch">
+                                        <input type="checkbox" onclick="toggleTheme($(this))" checked>
+                                        <span class="slider2 round"></span><br><p id='theme'>DEFAULT</p>
+                                    </label>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </header>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4" id="t10" style="background-color:none;">
+                <textarea cols="50" rows="4" name="comment" class='tb' id='textbox' style="width:80%; height:180%;
+                margin: 25px 0px 0px 10%; border-left:steelblue solid 6px; background-color: lightgray; border-radius: 5px;">
+                LOGS CONSOLE - READ ONLY</textarea>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4" id="t11" style="background-color:none;">
+            <div class="login-form" id="t13">
+                <input type="text" style="border-radius: 5px; border-left: 6px solid #0099ff;
+                background-color: lightgray;" name="regcode" placeholder="REGCODE" id="regcode"><br>
+                <input type="text" style="border-radius: 5px; border-left: 6px solid #0099ff;
+                background-color: lightgray;" name="requestor" placeholder="REQUESTOR ID" id="requestor"><br>
+                <button type="button" class="login-stuff" onclick="regRecord(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto;">Submit</button>
+                <button type="button" class="login-stuff" id='test' onclick="checkauthn(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto; background-color:green;">Check Auth</button>
+                <br><br>
+                <button type="button" class="login-stuff" id="create" style="width:auto;" >Logs <i class="fa fa-download"></i></button>
+                <p id="unauths"></p>
+                <p id="unauthe" class="animate"></p>
+                <div id="mvpdPicker"></div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4" id="t12" style="background-color:none;">
+            <div class="login-form" id="reg">
+
+                    <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#AUTHN">AUTHN</a></li>
+                            <li><a data-toggle="tab" href="#AUTHZ">AUTHZ</a></li>
+                            <li><a data-toggle="tab" href="#Dummy">Dummy</a></li>
+                          </ul>
+                        
+                          <div class="tab-content" id="t14">
+                            <div id="AUTHN" class="tab-pane fade in active">
+                              <!-- <h6>HOME</h6>
+                              <h6>Enter the params, and hit Set.</h6> -->
+                              <div class="animate">
+                                    <div id="container3">
+                                    <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid red;
+                                    background-color: lightgrey;" name="Device-Id" placeholder="Device ID" id="Device-Id">
+                                    <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid red;
+                                    background-color: lightgrey;" name="User-Agent" placeholder="User-Agent" id="User-Agent"> 
+                                    <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                                    background-color: lightgray;" name="PUBLIC_KEY" placeholder="PUBLIC KEY" id="PUBLIC_KEY"><br>
+                                    <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                                    background-color: lightgray;" name="PRIV_KEY" placeholder="PRIVATE KEY" id="PRIV_KEY"><br>
+                                    <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                                    background-color: lightgray;" name="REQID" placeholder="REQUESTOR" id="REQID"><br>
+                                    <!-- <select id='ua'>
+                                        <option>SAML</option>
+                                        <option>OAUTH</option>
+                                    </select><br> -->
+                                    <button type="button" class="login-stuff" onclick="paramSet()" style="width:auto;">Set</button>
+                                    <button id="reg_btn" class="login-stuff" style="width:auto; display:none">Generate Regcode</button>
+                                    <br><p style="font-style:italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your REGCODE is here! &#8595;</p>
+                                    <canvas id="canvas" width="270%" height="80%" style="border:1px solid #d3d3d3;">
+                                      Your browser does not support the HTML5 canvas tag.</canvas>                    
+                                  </div>
+                                  </div>
+                            </div>
+                            <div id="AUTHZ" class="tab-pane fade">
+                              <h3>You're here!</h3>
+                              <p>Enter the resource ID - Plain OR MRSS, and hit Authorize.</p>
+                              <input type="text" style="border-radius: 5px; border-left: 6px solid green;
+                                    background-color: lightgray;" name="RES" placeholder="RESOURCE" id="RESID"><br>
+                            <button id="authz_btn" type="button" class="login-stuff" onclick="authorize()" style="width:auto;">Authorize</button>
+                            </div>
+                            <div id="Dummy" class="tab-pane fade">
+                              <h3>Extra!!</h3>
+                              <p>That's right, we're ready for future enhancements! Email your wishlist to me.</p>
+                              <a id="thumbnail" href="#"><img src="http://dummyimage.com/150x150/0066ff/fff"></a>
+                              <div id="title">placeholder image</div>
+                            </div>
+                          </div>
+            </div>
+        </div>
+        <p style="font-size: smaller; font-style: italic;">sanpande.2018</p>
+    </div>
+</div>
+<script lang="javascript">
+    try{
+            var textFile = null,
+                              makeTextFile = function (text) {
+                            var data = new Blob([text], {type: 'text/plain'});
+        
+                            /*Manually revoke the object-URL to avoid memory leaks while previous file is replaced*/
+                            if (textFile !== null) {
+                              window.URL.revokeObjectURL(textFile);
+                            }
+        
+                            textFile = window.URL.createObjectURL(data);
+        
+                            /* This returned url is being used as a href*/
+                            return textFile;
+                              };
+        
+                            var create = document.getElementById('create'),
+                            textbox = document.getElementById('textbox');
+        
+                              create.addEventListener('click', function () {
+                            var link = document.createElement('a');
+                            link.setAttribute('download', 'xmlData.txt');
+                            link.href = makeTextFile(textbox.value);
+                            document.body.appendChild(link);
+        
+                            /* wait for the link to be added to the document*/
+                            window.requestAnimationFrame(function () {
+                              var event = new MouseEvent('click');
+                              link.dispatchEvent(event);
+                              document.body.removeChild(link);
+                            });
+        
+                              }, false);
+        
+                            } catch (ex) {
+                            console.error(ex);
+                            }
+
+$(document).ready(function(){
+    $('#textbox').attr('readonly', true);
+
+$("#reg_btn").click(function(){
+
+$.ajax({
+
+method: "POST",
+
+url: "cgi-bin/regcode.py",
+
+data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "REG_FQDN": reggie_fqdn},
+
+dataType: "text",
+
+success: function(result){
+
+var data__=JSON.stringify(result);
+
+console.log(data__);
+
+document.getElementById('textbox').value += '\n'+data__;
+
+var d = ((data__.split('Regcode: ')[1]).split('device_info')[0]).slice(0, 7);
+
+document.getElementById('regcode').value = d;
+
+var c = document.getElementById("canvas");
+		var ctx = c.getContext("2d");
+        ctx.clearRect(0, 0, c.width, c.height);
+		ctx.font = "30px Arial";
+		ctx.fillText(d,10,50);
+
+}
+
+}); });
+
+$("#authz_btn").click(function(){
+
+$.ajax({
+
+method: "POST",
+
+url: "cgi-bin/theApp.py",
+
+data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "RESID": RESOURCE, "REG_FQDN": reggie_fqdn, "SP_FQDN":sp_fqdn },
+
+dataType: "text",
+
+success: function(result){
+
+var __data__=JSON.stringify(result);
+
+console.log(__data__);
+
+document.getElementById('textbox').value += '\n'+__data__;
+}
+
+}); });
+
+});
+
+function boxDisable(t) {
+    if (t.is(':checked')) {
+        reggie_fqdn = 'http://api.auth.adobe.com/reggie/v1/';
+        sp_fqdn = "http://api.auth.adobe.com/api/v1/";
+        sp_url = "https://sp.auth.adobe.com/";
+        document.getElementById('env').innerHTML = 'PROD';
+        console.log('PROD: '+reggie_fqdn+sp_fqdn+sp_url);
+    } else {
+        reggie_fqdn = 'http://api.auth-staging.adobe.com/reggie/v1/';
+        sp_fqdn = "http://api.auth-staging.adobe.com/api/v1/";
+        sp_url = "https://sp.auth-staging.adobe.com/";
+        document.getElementById('env').innerHTML = 'STAGE';
+        console.log('STAGE: '+reggie_fqdn+sp_fqdn+sp_url);
+    }
+}
+
+function toggleTheme(t) {
+    if (t.is(':checked')) {
+        document.getElementById('theme').innerHTML = 'DEFAULT';
+        $('.App-header').css('background-color', '#222');
+        $('.App-header').css('color', 'white');
+        $('link[rel=stylesheet][href~="./Asset_files/debug.css"]').remove();
+        for(i=1; i < 15; i++){
+            var th = '#t'+i;
+            $(th).css('background-color', 'transparent');
+        }
+        $('body').css('background-color', 'transparent');
+        $(".App-logo").attr('src', './Asset_files/ptlogo.png');
+    } else {
+        document.getElementById('theme').innerHTML = 'DEBUGMODE';
+        $('.App-header').css('background-color', 'black');
+        $('.App-header').css('color', '#222');
+        $("#t1").css('background-color', 'peru');
+        $("#t2").css('background-color', 'yellowgreen');
+        $("#t3").css('background-color', 'navajowhite');
+        $("#t4").css('background-color', 'lightcoral');
+        $("#t5").css('background-color', 'lightsalmon');
+        $("#t6").css('background-color', 'gold');
+        $("#t7").css('background-color', 'orchid');
+        $("#t8").css('background-color', 'mediumaquamarine');
+        $("#t9").css('background-color', 'mediumvioletred');
+        $("#t10").css('background-color', 'red');
+        $("#t11").css('background-color', 'orangered');
+        $("#t12").css('background-color', 'orange');
+        $("#t13").css('background-color', 'slateblue');
+        $("#t14").css('background-color', 'peachpuff');
+        $('head').append('<link rel="stylesheet" type="text/css" href="./Asset_files/debug.css">');
+        $(".App-logo").attr('src', './Asset_files/bug.svg');
+        /*$(".App-logo").css("animation", "none");*/
+    }
+}
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# pack-refs with: peeled fully-peeled sorted 
+431c62b556decec6fc8209427311b1c2817e2b41 refs/heads/master
+431c62b556decec6fc8209427311b1c2817e2b41 refs/heads/python-integration
+ed90486afe86c44e136196a896d6f314189b7663 refs/tags/1.0
+edae7fc8e86355dd8d850134b0519bf1b5b65532 refs/tags/1.0.1
