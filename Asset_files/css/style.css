@@ -1,0 +1,590 @@
+/************************************************************************************************ 
+
+* style.css 
+* Clientless Sample JS App 
+* Created by Sanjeev Pandey on 5/3/19. 
+
+************************************************************************************************/
+body {
+  background-color: transparent;
+  background-position: right !important;
+}
+html, body {
+  margin: 0;
+  height: 100%;
+}
+.login-form {
+  position: relative;
+  width: 400px;
+  height: 280px;
+  padding: 15px 25px 0 25px;
+  margin: auto;
+  margin-top: 121;
+  cursor: default;
+  background-color: none;
+ /*#141517;
+ */
+}
+.mvpd_picker {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  padding-top: 60px;
+  margin: 5px;
+}
+.mvpd_picker-content {
+  background-color: #fefefe;
+  margin: 5% auto 5% auto;
+  border: 1px solid #888;
+  width: 20%;
+  position: relative;
+}
+#mvpdList {
+  width: 100%;
+  border-radius: 5px;
+  margin: 5px;
+}
+.clheader {
+  -webkit-transition: all .15s ease-in-out;
+  -moz-transition: all .15s ease-in-out;
+  -o-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  background: #333;
+  border: medium none;
+  border-radius: 30px;
+  color: #BB83FC;
+  font-size: 12px;
+  height: 16px;
+  line-height: 16px;
+  padding: 0 30px;
+  text-transform: uppercase;
+  position: absolute;
+}
+.login-stuff {
+  -webkit-transition: all .15s ease-in-out;
+  -moz-transition: all .15s ease-in-out;
+  -o-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  background: #333;
+  border: medium none;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 12px;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 30px;
+  text-transform: uppercase;
+}
+.login-stuff button:hover, .login-stuff button:focus {
+  color: #fff;
+}
+.custom {
+  border-radius: 5px;
+}
+#thumbnail {
+  position: fixed;
+  z-index: 1;
+ /* left: 0;
+  top: 0;
+  */
+  width: 320px;
+  height: 240px;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  padding-top: 40px;
+  padding-left: 70px;
+}
+#thumbnail img {
+  width: 180px;
+  height: 180px;
+}
+.fw_stuff {
+  width: 100px;
+}
+.gps_ring {
+  display: none;
+  border: 3px solid #999;
+  -webkit-border-radius: 30px;
+  border-radius: 30px;
+  height: 18px;
+  width: 18px;
+  -webkit-animation: pulsate 1s ease-out;
+  animation: pulsate 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+ /*opacity: 0.0*/
+  margin: 80 2.5%;
+}
+#img img {
+  width: 55px;
+  height: 50px;
+  float: right;
+  filter: grayscale(1);
+  filter: blur(115);
+  display: none;
+}
+.select, input[type=text], input[type=password] {
+  width: 270px;
+  padding: 12px 15px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+button, input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 0;
+ /*25px;
+ */
+}
+button:hover {
+  opacity: 0.8;
+}
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #ffa64d;
+ /*#f44336;
+ */
+}
+.submitbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #8c8c8c;
+}
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+img .avatar {
+  width: 18%;
+  border-radius: 50%;
+}
+.container2 {
+  text-align: center;
+  align-items: center;
+  padding: 16px;
+}
+#container3 {
+  width: 300px;
+  height: auto;
+ /* text-align: center;
+  */
+ /* align-items: center;
+  */
+ /* padding: 16px;
+  */
+  background-color: inherit;
+  border-radius: 5px;
+}
+span.psw {
+  float: left;
+  padding-top: 0;
+}
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+.close:hover, .close:focus {
+  color: red;
+  cursor: pointer;
+}
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  -moz-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s 
+}
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+.App-header {
+  background-color:#6200EE;
+ /*#222;
+ */
+  padding: 20px;
+  color: white;
+  opacity: 0.8;
+}
+.App-title {
+  font-size: 1.5em;
+}
+.hello {
+  color: red;
+  background: url('./icon.png');
+}
+.rotate {
+ /* Safari */
+  -webkit-transform: rotate(-90deg);
+ /* Firefox */
+  -moz-transform: rotate(-90deg);
+ /* IE */
+  -ms-transform: rotate(-90deg);
+ /* Opera */
+  -o-transform: rotate(-90deg);
+ /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  transform: rotate(-90deg);
+}
+.vertical-test-lr {
+  writing-mode: vertical-lr;
+  z-index: 3;
+  position: fixed;
+  left: 1%;
+  top: 12%;
+}
+/* General Styling 
+/*-----------------------------------------------------------------------------------*/
+body {
+  background: #ffffff;
+  color: #898989;
+  font-family: 'Poppins', helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.02em;
+  overflow-x: hidden;
+  margin: 0 auto;
+  padding: 0;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+h2 {
+  color: #292929;
+  font-weight: 600;
+}
+h4 {
+  color: #292929;
+  font-size: 14px;
+  font-weight: 600;
+}
+a {
+  color: #292929;
+  text-decoration: none;
+  -moz-transition: all 0.5s ease-in-out 0s;
+  -ms-transition: all 0.5s ease-in-out 0s;
+  -o-transition: all 0.5s ease-in-out 0s;
+  -webkit-transition: all 0.5s ease-in-out 0s;
+  transition: all 0.5s ease-in-out 0s;
+}
+a:hover {
+  -moz-transition: all 0.5s ease-in-out 0s;
+  -ms-transition: all 0.5s ease-in-out 0s;
+  -o-transition: all 0.5s ease-in-out 0s;
+  -webkit-transition: all 0.5s ease-in-out 0s;
+  transition: all 0.5s ease-in-out 0s;
+}
+a:hover, a:focus {
+  color: #b8a07e;
+  text-decoration: underline;
+}
+nav ul li a {
+  padding: 2px 0 0 0;
+  position: relative;
+  display: block;
+  font-size: 12px;
+  color: #999999;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  line-height: 14px;
+  text-transform: uppercase;
+  -moz-transition: all 0.5s ease-in-out 0s;
+  -ms-transition: all 0.5s ease-in-out 0s;
+  -o-transition: all 0.5s ease-in-out 0s;
+  -webkit-transition: all 0.5s ease-in-out 0s;
+  transition: all 0.5s ease-in-out 0s;
+}
+p {
+  margin: 25px 0;
+  padding: 0;
+  font-size: 15px;
+  color: #FFFFFF;
+ /*#999999;
+ */
+  line-height: 28px;
+}
+::-moz-selection {
+  background: #b8a07e;
+  color: #fff;
+}
+::selection {
+  background: #b8a07e;
+  color: #fff;
+}
+.btn {
+  background: #333;
+  border: medium none;
+  border-radius: 0;
+ /*30px;
+ */
+  color: #fff;
+  font-size: 12px;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 30px;
+  text-transform: uppercase;
+}
+.btn:hover, .btn:focus {
+  color: #fff;
+}
+.padDiv {
+  padding: 30px 20px;
+}
+.section-title {
+  margin-bottom: 70px;
+}
+.section-title h2 {
+  font-size: 25px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.form-control {
+  background-color: transparent;
+  border: 1px solid #999;
+  border-radius: 0;
+  color: #999999;
+  font-size: 12px;
+  font-weight: 500;
+  height: 38px;
+ /*changed from 50 to 38*/
+  letter-spacing: 0.1em;
+  padding-left: 10px;
+  margin: 0 0 25px 0;
+  line-height: 14px;
+  text-transform: uppercase;
+}
+.form-control:focus {
+  box-shadow: none;
+  outline: 0 none;
+}
+.paddsection {
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+.paddsections {
+  padding-top: 90px;
+  padding-bottom: 90px !important;
+}
+.hvr-shutter-in-horizontal::before {
+  background: #333;
+}
+.hvr-shutter-in-horizontal:hover {
+  background: #b8a07e;
+}
+.mb-30 {
+  margin-bottom: 30px;
+}
+#logoutbtn {
+  cursor: pointer;
+}
+#contact #sendmessage, #unregs, #unauths {
+  color: #18d26e;
+  border: 1px solid #18d26e;
+  display: none;
+  text-align: center;
+  padding: 15px;
+  font-weight: 600;
+  margin: 20px;
+}
+#contact #errormessage, #unrege, #unauthe {
+  color: #FFFFFF;
+  display: none;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 30px;
+  width: 270px;
+  background-color:#B00020;
+  position: relative;
+  filter: opacity(.8);
+}
+#contact #sendmessage.show, #contact #errormessage.show, #contact .show {
+  display: block;
+}
+#contact .validation {
+  color: red;
+  display: none;
+  margin: 0 0 20px;
+  font-weight: 400;
+  font-size: 13px;
+}
+.tb, fieldset {
+  width:100%;
+  height:300%;
+  margin: 5px 0 0 0;
+  background-color: lightgray;
+  border-radius: 5px;
+}
+fieldset {
+  /**/
+  
+}
+/*3D/shadow*/
+.login-stuff, #mpicker, #apgticker, #unauthe, .clheader {
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+  z-index: 3;
+}
+/*-----------------------------------------------------------------------------------*/
+/* Footer 
+/*-----------------------------------------------------------------------------------*/
+#footer {
+  background: #fffae6;
+ /*#f7f7f7;
+ */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  bottom:0;
+  left:0;
+  z-index: 3;
+  border-bottom-left-radius: 30px;
+  width: 91%;
+}
+#footer .socials-media {
+  width: 100%;
+}
+#footer .socials-media ul {
+  display: inline-block;
+  float: none;
+  margin: 0 0 20px 0;
+}
+#footer .socials-media ul li {
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#footer .socials-media ul li a {
+  font-size: 24px;
+  color: #999;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  background: transparent;
+  text-transform: uppercase;
+  -moz-transition: all 0.5s ease-in-out 0s;
+  -ms-transition: all 0.5s ease-in-out 0s;
+  -o-transition: all 0.5s ease-in-out 0s;
+  -webkit-transition: all 0.5s ease-in-out 0s;
+  transition: all 0.5s ease-in-out 0s;
+}
+#footer .socials-media ul li a:hover {
+  color: #b8a07e;
+  -moz-transition: all 0.5s ease-in-out 0s;
+  -ms-transition: all 0.5s ease-in-out 0s;
+  -o-transition: all 0.5s ease-in-out 0s;
+  -webkit-transition: all 0.5s ease-in-out 0s;
+  transition: all 0.5s ease-in-out 0s;
+}
+#footer p {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  margin-top: 0;
+  text-transform: uppercase;
+}
+.credits {
+  font-size: 13px;
+}
+@keyframes App-logo-spin {
+  from {
+      transform: rotate(0deg);
+ }
+  to {
+      transform: rotate(360deg);
+ }
+}
+@media (max-width: 360px){
+  .smnone {
+      display: none;
+ }
+  .offset {
+      margin-left: 10%;
+      padding: 0;
+ }
+}
+@-webkit-keyframes pulsate {
+  0% {
+     -webkit-transform: scale(0.1, 0.1);
+     transform: scale(0.1, 0.1);
+      opacity: 0.0;
+ }
+  50% {
+     opacity: 1.0;
+ }
+  100% {
+     -webkit-transform: scale(1.2, 1.2);
+     transform: scale(1.2, 1.2);
+      opacity: 0.0;
+ }
+}
+@keyframes pulsate {
+  0% {
+     -webkit-transform: scale(0.1, 0.1);
+      transform: scale(0.1, 0.1);
+      opacity: 0.0;
+ }
+  50% {
+     opacity: 1.0;
+ }
+  100% {
+     -webkit-transform: scale(1.2, 1.2);
+     transform: scale(1.2, 1.2);
+     opacity: 0.0;
+ }
+}
+@-webkit-keyframes animatezoom {
+  from {
+     -webkit-transform: scale(0);
+     transform: scale(0)
+ }
+  to {
+     -webkit-transform: scale(1);
+     transform: scale(1)
+ }
+}
+@keyframes animatezoom {
+  from {
+     transform: scale(0)
+ }
+  to {
+     transform: scale(1)
+ }
+}
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+      display: block;
+      float: none;
+ }
+  .cancelbtn {
+      width: 100%;
+ }
+  .submitbtn {
+      width: 100%;
+ }
+}
