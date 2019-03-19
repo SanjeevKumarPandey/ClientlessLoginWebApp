@@ -16,6 +16,7 @@ import binascii
 import urllib.request
 import urllib
 import urllib.parse as uparse
+import appInfo
 from urllib.request import Request, urlopen, URLError
 from pyquery import PyQuery
 
@@ -29,6 +30,12 @@ ua = form.getvalue('UA')
 sp_fqdn = form.getvalue('SP_FQDN')
 uuid_filename = 'uuid.txt'
 mrss_res = form.getvalue('RESID')
+deviceType = appInfo.deviceType
+#devicePlatform = 'iOS'
+deviceUser = appInfo.deviceUser
+appVersion = appInfo.appVersion
+appId = appInfo.appId
+ttl = '36000'
 
 def new_hmac(secret_key, headinfo):
     if sys.version_info[0] == 2:

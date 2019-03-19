@@ -20,6 +20,7 @@ import urllib.parse as uparse
 from urllib.request import Request, urlopen, URLError
 from pyquery import PyQuery
 from webbrowser import open_new_tab
+import appInfo
 
 form = cgi.FieldStorage() 
 pub  = form.getvalue('PUBLIC_KEY')
@@ -29,6 +30,12 @@ deviceId = form.getvalue('DEVID')
 ua = form.getvalue('UA')
 reggie_fqdn = form.getvalue('REG_FQDN')
 uuid_filename = 'uuid.txt'
+deviceType = appInfo.deviceType
+#devicePlatform = 'iOS'
+deviceUser = appInfo.deviceUser
+appVersion = appInfo.appVersion
+appId = appInfo.appId
+ttl = '36000'
 
 def new_hmac(secret_key, headinfo):
     if sys.version_info[0] == 2:
@@ -74,7 +81,8 @@ def getUUID():
 theheader = buildAuthHeader(requestor_id)
 
 #reggie_fqdn = "http://api.auth.adobe.com/reggie/v1/"
-add_args = {'deviceId':deviceId, 'uuid':getUUID()}
+#add_args = {'deviceId':deviceId, 'uuid':getUUID()}
+add_args = {'deviceId':deviceId, 'appId': appId, 'appVersion': appVersion, 'deviceUser': deviceUser, 'deviceType': deviceType}
 data = uparse.urlencode(add_args)
 url_hdr = ua
 # get regcode 

@@ -16,6 +16,7 @@ import binascii
 import urllib.request
 import urllib
 import urllib.parse as uparse
+import appInfo
 from urllib.request import Request, urlopen, URLError
 from pyquery import PyQuery
 
@@ -33,11 +34,11 @@ mso_id = form.getvalue('TEMPPASS_MVPD')
 add_params_mrss = {'deviceId':deviceId, 'requestor':requestor_id, 'resource':mrss_res}
 data_authz_mrss = urllib.parse.urlencode(add_params_mrss)
 uuid_filename = 'uuid.txt'
-deviceType = 'ctv'
+deviceType = appInfo.deviceType
 #devicePlatform = 'iOS'
-deviceUser = '1234_someuser'
-appId = '1234'
-appVersion = '1'
+deviceUser = appInfo.deviceUser
+appVersion = appInfo.appVersion
+appId = appInfo.appId
 ttl = '36000'
 
 

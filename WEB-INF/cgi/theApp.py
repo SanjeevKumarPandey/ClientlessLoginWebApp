@@ -16,6 +16,7 @@ import binascii
 import urllib.request
 import urllib
 import urllib.parse as uparse
+import appInfo
 from urllib.request import Request, urlopen, URLError
 from pyquery import PyQuery
 from webbrowser import open_new_tab
@@ -31,6 +32,12 @@ reggie_fqdn = form.getvalue('REG_FGQN')
 uuid_filename = 'uuid.txt'
 login_page = 'mvpdLoginPage.html'
 mrss_res = form.getvalue('RESID')
+deviceType = appInfo.deviceType
+#devicePlatform = 'iOS'
+deviceUser = appInfo.deviceUser
+appVersion = appInfo.appVersion
+appId = appInfo.appId
+ttl = '36000'
 
 def new_hmac(secret_key, headinfo):
     if sys.version_info[0] == 2:
@@ -78,23 +85,17 @@ def outLOGINPage(_html):
 theheader = buildAuthHeader(requestor_id)
 
 #reggie_fqdn = "http://api.auth.adobe.com/reggie/v1/"
-url_header = ua
-url_hdr_alt = 'Mozilla 5.10'
-add_args = {'deviceId':deviceId, 'uuid':getUUID()}
-data = uparse.urlencode(add_args)
 #sp_fqdn = "http://api.auth.adobe.com/api/v1/"
-#auth_token = 'authToken.txt'
-add_params = {'deviceId':deviceId, 'requestor':requestor_id, 'resource': 'fox'}
-add_params_mrss = {'deviceId':deviceId, 'requestor':requestor_id, 'resource':mrss_res}
-data_authz = uparse.urlencode(add_params)
-data_authz_mrss = uparse.urlencode(add_params_mrss)
+url_header = ua
+add_args = {'deviceId':deviceId, 'appId': appId, 'deviceUser': deviceUser, 'deviceType': deviceType, 'requestor':requestor_id, 'resource':mrss_res}
+data = uparse.urlencode(add_args)
         
 
 # get authn token (do 2nd Screen authentication before this)
 
 def checkauthn():
         #If token found proceed for next calls else ask to authenticate first
-        url3 = str(sp_fqdn) + str("checkauthn.json?requestor=") + str(requestor_id)+ str('&deviceId=') + str(deviceId) # str('&')+str(data)
+        url3 = str(sp_fqdn) + str("checkauthn.json?") + str(data)
         print (url3)
         request3 = urllib.request.Request(url3)
         request3.add_header('User-agent', url_header)
@@ -108,11 +109,11 @@ def checkauthn():
 
         except URLError as g:
                 print (g.reason)
-                print ('-->>> Run the auth flow first')
+                print ('--- PLEASE RUN THE AUTH FLOW FIRST ---\n')
         
         response3.close()
         if response3.code == 200:
-                print ('-->>> REST OF the flow is running now\n')
+                print ('--- RUNNING POST-AUTHN (SUCCESSFUL) FLOW NOW ---\n')
                 authorize()
         elif response3.code == 403:
                 print ('403? Got it!')
@@ -121,7 +122,7 @@ def checkauthn():
 
 def authorize():
         # retreive authn token
-        url4 = str(sp_fqdn) + str("tokens/authn.json?requestor=")+ str(requestor_id) + str('&deviceId=') + str(deviceId)
+        url4 = str(sp_fqdn) + str("tokens/authn.json?") + str(data)
         print (url4+'\n')
         request4 = urllib.request.Request(url4)
         request4.add_header('User-agent', url_header)
@@ -131,14 +132,14 @@ def authorize():
                 response4 = urllib.request.urlopen(request4)
                 html4 = response4.read()
                 #auth_token = html4
-                print ('[Authentication Token]:\n')
+                print ('--- [Authentication Token] ---\n')
                 print (html4)
        
         except URLError as g:
                 print (g.reason)
 
         # authorize
-        url_authz= str(sp_fqdn) + str('authorize.json?') + str(data_authz_mrss)
+        url_authz= str(sp_fqdn) + str('authorize.json?') + str(data)
         print ('\n'+url_authz)
         req_authz = urllib.request.Request(url_authz)
         req_authz.add_header('User-agent', url_header)
@@ -154,7 +155,7 @@ def authorize():
         
         #get authz token
 
-        url_rtr_authz = str(sp_fqdn) + str('tokens/authz.json?') + str(data_authz_mrss)
+        url_rtr_authz = str(sp_fqdn) + str('tokens/authz.json?') + str(data)
         print (url_rtr_authz+'\n')
         req_authz2 = urllib.request.Request(url_rtr_authz)
         req_authz2.add_header('User-agent', url_header)
@@ -163,19 +164,19 @@ def authorize():
         try:
                 response_authz2 = urllib.request.urlopen(req_authz2)
                 html5 = response_authz2.read()
-                print ('[Authorization Token]:\n')
+                print ('--- [AUTHORIZATION TOKEN] ---\n')
                 print (html5)
 
         except URLError as e:
                 print (e.reason)
 
         if response_authz2.code == 200:
-                print ('\n-->>> Getting Media Token\n')
+                print ('\n--- OBTAINING MEDIA TOKEN ---\n')
                 getMediaToken()
 
 def getMediaToken():
         #retrieve media token
-        url_media = str(sp_fqdn) + str('tokens/media.json?') + str(data_authz_mrss)
+        url_media = str(sp_fqdn) + str('tokens/media.json?') + str(data)
         print (url_media+'\n')
         req_media = urllib.request.Request(url_media)
         req_media.add_header('User-agent', url_header)
@@ -190,9 +191,7 @@ def getMediaToken():
 
 def getUserMetadata():
         #get user metadata
-        meta_params = {'deviceId':deviceId, 'requestor':requestor_id}
-        meta_data = uparse.urlencode(meta_params)
-        url_meta = str(sp_fqdn) + str('tokens/usermetadata.json?') + str(meta_data)
+        url_meta = str(sp_fqdn) + str('tokens/usermetadata.json?') + str(data)
         req_meta = urllib.request.Request(url_meta)
         req_meta.add_header('User-agent', url_header)
         req_meta.add_header('Authorization',theheader)
@@ -202,7 +201,7 @@ def getUserMetadata():
         try:
                 meta_response = urllib.request.urlopen(req_meta)
                 html7 = meta_response.read()
-                print ('\n-->>> Getting User Metadata now')
+                print ('\n--- RETRIEVEING USER METADATA ----')
                 print ('\n'+url_meta+'\n')
                 print (html7)
         except URLError as i:
