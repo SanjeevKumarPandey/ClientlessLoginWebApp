@@ -93,7 +93,7 @@ See also the list of [contributors](https://github.com/SanjeevKumarPandey/Client
 
 ## License
 
-This project is licensed as **OpenSource** License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed as **As Is** without any Warranty - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
