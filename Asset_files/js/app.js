@@ -133,7 +133,7 @@ function authenticate() {
     if (rdr_url != "") {
         redirect_url = rdr_url;
     } else {
-        redirect_url = "http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html";
+        redirect_url = "http%3A%2F%2Fadobe.com%3A8080%2FClientlessSampleApp%2FRedirectComplete.html";
     }
     
     var url = `${sp_fqdn}authenticate?reg_code=${REGCODE}&requestor_id=${REQUESTOR}&domain_name=adobe.com&noflash=true&no_iframe=true&mso_id=${mso}&redirect_url=${redirect_url}`;
