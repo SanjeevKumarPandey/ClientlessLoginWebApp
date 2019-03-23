@@ -4,7 +4,7 @@
 
 _Note:_ Previous 6 versions are publically available [here](https://github.com/SanjeevKumarPandey/ClientlessLoginWebApp/releases). With v3.2 'sensitive' APIGEE Keys are embeded within the app hence this release is not available outside the access of a restricted group.
 
-![UI](/Asset_files/img/app_UI_3.3.x.png)
+![UI](/Asset_files/img/app_UI_3.4.png)
 
 ## Getting Started
 
@@ -48,7 +48,11 @@ Deploy the package and use the channel and Pay-TV provider information to run a 
 First test is AuthN
 
 ```
-Use the first tab 'AUTHN' for it
+Use the first tab 'REG' for it
+
+Generate a REGCODE
+
+Move to Web App (Step 3) to complete the login flow
 ```
 
 ### More tests
