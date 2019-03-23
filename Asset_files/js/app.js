@@ -13,7 +13,7 @@ reggie_fqdn = "http://api.auth.adobe.com/reggie/v1/",
 sp_fqdn = "http://api.auth.adobe.com/api/v1/",
 sp_url = "https://sp.auth.adobe.com/",
 url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
-var redirect_url = 'http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html';
+var redirect_url = "";
 var mvpdList = [];
 var REQUESTOR = "", REGCODE = null, mso = 'Cablevision', picker, mvpds;
 var counter = false;
@@ -83,7 +83,7 @@ function getMVPD(requestor_id, sp_url) {
                         function createPicker() {
                             picker.append(providersMenu);
                             picker.append($('<br/>'));
-                            picker.append($('<input type="button" class="login-stuff" onclick="authenticate()" value="login" style="width:auto; background-color:#3700B3;" />'));
+                            picker.append($('<input data-toggle="tooltip" data-placement="bottom" title="GET /api/v1/authenticate?reg_code={regcode}&requestor_id={requestor}&domain_name={requestor.com}&noflash=true&mso_id={provider}&redirect_url={redirectUrl}" type="button" class="login-stuff" onclick="authenticate()" value="authenticate" style="width:auto; background-color:#3700B3;" />'));
                             picker.append($('<input type="button" class="login-stuff" onclick="cancelPicker()" value="cancel" style="width:auto; background-color:tomato;" />'));
                             counter = false;
                         };
@@ -129,6 +129,13 @@ function authenticate() {
     mso = document.getElementById('mvpdList').value;
     REQUESTOR = document.getElementById('requestor').value;
     REGCODE = document.getElementById('regcode').value;
+    var rdr_url = document.getElementById('redirectUrl').value;
+    if (rdr_url != "") {
+        redirect_url = rdr_url;
+    } else {
+        redirect_url = "http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html";
+    }
+    
     var url = `${sp_fqdn}authenticate?reg_code=${REGCODE}&requestor_id=${REQUESTOR}&domain_name=adobe.com&noflash=true&no_iframe=true&mso_id=${mso}&redirect_url=${redirect_url}`;
     /*login(url, _callback);*/
     login(url);
@@ -171,14 +178,14 @@ function boxDisable(t) {
         sp_fqdn = "http://api.auth.adobe.com/api/v1/";
         sp_url = "https://sp.auth.adobe.com/";
         document.getElementById('env').innerHTML = 'PROD';
-        document.getElementById('unauths').innerText = "true";
+        document.getElementById('stageProdEnvSet').innerText = "true";
         console.log('PROD: '+reggie_fqdn+sp_fqdn+sp_url);
     } else {
         reggie_fqdn = 'http://api.auth-staging.adobe.com/reggie/v1/';
         sp_fqdn = "http://api.auth-staging.adobe.com/api/v1/";
         sp_url = "https://sp.auth-staging.adobe.com/";
         document.getElementById('env').innerHTML = 'STAGE';
-        document.getElementById('unauths').innerText = "false";
+        document.getElementById('stageProdEnvSet').innerText = "false";
         console.log('STAGE: '+reggie_fqdn+sp_fqdn+sp_url);
     }
 }

@@ -19,34 +19,34 @@ navigator.connection.effectiveType);
 
 
 //geo
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(success);
-}
+// if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(success);
+// }
 
-function success(position) {
-    console.log('AccessTime: '+tms);
-    console.log('Latitude: ' + position.coords.latitude);
-    console.log('Longitude: ' + position.coords.longitude);
-}
+// function success(position) {
+//     console.log('AccessTime: '+tms);
+//     console.log('Latitude: ' + position.coords.latitude);
+//     console.log('Longitude: ' + position.coords.longitude);
+// }
 
 //battery
-var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
+// var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
 
-function logBattery(battery) {
-    console.log("Battery: "+battery.level*100 +"%");
-    console.log("Charging: "+battery.charging);
-    console.log(battery.dischargingTime);
+// function logBattery(battery) {
+//     console.log("Battery: "+battery.level*100 +"%");
+//     console.log("Charging: "+battery.charging);
+//     console.log(battery.dischargingTime);
 
-    battery.addEventListener('chargingchange', function() {
-        console.log('Battery chargingchange event: ' + battery.charging);
-    }, false);
-}
+//     battery.addEventListener('chargingchange', function() {
+//         console.log('Battery chargingchange event: ' + battery.charging);
+//     }, false);
+// }
 
-if (navigator.getBattery) {
-    navigator.getBattery().then(logBattery);
-} else if (battery) {
-    logBattery(battery);
-}
+// if (navigator.getBattery) {
+//     navigator.getBattery().then(logBattery);
+// } else if (battery) {
+//     logBattery(battery);
+// }
 
 //IP
 var RTCPeerConnection = /*window.RTCPeerConnection ||*/ window.webkitRTCPeerConnection || window.mozRTCPeerConnection;

@@ -14,6 +14,7 @@ var dt = new Date();
 tms = dt.toLocaleString();
 var feedbackConsole = $("#textbox");
 var feedbackText = "";
+document.getElementById('redirectUrl').value = "http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html";
 
 $("#reg_btn").click(function(){
 $.ajax({
@@ -112,7 +113,11 @@ function paramSet() {
         PRIVKEY = 'XXXXXXXXXXXXXXX';
     }
     REQUESTOR = document.getElementById('REQID').value;
-    document.getElementById('reg_btn').style.display = 'inline-block';
+    if(REQUESTOR){
+        document.getElementById('reg_btn').style.display = 'inline-block';
+    } else {
+        alert("Missing Required Fields!");
+    }
 }
 
 function authorize() {
@@ -170,7 +175,7 @@ function tempPass() {
     } else {
         RESOURCE = '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title>BET</title><item><title></title><guid></guid><media:rating scheme="urn:v-chip">tv-14</media:rating></item></channel></rss>';
     }
-    REQUESTOR = document.getElementById('REQID').value; //REQID - from REGCODE Pane
+    REQUESTOR = document.getElementById('REQIDTP').value;
     var di3 = document.getElementById('Device-Id').value;
     if (di3 != "") {
         deviceId = di3;
@@ -211,13 +216,8 @@ function logout() {
     } else {
         PRIVKEY = 'XXXXXXXXXXXX';
     }
-    var r_lo = document.getElementById('RESID').value;
-    if (r_lo != "") {
-        RESOURCE =r_lo;
-    } else {
-        RESOURCE = '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title>BET</title><item><title></title><guid></guid><media:rating scheme="urn:v-chip">tv-14</media:rating></item></channel></rss>';
-    }
-    REQUESTOR = document.getElementById('REQID').value; //REQID - from REGCODE Pane
+    RESOURCE = document.getElementById('RESIDLO').value;
+    REQUESTOR = document.getElementById('REQIDLO').value;
     var di_lo = document.getElementById('Device-Id').value;
     if (di_lo != "") {
         deviceId = di_lo;
@@ -233,7 +233,7 @@ function logout() {
 }
 
 function envSet(){
-    var env_status2 = document.getElementById('unauths').innerText;
+    var env_status2 = document.getElementById('stageProdEnvSet').innerText;
     console.log('[backend.js]:'+env_status2);
     if (env_status2 === "true") {
         reggie_fqdn = 'http://api.auth.adobe.com/reggie/v1/';

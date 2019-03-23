@@ -104,29 +104,3 @@ tag = pq('code') # or     tag = pq('div.class')
 device_info = pq('info').text()
 print ('Regcode: '+tag.text())
 print ('device_info: '+device_info.split('\n\t *')[0])
-
-'''
-Regcode Script Usage Counter
-'''
-
-counter_filename = 'counter.txt'
-def writeCOUNT(strCOUNT):
-    #f = open(uuid_filename, 'w')
-    with open(counter_filename, 'w') as f:
-        f.write(strCOUNT)
-        f.close()
-
-def getCOUNT():
-                #f = open(uuid_filename, 'r')
-    with open(counter_filename, 'r') as f:
-        strCOUNT = f.readline()
-        f.close()
-        return strCOUNT
-
-count = getCOUNT()
-#print (count)
-i = int(count)
-j = i+1
-k = str(j)
-print ('Counter:'+k)
-writeCOUNT(k)

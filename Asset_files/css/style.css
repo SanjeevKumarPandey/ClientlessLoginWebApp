@@ -67,6 +67,63 @@ html, body {
   text-transform: uppercase;
   position: absolute;
 }
+
+/*--- NOT Used---*/
+
+.tooltips {
+  visibility: hidden;
+  width: auto;
+  line-height: 10px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1s;
+  bottom: 0;
+  /* left: 50%; */
+  margin-left: -60px;
+}
+
+.methods .tooltips::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+.methods:hover .tooltips {
+  visibility: visible;
+  opacity: 1;
+}
+
+.get {
+  font-weight: 600;
+  color: green;
+  content: "GET"
+}
+
+.post {
+  font-weight: 600;
+  color: blue;
+  content: "POST"
+}
+
+.delete {
+  font-weight: 600;
+  color: red;
+  content: "RED"
+}
+
+/*---NOT Used over---*/
+
 .login-stuff {
   -webkit-transition: all .15s ease-in-out;
   -moz-transition: all .15s ease-in-out;
@@ -79,6 +136,7 @@ html, body {
   font-size: 12px;
   height: 50px;
   line-height: 50px;
+  margin-top: 7px;
   padding: 0 30px;
   text-transform: uppercase;
 }
@@ -88,6 +146,15 @@ html, body {
 .custom {
   border-radius: 5px;
 }
+
+.device-style {
+  height: 7px;
+  border-radius: 5px !important;
+  background-color: white;
+  align-items: flex-end;
+  color: #000;
+}
+
 #thumbnail {
   position: fixed;
   z-index: 1;
@@ -223,7 +290,7 @@ span.psw {
   background-color:#6200EE;
  /*#222;
  */
-  padding: 20px;
+  padding: 15px;
   color: white;
   opacity: 0.8;
 }
@@ -404,7 +471,7 @@ p {
 #logoutbtn {
   cursor: pointer;
 }
-#contact #sendmessage, #unregs, #unauths {
+#contact #sendmessage, #unregs {
   color: #18d26e;
   border: 1px solid #18d26e;
   display: none;
@@ -413,7 +480,7 @@ p {
   font-weight: 600;
   margin: 20px;
 }
-#contact #errormessage, #unrege, #unauthe {
+#contact #errormessage, #unreges {
   color: #FFFFFF;
   display: none;
   text-align: center;
@@ -442,10 +509,19 @@ p {
   background-color: lightgray;
   border-radius: 5px;
 }
-fieldset {
-  /**/
-  
+
+#unauthe {
+  position: absolute;
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 100;
 }
+
+#apgticker {
+  margin-bottom: 15px;
+  padding: 15px;
+}
+
 /*3D/shadow*/
 .login-stuff, #mpicker, #apgticker, #unauthe, .clheader {
   box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
@@ -519,7 +595,7 @@ fieldset {
  }
 }
 @media (max-width: 360px){
-  .smnone {
+  .sm_none {
       display: none;
  }
   .offset {

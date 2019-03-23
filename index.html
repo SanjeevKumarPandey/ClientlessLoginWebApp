@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="LoginWebApp">
     <meta name="author" content="Sanjeev Pandey">
-    <meta name="version=" content="3.3.0">
+    <meta name="version=" content="3.4.0">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -33,34 +33,38 @@
                     <div class="row">
                         <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" id="t3" style="background-color:transparent;">
                             <div class="row">
-                                <div class="smnone col-xs-4 col-sm-4 col-md-4 col-lg-3" id="t4" style="background-color:transparent;">
+                                <div class="sm_none col-xs-3 col-sm-3 col-md-3 col-lg-3" id="t4" style="background-color:transparent;">
                                     <img src='./Asset_files/img/ptlogo.png' class="App-logo" alt="logo" />
                                 </div>
-                                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" id="t5" style="background-color:transparent;">
-                                    <h1 class="App-title" style="display:inline;">TVE Clientless WebApp <small style="color:#fffae6;">v3.3.0</small></h1>
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="t5" style="background-color:transparent;">
+                                    <h1 class="App-title" style="display:inline;">TVE Clientless WebApp <small style="color:#fffae6;">v3.4.0</small></h1>
                                 </div>
-                                <div class="smnone col-xs-3 col-sm-3 col-md-3 col-lg-3" id="t6" style="background-color:transparent;">
+                                <div class="sm_none col-xs-3 col-sm-3 col-md-3 col-lg-3" id="t6" style="background-color:transparent;">
                                     <label class="switch">
                                         <input id="envm" type="checkbox" onclick="boxDisable($(this))" checked>
                                         <span class="slider round"></span>
                                         <p id='env' style="display:inline-block; margin-left: 110%;">PROD</p>
-                                    </label>
+                                    </label><br>
+                                    <label class="switch">
+                                            <input type="checkbox" onclick="toggleTheme($(this))" checked>
+                                            <span class="slider2 round"></span>
+                                            <p id='theme' style="display:inline-block; margin-left: 110%;">DEFAULT</p>
+                                        </label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7" id="t7" style="background-color:transparent;">
                             <div class="row">
-                                <div class="smnone col-xs-10 col-sm-10 col-md-10 col-lg-10" id="t8" style="background-color:transparent;">
+                                <div class="sm_none col-xs-12 col-sm-12 col-md-12 col-lg-12" id="t8" style="background-color:transparent;">
                                     <code>HOW TO USE:<small style="color:#3700B3;" id="dir"> Generate {REGCODE}, and enter {REQUESTOR ID}, Hit <\Authenticate>. 
 If record is available > MVPD Picker is created. Picking the provider sets {mso} id; 
 Click Login to authenticate.</small></code>
                                 </div>
-                                <div class="smnone col-xs-2 col-sm-2 col-md-2 col-lg-2" id="t9" style="background-color:transparent;">
-                                    <label class="switch">
-                                        <input type="checkbox" onclick="toggleTheme($(this))" checked>
-                                        <span class="slider2 round"></span>
-                                        <p id='theme' style="display:inline-block; margin-left: 110%;">DEFAULT</p>
-                                    </label>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="t17" style="background-color:transparent;">
+                                        <span class="label label-default">STEP 1</span>
+                                        <span class="label label-primary">SMART DEVICE</span>
+                                        <input class="device-style" style="width:20%;" type="text" name="Device-Id" placeholder="Device ID (Required)" id="Device-Id">
+                                        <input class="device-style" style="width:20%;" type="text" name="User-Agent" placeholder="User-Agent (Optional)" id="User-Agent">
                                 </div>
                             </div>
                         </div>
@@ -73,88 +77,95 @@ Click Login to authenticate.</small></code>
                 <h1 class="vertical-test-lr" id="flowname1" style="display:none;">2nd Screen Flow</h1>
                 <div class="row">
             <div class="col-sm-6 col-md-6 col-lg-6" id="t10" style="background-color:transparent;">
-                <div id="mpicker" style="width: 90%; border: 0px solid green; border-radius: 5px; padding: 15px;margin: 25px 0px 0px 10%">
+                <div id="mpicker" style="width: 90%; border: 0px solid green; border-radius: 5px; padding: 15px; margin: 25px 0px 0px 10%">
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12">
-                            <h5>MVPD Picker</h5>
+                            <div class="row">
+                                    <div class="col-sm-6 col-md-8 col-lg-8">
+                                        <span class="label label-default">STEP 4</span>
+                                        <span class="label label-primary">WEB APP</span>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4 col-lg-4">
+                                        <h5>MVPD Picker</h5>
+                                    </div>
+                            </div>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div id="mvpdPicker"></div>
                         </div>
                     </div>
+                    <span class="label label-info">Redirect URL</span>
+                    <input class="device-style" style="width:100%;" type="text" name="redirectUrl" placeholder="RedirectUrl" id="redirectUrl">
                 </div>
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6" id="t11" style="background-color:transparent;">
                 <div class="login-form" id="t13">
+                        <span class="label label-default">STEP 3</span>
+                        <span class="label label-primary">WEB APP</span><br>
                     <input type="text" style="border-radius: 5px; border-left: 6px solid #3700B3;
                 background-color: lightgray;" name="regcode" placeholder="REGCODE" id="regcode">
                     <input type="text" style="border-radius: 5px; border-left: 6px solid #3700B3;
                 background-color: lightgray;" name="requestor" placeholder="REQUESTOR ID" id="requestor">
-                    <button type="button" class="login-stuff" onclick="regRecord(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto; background-color:#3700B3;">Authenticate</button>
-                    <button type="button" class="login-stuff" id='test' onclick="checkauthn(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto; background-color:#3700B3;">Check Auth</button>
-                    <br><br>
-                    <button type="button" class="login-stuff" id="create" style="width:auto; color:#000000; background-color:#BB83FC;">Logs <i class="fa fa-download"></i></button>
-                    <button type="button" class="login-stuff" id="logout_btn" style="width:auto;" onclick="logout()">Logout</button>
-                    <p id="unauths">true</p>
-                    <h5 id="unauthe" class="animate"></h5>
-                    <!-- <div id="mvpdPicker"></div> -->
+                    <button data-toggle="tooltip" data-placement="left" title="GET /adobe-services/config/{requestor}" type="button" class="login-stuff" onclick="regRecord(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto; background-color:#3700B3;">Get Config</button>
+                    <button data-toggle="tooltip" data-placement="right" title="GET /checkauthn/{regcode}" type="button" class="login-stuff methods" id='test' onclick="checkauthn(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto; background-color:#3700B3;">Checkauthn</button>
+                    <button data-toggle="tooltip" data-placement="left" title="Download Logs" type="button" class="login-stuff" id="create" style="width:auto; color:#000000; background-color:#BB83FC;">Logs <i class="fa fa-download"></i></button>
+                    <span id="unauthe" class="label label-danger animate"></span>
+                    <p id="stageProdEnvSet">true</p>
                 </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12"><em class="clheader">Console Logs</em>
                 <textarea cols="50" rows="4" name="comment" class='tb' id='textbox'></textarea>
-                <!-- <fieldset>
-                    <legend>{}</legend>
-                </fieldset> -->
             </div>
         </div>
             </div>
             <div class="col-sm-4 col-md-4 col-lg-4" id="t12" style="background-color:transparent;">
                 <div class="login-form" id="reg">
+                        <div id="apgticker" style="width: 90%; border: 0px solid #3700B3; border-radius: 5px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-md-4 col-lg-4" id="t15" style="background-color:transparent;">
+                                        <label class="switch" style="margin-top:5px;">
+                                            <input type="checkbox" onclick="toggleKeyShow($(this))" unchecked>
+                                            <span class="slider3 round"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8 col-md-8 col-lg-8" id="t16" style="background-color:transparent;">
+                                        <h5>Use Different APIGEE Keys</h5>
+                                    </div>
+                                </div>
+                                <input type="text" style="border-radius: 5px; border-right: 6px solid #3700B3;
+                                background-color: lightgray; display: none;" name="PUBLIC_KEY" placeholder="PUBLIC KEY" id="PUBLIC_KEY">
+                                <input type="text" style="border-radius: 5px; border-right: 6px solid #3700B3;
+                                background-color: lightgray; display: none;" name="PRIV_KEY" placeholder="PRIVATE KEY" id="PRIV_KEY">
+                            </div>
 
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#AUTHN">REGCODE</a></li>
+                        <li class="active"><a data-toggle="tab" href="#AUTHN">REG</a></li>
                         <li><a data-toggle="tab" href="#AUTHZ">AUTHZ</a></li>
-                        <li><a data-toggle="tab" href="#tempPass">TEMP PASS</a></li>
+                        <li><a data-toggle="tab" href="#tempPass">TEMP P</a></li>
+                        <li><a data-toggle="tab" href="#LOGOUT">LOGOUT</a></li>
                     </ul>
 
                     <div class="tab-content" id="t14">
                         <div id="AUTHN" class="tab-pane fade in active">
+                                <span class="label label-default">STEP 2</span>
+                                <span class="label label-primary">SMART DEVICE</span>
+                                <div style="width: 77%; background-color:#fffae6; border-radius: 5px; padding: 5px;">
+                                        <h5>Set device-Id and User-Agent on App header in step 1</h5>
+                                        </div>
                             <div class="animate">
                                 <div id="container3">
-                                    <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid #3700B3;
-                                    background-color: lightgrey;" name="Device-Id" placeholder="Device ID (Required)" id="Device-Id">
-                                    <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid #3700B3;
-                                    background-color: lightgrey;" name="User-Agent" placeholder="User-Agent (Optional)" id="User-Agent">
+                                    <!-- <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid #3700B3;
+                                    background-color: lightgrey;" name="Device-Id" placeholder="Device ID (Required)" id="Device-Id"> -->
+                                    <!-- <input type="text" class="custom" style="border-radius: 5px; border-left: 6px solid #3700B3;
+                                    background-color: lightgrey;" name="User-Agent" placeholder="User-Agent (Optional)" id="User-Agent"> -->
                                     <input type="text" style="border-radius: 5px; border-left: 6px solid #3700B3;
-                                    background-color: lightgray;" name="REQID" placeholder="REQUESTOR ID (Required)" id="REQID"><br>
-                                    <div id="apgticker" style="width: 90%; border: 0px solid #3700B3; border-radius: 5px; padding: 5px;">
-                                        <div class="row">
-                                            <div class="col-sm-4 col-md-4 col-lg-4" id="t15" style="background-color:transparent;">
-                                                <br><label class="switch">
-                                                    <input type="checkbox" onclick="toggleKeyShow($(this))" unchecked>
-                                                    <span class="slider3 round"></span>
-                                                </label>
-                                            </div>
-                                            <div class="col-sm-8 col-md-8 col-lg-8" id="t16" style="background-color:transparent;">
-                                                <h5>Use Different APIGEE Keys</h5>
-                                            </div>
-                                        </div>
-                                        <input type="text" style="border-radius: 5px; border-right: 6px solid #3700B3;
-                                        background-color: lightgray; display: none;" name="PUBLIC_KEY" placeholder="PUBLIC KEY" id="PUBLIC_KEY">
-                                        <input type="text" style="border-radius: 5px; border-right: 6px solid #3700B3;
-                                        background-color: lightgray; display: none;" name="PRIV_KEY" placeholder="PRIVATE KEY" id="PRIV_KEY">
-                                    </div>
-                                    <br>
-                                    <button type="button" class="login-stuff" onclick="paramSet()" style="width:auto; background-color:#3700B3;">Set</button>
-                                    <button id="reg_btn" class="login-stuff" style="width:auto; display:none; background-color:#3700B3;">Generate Regcode</button>
-                                    <br>
+                                    background-color: lightgray;" name="REQID" placeholder="REQUESTOR ID (Required)" id="REQID">
+                                    <!-- <button data-toggle="tooltip" data-placement="top" title="POST /{requestor}/regcode" id="reg_btn" class="login-stuff" style="width:auto; display:none; background-color:#3700B3;">Generate Regcode</button> -->
+                                    <button data-toggle="tooltip" data-placement="top" title="POST /{requestor}/regcode" id="reg_btn" class="login-stuff" onclick="paramSet()" style="width:auto; background-color:#3700B3;">Generate Regcode</button>
                                     <h5 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Your REGCODE is here! &#8595;</h5>
-                                    <canvas id="canvas" width="270%" height="80%" style="border:1px solid #d3d3d3;">
+                                    <canvas id="canvas" width="270px" height="80px" style="border:1px solid #d3d3d3;">
                                         Your browser does not support the HTML5 canvas tag.
                                     </canvas>
-                                    <!-- <div style="width: 90%; border: 1px solid green; border-radius: 5px; padding: 5px;"> -->
-                                        <!-- <h5 id="unauthe" class="animate"></h5> -->
-                                    <!-- </div> -->
                                     <div id="footer" class="text-center">
                                         <div class="credits">
                                            <code>Created</code> by <a href="mailto:sanpande@adobe.com?cc=sanpande@adobe.com&subject=PT%20Clientless%20App%20Feedback&body=Please%20type%20your%20comments%20below%20: target="_top>Sanjeev Pandey</a>
@@ -164,28 +175,33 @@ Click Login to authenticate.</small></code>
                             </div>
                         </div>
                         <div id="AUTHZ" class="tab-pane fade">
-                            <h3>Authorization</h3>
+                            <span class="label label-default">STEP 5</span>
+                            <span class="label label-primary">SMART DEVICE</span>
                             <div style="width: 77%; background-color:#fffae6; border-radius: 5px; padding: 5px;">
-                            <h5>To change device-Id/User-Agent set them on REGCODE pane.</h5>
-                        </div>
+                            <h5>Set device-Id and User-Agent on App header in step 1</h5>
+                            </div>
                             <input type="text" style="border-radius: 5px; border-left: 6px solid #3700B3;
                                     background-color: lightgray;" name="REQIDZ" placeholder="REQUESTOR (Required)" id="REQIDZ"><br>
                             <input type="text" style="border-radius: 5px; border-left: 6px solid #3700B3;
                                     background-color: lightgray;" name="RES" placeholder="RESOURCE (Required)" id="RESID"><br>
                             
-                            <button id="authz_btn" type="button" class="login-stuff" onclick="authorize()" style="width:auto; background-color:#3700B3;">Authorize</button>
+                            <button data-toggle="tooltip" data-placement="right" title="GET /api/v1/authorize" id="authz_btn" type="button" class="login-stuff" onclick="authorize()" style="width:auto; background-color:#3700B3;">Authorize</button>
                         </div>
                         <div id="tempPass" class="tab-pane fade">
+                                <span class="label label-default">STEP 2 (ALT)</span>
+                                <span class="label label-primary">SMART DEVICE</span>
                             <div style="width: 77%; background-color:#fffae6; border-radius: 5px; padding: 5px;">
-                                <h5>FreePreview using TeamPass. Set deviceId & Requestor on REGCODE pane</h5>
+                                <h5>FreePreview using TeamPass. Set device-Id and User-Agent on App header in step 1</h5>
                             </div>
+                            <input type="text" style="border-radius: 5px; border-left: 6px solid #3700B3;
+                                    background-color: lightgray;" name="REQIDTP" placeholder="REQUESTOR (Required)" id="REQIDTP">
                             <input class="fw_stuff" type="text" style="border-radius: 5px; border-left: 6px solid #3700B3;
                                     background-color: lightgray;" name="DOMAIN" placeholder="Domain (Required)" id="domain">
                             <input class="fw_stuff" type="text" style="border-radius: 5px; border-left: 6px solid #3700B3;
                                     background-color: lightgray;" name="RESF" placeholder="RESOURCE (Required)" id="RESIDF">
                             <input class="fw_stuff" type="text" style="border-radius: 5px; border-left: 6px solid #3700B3;
                                     background-color: lightgray;" name="TEMPPASS_MVPD" placeholder="TempPass_MVPD (Required)" id="TMPPASS_MVPD">
-                            <button id="freepreview_btn" type="button" class="login-stuff" onclick="tempPass()" style="width:auto; margin-top: 2px; margin-bottom: 5px;  background-color:#3700B3;">Get FreePreview</button>
+                            <button data-toggle="tooltip" data-placement="right" title="POST /api/v1/authenticate/freepreview" id="freepreview_btn" type="button" class="login-stuff" onclick="tempPass()" style="width:auto; margin-top: 2px; margin-bottom: 5px;  background-color:#3700B3;">Get FreePreview</button>
                             <div>
                             <!-- <a id="thumbnail"><img src="./Asset_files/img/secure-layer-icon.png"></a>
                             <video width="320" height="240" controls>-->
@@ -197,7 +213,19 @@ Click Login to authenticate.</small></code>
                             </div>
                             <div id="entitlement_lock">Content Locked!</div>                               -->
                             <p style="font-size: smaller; font-style: italic;">sanpande.2018</p>
+                            </div>
+                    </div>
+                    <div id="LOGOUT" class="tab-pane fade">
+                            <span class="label label-default">STEP 6</span>
+                            <span class="label label-primary">SMART DEVICE</span>
+                        <div style="width: 77%; background-color:#fffae6; border-radius: 5px; padding: 5px;">
+                            <h5>Set device-Id and User-Agent on App header in step 1</h5>
                         </div>
+                        <input type="text" style="border-radius: 5px; border-left: 6px solid #3700B3;
+                                    background-color: lightgray;" name="REQIDLO" placeholder="REQUESTOR (Required)" id="REQIDLO">
+                        <input type="text" style="border-radius: 5px; border-left: 6px solid #3700B3;
+                                    background-color: lightgray;" name="RESLO" placeholder="RESOURCE (Required)" id="RESIDLO"><br>
+                        <button data-toggle="tooltip" data-placement="right" title="DELETE /api/v1/logout" type="button" class="login-stuff methods" id="logout_btn" style="width:auto;" onclick="logout()">Logout</button>
                     </div>
                 </div>
             </div>
@@ -215,6 +243,10 @@ Click Login to authenticate.</small></code>
     messagingSenderId: "26307033026"
   };
   firebase.initializeApp(config);
+
+  $(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
 </script>
     <script src="./Asset_files/js/app.js"></script>
     <script src="./Asset_files/js/backend.js"></script>
