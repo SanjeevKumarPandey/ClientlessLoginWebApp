@@ -52,7 +52,10 @@ Use the first tab 'REG' for it
 
 Generate a REGCODE
 
-Move to Web App (Step 3) to complete the login flow
+Move to Web App (Step 3) to load the channel config
+
+Go to step 4 to initiate authentication
+
 ```
 
 ### More tests
