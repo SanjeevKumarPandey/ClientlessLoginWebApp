@@ -24,9 +24,8 @@ $.ajax({
   dataType: "text",
 success: function(result){
   var data__=JSON.stringify(result);
-  feedbackText = '\n'+tms+': '+result.replace(/^\s+/, '').replace(/\s+$/, '');
+  feedbackText = '\n<strong>'+tms+':</strong> '+result.replace(/^\s+/, '').replace(/\s+$/, '');
   feedbackConsole.val(feedbackConsole.val() + feedbackText);
-  //document.getElementsByTagName('fieldset').innerHTML += `<p>${tms}: ${result}</p>`;
   var d = ((data__.split('Regcode: ')[1]).split('device_info')[0]).slice(0, 7);
   $("#regcode").val($.trim(d));
   var c = document.getElementById("canvas");
@@ -45,7 +44,7 @@ url: "cgi-bin/theApp.py",
 data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "RESID": RESOURCE, "REG_FQDN": reggie_fqdn, "SP_FQDN": sp_fqdn },
 dataType: "text",
 success: function(result){
-    feedbackText = '\n'+tms+': '+ result.replace(/^\s+/, '').replace(/\s+$/, '');
+    feedbackText = '\n<strong>'+tms+':</strong> '+ result.replace(/^\s+/, '').replace(/\s+$/, '');
     feedbackConsole.val(feedbackConsole.val() + feedbackText);
 }
 
@@ -59,12 +58,12 @@ $("#freepreview_btn").click(function(){
         data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "RESIDF": RESOURCE, "domain": domain, "SP_FQDN": sp_fqdn, "TEMPPASS_MVPD": tempPassMSO},
         dataType: "text",
     success: function(result){
-        feedbackText = '\n'+tms+': '+ result.replace(/^\s+/, '').replace(/\s+$/, '');
+        feedbackText = '\n<strong>'+tms+':</strong> '+ result.replace(/^\s+/, '').replace(/\s+$/, '');
         feedbackConsole.val(feedbackConsole.val() + feedbackText);
     }
     }); 
 	} else {
-        feedbackText = '\n'+tms+': Error Obtaining FreePreview -TempPass Provider ID is blank';
+        feedbackText = '\n<strong>'+tms+':</strong> Error Obtaining FreePreview -TempPass Provider ID is blank';
         feedbackConsole.val(feedbackConsole.val() + feedbackText);
 	}
     });
@@ -78,7 +77,7 @@ $("#freepreview_btn").click(function(){
             success: function(result){
                 var dt2 = new Date();
                 tms = dt2.toLocaleString();
-                feedbackText = '\n'+tms+': '+ result.replace(/^\s+/, '').replace(/\s+$/, '');
+                feedbackText = '\n<strong>'+tms+':</strong> '+ result.replace(/^\s+/, '').replace(/\s+$/, '');
                 feedbackConsole.val(feedbackConsole.val() + feedbackText);
             }
         
@@ -116,7 +115,7 @@ function paramSet() {
     if(REQUESTOR){
         document.getElementById('reg_btn').style.display = 'inline-block';
     } else {
-        alert("Missing Required Fields!");
+        alert("Missing Requestor ID!");
     }
 }
 

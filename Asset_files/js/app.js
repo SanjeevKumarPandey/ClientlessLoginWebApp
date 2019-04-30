@@ -8,8 +8,7 @@
 var uuid_filename = 'uuid.txt',
     login_page = 'mvpdLoginPage.html',
     deviceId, ts;
-var deviceId = "dummy",
-reggie_fqdn = "http://api.auth.adobe.com/reggie/v1/",
+var reggie_fqdn = "http://api.auth.adobe.com/reggie/v1/",
 sp_fqdn = "http://api.auth.adobe.com/api/v1/",
 sp_url = "https://sp.auth.adobe.com/",
 url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
@@ -20,7 +19,17 @@ var counter = false;
 var d = new Date();
 var ts = d.toLocaleString();
 
+function getDeviceID (){
+    var di_app = document.getElementById('Device-Id').value;
+    if (di_app != "") {
+        deviceId = di_app;
+    } else {
+        deviceId = "dummy";
+    }
+}
+
 function regRecord(requestor_id, regcode) {
+    getDeviceID();
     if (requestor_id && regcode) {
         var http = new XMLHttpRequest();
         var url = `${reggie_fqdn}${requestor_id}/regcode/${regcode}.json`;
@@ -29,16 +38,19 @@ function regRecord(requestor_id, regcode) {
             'User-Agent': url_hdr
         });
         http.open("GET", url, true);
-        document.getElementById('textbox').value += `\n${ts}: ${url}`;
+        //document.getElementById('textbox').innerHTML += `\n<strong>${ts}:</strong> ${url}`;
+        updateConsoleLogs(ts, url);
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {
                 var a = JSON.stringify(http.responseText);
-                document.getElementById('textbox').value += `\n${ts}: ${a}`;
+                //document.getElementById('textbox').innerHTML += `\n<strong>${ts}:</strong> ${a}`;
+                updateConsoleLogs(ts, a);
                 /*window.location.replace(url);*/
                 getMVPD(document.getElementById('requestor').value, sp_url);
             } else {
                 var a = JSON.stringify(http.responseText);
-                document.getElementById('textbox').value += `\n${ts}: ${a}`;
+                //document.getElementById('textbox').innerHTML += `\n<strong>${ts}:</strong> ${a}`;
+                updateConsoleLogs(ts, a);
             }
         }
         http.send(params);
@@ -57,8 +69,10 @@ function getMVPD(requestor_id, sp_url) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            document.getElementById('textbox').value += `\n${ts}: ${url}`;
-            document.getElementById('textbox').value += `\n${ts}: ${xmlhttp.responseText}`;
+            //document.getElementById('textbox').value += `\n${ts}: ${url}`;
+            //document.getElementById('textbox').value += `\n${ts}: ${xmlhttp.responseText}`;
+            updateConsoleLogs(ts, url);
+            updateConsoleLogs(ts, xmlhttp.responseText);
             try {
                 var x = $.parseXML(xmlhttp.responseText);
                 mvpds = $(x).find('mvpd');
@@ -143,21 +157,27 @@ function authenticate() {
 
 
 function checkauthn(req, regC) {
+    getDeviceID();
     if (req && regC) {
         var url = `${sp_fqdn}checkauthn/${regC}.json?requestor=${req}&deviceId=${deviceId}`;
-        document.getElementById('textbox').value += `\n${ts}: ${url}`;
-        //document.getElementsByTagName('fieldset').innerHTML += `<p>${ts}: ${url}</p>`;
+        //document.getElementById('textbox').innerHTML += `\n<strong>${ts}:</strong> ${url}`;
+        updateConsoleLogs(ts, url);
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.onloadend = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var rt = xhr.responseText,
                     st = xhr.status;
-                document.getElementById('textbox').value += `\n${ts}: Authentication SUCCESSFUL: ${st}${rt}`;
+                //document.getElementById('textbox').innerHTML += `\n<strong>${ts}:</strong> Authentication SUCCESSFUL: ${st}${rt}`;
+                let feedback = `Authentication SUCCESSFUL: ${st}${rt}`;
+                updateConsoleLogs(ts, feedback);
             } else if (xhr.status===403) {
-                document.getElementById('textbox').value += `\n${ts}: NOT AUTHENTICATED - ${xhr.response}`;
+                //document.getElementById('textbox').innerHTML += `\n<strong>${ts}:</strong> NOT AUTHENTICATED - ${xhr.response}`;
+                let feedback = `NOT AUTHENTICATED - ${xhr.response}`;
+                updateConsoleLogs(ts, feedback);
             } else {
-                document.getElementById('textbox').value += `\n${ts}: ${xhr.status}`;
+                //document.getElementById('textbox').innerHTML += `\n<sstrong>${ts}:</strong> ${xhr.status}`;
+                updateConsoleLogs(ts, xhr.status);
             }
         }
         //xhr.open('GET', url, true);
@@ -172,6 +192,10 @@ function checkauthn(req, regC) {
     }
 }
 
+function updateConsoleLogs(timestamp, feedback){
+    document.getElementById('textbox').innerHTML += `<br><strong>${timestamp}:</strong> ${feedback}`;
+}
+
 function boxDisable(t) {
     if (t.is(':checked')) {
         reggie_fqdn = 'http://api.auth.adobe.com/reggie/v1/';
@@ -179,13 +203,15 @@ function boxDisable(t) {
         sp_url = "https://sp.auth.adobe.com/";
         document.getElementById('env').innerHTML = 'PROD';
         document.getElementById('stageProdEnvSet').innerText = "true";
-        console.log('PROD: '+reggie_fqdn+sp_fqdn+sp_url);
+        //console.log('PROD: '+reggie_fqdn+sp_fqdn+sp_url);
+        updateConsoleLogs(ts, "[APPLICATION SET TO PRODUCTION]" );
     } else {
         reggie_fqdn = 'http://api.auth-staging.adobe.com/reggie/v1/';
         sp_fqdn = "http://api.auth-staging.adobe.com/api/v1/";
         sp_url = "https://sp.auth-staging.adobe.com/";
         document.getElementById('env').innerHTML = 'STAGE';
         document.getElementById('stageProdEnvSet').innerText = "false";
-        console.log('STAGE: '+reggie_fqdn+sp_fqdn+sp_url);
+        //console.log('STAGE: '+reggie_fqdn+sp_fqdn+sp_url);
+        updateConsoleLogs(ts, "[APPLICATION SET TO STAGE]" );
     }
 }

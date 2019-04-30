@@ -10,6 +10,8 @@
 
 5. Since this is not part of standard offering under any agreement, we do not take any requests through any other channels, please only utilize the Github issue logging and we'll try to pick it, if & when we can.
 
+6. When you visit our site we may automatically log your IP address, a unique identifier for your computer or other access device. This is to calculate the numer of visitors coming to our site. We will not use your IP address to identify you in any way.
+
                 NO WARRANTY
 
         THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
