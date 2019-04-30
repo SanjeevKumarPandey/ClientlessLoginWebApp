@@ -8,19 +8,16 @@
   
     function toggleTheme(t) {
     if (t.is(':checked')) {
-      $("#theme").html('DEFAULT');
-    $('.App-header').css('background-color', '#6200EE');
-    $('.App-header').css('color', 'white');
+      $("#theme").html('DefaultUI');
     $('link[rel=stylesheet][href~="./Asset_files/css/debug.css"]').remove();
     for(i=1; i < 17; i++){
         var th = '#t'+i;
         $(th).css('background-color', 'transparent');
     }
     $('body').css('background-color', 'transparent');
-    $(".App-logo").attr('src', './Asset_files/img/ptlogo.png');
+    $(".App-logo").attr('src', './Asset_files/img/Adobe_logo.png');
     } else {
-    $("#theme").html('DEBUGMODE');
-    $('.App-header').css('background-color', 'black');
+    $("#theme").html('DebugUI');
     $('.App-header').css('color', '#222');
     $("#t1").css('background-color', 'peru');
     $("#t2").css('background-color', 'yellowgreen');
@@ -46,12 +43,18 @@
     
     function toggleKeyShow(t){
     if(t.is(':checked')){
-    $('#PUBLIC_KEY').css('display', 'block');
-    $('#PRIV_KEY').css('display', 'block');
+    $('.keys').css('display', 'block');
     } else {
-    $('#PUBLIC_KEY').css('display', 'none');
-    $('#PRIV_KEY').css('display', 'none');
+    $('.keys').css('display', 'none');
     }
+    }
+
+    function showInstrcutions(){
+      if($('.instruction').css('display') == "block"){
+        $('.instruction').css('display', 'none');
+      } else {
+        $('.instruction').css('display', 'block');
+      }
     }
     
     // function testing(str){

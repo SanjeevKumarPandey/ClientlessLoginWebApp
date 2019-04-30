@@ -16,11 +16,9 @@ var redirect_url = "";
 var mvpdList = [];
 var REQUESTOR = "", REGCODE = null, mso = 'Cablevision', picker, mvpds;
 var counter = false;
-var d = new Date();
-var ts = d.toLocaleString();
 
 function getDeviceID (){
-    var di_app = document.getElementById('Device-Id').value;
+    let di_app = document.getElementById('Device-Id').value;
     if (di_app != "") {
         deviceId = di_app;
     } else {
@@ -38,19 +36,15 @@ function regRecord(requestor_id, regcode) {
             'User-Agent': url_hdr
         });
         http.open("GET", url, true);
-        //document.getElementById('textbox').innerHTML += `\n<strong>${ts}:</strong> ${url}`;
-        updateConsoleLogs(ts, url);
+        updateConsoleLogs(url);
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {
-                var a = JSON.stringify(http.responseText);
-                //document.getElementById('textbox').innerHTML += `\n<strong>${ts}:</strong> ${a}`;
-                updateConsoleLogs(ts, a);
-                /*window.location.replace(url);*/
+                let a = JSON.stringify(http.responseText);
+                updateConsoleLogs("<span style='color: green'>"+a+"</span>");
                 getMVPD(document.getElementById('requestor').value, sp_url);
             } else {
-                var a = JSON.stringify(http.responseText);
-                //document.getElementById('textbox').innerHTML += `\n<strong>${ts}:</strong> ${a}`;
-                updateConsoleLogs(ts, a);
+                let a = JSON.stringify(http.responseText);
+                updateConsoleLogs("<span style='color: green'>"+a+"</span>");
             }
         }
         http.send(params);
@@ -69,10 +63,8 @@ function getMVPD(requestor_id, sp_url) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            //document.getElementById('textbox').value += `\n${ts}: ${url}`;
-            //document.getElementById('textbox').value += `\n${ts}: ${xmlhttp.responseText}`;
-            updateConsoleLogs(ts, url);
-            updateConsoleLogs(ts, xmlhttp.responseText);
+            updateConsoleLogs(url);
+            updateConsoleLogs("<span style='color: green'>"+xmlhttp.responseText+"</span>");
             try {
                 var x = $.parseXML(xmlhttp.responseText);
                 mvpds = $(x).find('mvpd');
@@ -129,9 +121,6 @@ function getMVPD(requestor_id, sp_url) {
     }
     xmlhttp.open('GET', url, true);
     xmlhttp.send();
-
-    /*document.getElementById("reg").style.display="block";*/
-
 }
 
 function login(_url) {
@@ -151,7 +140,6 @@ function authenticate() {
     }
     
     var url = `${sp_fqdn}authenticate?reg_code=${REGCODE}&requestor_id=${REQUESTOR}&domain_name=adobe.com&noflash=true&no_iframe=true&mso_id=${mso}&redirect_url=${redirect_url}`;
-    /*login(url, _callback);*/
     login(url);
 }
 
@@ -160,24 +148,20 @@ function checkauthn(req, regC) {
     getDeviceID();
     if (req && regC) {
         var url = `${sp_fqdn}checkauthn/${regC}.json?requestor=${req}&deviceId=${deviceId}`;
-        //document.getElementById('textbox').innerHTML += `\n<strong>${ts}:</strong> ${url}`;
-        updateConsoleLogs(ts, url);
+        updateConsoleLogs(url);
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.onloadend = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var rt = xhr.responseText,
                     st = xhr.status;
-                //document.getElementById('textbox').innerHTML += `\n<strong>${ts}:</strong> Authentication SUCCESSFUL: ${st}${rt}`;
-                let feedback = `Authentication SUCCESSFUL: ${st}${rt}`;
-                updateConsoleLogs(ts, feedback);
+                let feedback = `<span style="color: green">Authentication SUCCESSFUL: ${st}${rt}</span>`;
+                updateConsoleLogs(feedback);
             } else if (xhr.status===403) {
-                //document.getElementById('textbox').innerHTML += `\n<strong>${ts}:</strong> NOT AUTHENTICATED - ${xhr.response}`;
-                let feedback = `NOT AUTHENTICATED - ${xhr.response}`;
-                updateConsoleLogs(ts, feedback);
+                let feedback = `<span style="color: red">NOT AUTHENTICATED - ${xhr.response}</span>`;
+                updateConsoleLogs(feedback);
             } else {
-                //document.getElementById('textbox').innerHTML += `\n<sstrong>${ts}:</strong> ${xhr.status}`;
-                updateConsoleLogs(ts, xhr.status);
+                updateConsoleLogs(xhr.status);
             }
         }
         //xhr.open('GET', url, true);
@@ -192,7 +176,9 @@ function checkauthn(req, regC) {
     }
 }
 
-function updateConsoleLogs(timestamp, feedback){
+function updateConsoleLogs(feedback){
+    let d = new Date();
+    let timestamp = d.toLocaleString();
     document.getElementById('textbox').innerHTML += `<br><strong>${timestamp}:</strong> ${feedback}`;
 }
 
@@ -203,15 +189,13 @@ function boxDisable(t) {
         sp_url = "https://sp.auth.adobe.com/";
         document.getElementById('env').innerHTML = 'PROD';
         document.getElementById('stageProdEnvSet').innerText = "true";
-        //console.log('PROD: '+reggie_fqdn+sp_fqdn+sp_url);
-        updateConsoleLogs(ts, "[APPLICATION SET TO PRODUCTION]" );
+        updateConsoleLogs("[APPLICATION SET TO PRODUCTION]" );
     } else {
         reggie_fqdn = 'http://api.auth-staging.adobe.com/reggie/v1/';
         sp_fqdn = "http://api.auth-staging.adobe.com/api/v1/";
         sp_url = "https://sp.auth-staging.adobe.com/";
         document.getElementById('env').innerHTML = 'STAGE';
         document.getElementById('stageProdEnvSet').innerText = "false";
-        //console.log('STAGE: '+reggie_fqdn+sp_fqdn+sp_url);
-        updateConsoleLogs(ts, "[APPLICATION SET TO STAGE]" );
+        updateConsoleLogs("[APPLICATION SET TO STAGE]" );
     }
 }
