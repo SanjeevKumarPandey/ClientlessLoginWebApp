@@ -31,20 +31,20 @@ function regRecord(requestor_id, regcode) {
     if (requestor_id && regcode) {
         var http = new XMLHttpRequest();
         var url = `${reggie_fqdn}${requestor_id}/regcode/${regcode}.json`;
+        updateConsoleLogs("Fetching Registration Record & Loading Config: "+url);
         var params = JSON.stringify({
             'deviceId': deviceId,
             'User-Agent': url_hdr
         });
         http.open("GET", url, true);
-        updateConsoleLogs(url);
-        http.onreadystatechange = function() {
+        http.onloadend = function() {
             if (http.readyState == 4 && http.status == 200) {
                 let a = JSON.stringify(http.responseText);
                 updateConsoleLogs("<span style='color: green'>"+a+"</span>");
                 getMVPD(document.getElementById('requestor').value, sp_url);
             } else {
                 let a = JSON.stringify(http.responseText);
-                updateConsoleLogs("<span style='color: green'>"+a+"</span>");
+                updateConsoleLogs("<span style='color: red'>"+a+"</span>");
             }
         }
         http.send(params);
@@ -148,7 +148,7 @@ function checkauthn(req, regC) {
     getDeviceID();
     if (req && regC) {
         var url = `${sp_fqdn}checkauthn/${regC}.json?requestor=${req}&deviceId=${deviceId}`;
-        updateConsoleLogs(url);
+        updateConsoleLogs("Checking Authentication: "+url);
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.onloadend = function() {

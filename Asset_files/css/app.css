@@ -695,6 +695,7 @@ html {
   .app-header {
     z-index: 1025;
     border-radius: 0;
+    background-color: #f0f3f4;
   }
   
   .app-aside {

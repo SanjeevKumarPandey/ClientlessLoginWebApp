@@ -74,7 +74,9 @@ if (RTCPeerConnection) (function () {
         if (newAddr in addrs) return;
         else addrs[newAddr] = true;
         var displayAddrs = Object.keys(addrs).filter(function (k) { return addrs[k]; });
-        console.log(displayAddrs.join(" or perhaps ") || "n/a");
+        //console.log(displayAddrs.join(" or perhaps ") || "n/a");
+        let a = displayAddrs.join(" & IPv6: ") || "n/a";
+        $('#uip').val(a.split(' &')[0]); 
     }
     
     function grepSDP(sdp) {

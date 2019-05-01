@@ -14,7 +14,7 @@
         var th = '#t'+i;
         $(th).css('background-color', 'transparent');
     }
-    $('body').css('background-color', 'transparent');
+    $('body').css('background-color', 'none');
     $(".App-logo").attr('src', './Asset_files/img/Adobe_logo.png');
     } else {
     $("#theme").html('DebugUI');

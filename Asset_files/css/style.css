@@ -34,6 +34,22 @@ html, body {
   border-radius: 5px;
 }
 
+#unauthe {
+  position: absolute;
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 100;
+  display: none;
+  position: fixed;
+  z-index: 1;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  padding: 15px;
+  margin: 5px;
+  border-radius: 50px;
+}
+
 .mvpd_picker {
   display: none;
   position: fixed;
@@ -109,6 +125,22 @@ html, body {
   height: 180px;
 }
 
+.trakcing-info {
+  float: right;
+  margin-left: 28%;
+}
+
+#uip {
+  width:100px;
+  background-color: #000;
+  color: #fffae6;
+}
+
+.App-logo {
+  width: 40px;
+  margin-left: 50%;
+}
+
 .gps_ring {
   display: none;
   border: 3px solid #999;
@@ -135,12 +167,12 @@ html, body {
   /* width: 130px; */
   padding: 6px;
   display: inline-block;
-  /* border: 1px solid #ccc; */
   box-sizing: border-box;
-  background-color: bisque;
+  border: #000 none 0;
+  background-color:gray;
+  border-radius: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
-  border-radius: 5px; 
 }
 
 input[type=password] {
@@ -352,7 +384,7 @@ span.psw {
   overflow: auto;
   border: #888 solid 1px;
   border-radius: 5px;
-  font: 14px "Century Gothic", Futura, sans-serif;
+  /* font: 14px "Century Gothic", Futura, sans-serif; */
   color: #58666e;
   background-color: #edf1f2 !important;
   background-image: none;
@@ -363,15 +395,8 @@ span.psw {
   margin: 5px;
 }
 
-#unauthe {
-  position: absolute;
-  margin-top: 10px;
-  font-size: 14px;
-  font-weight: 100;
-}
-
 /*3D/shadow*/
-#mpicker, #unauthe {
+#mpicker {
   box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
   z-index: 3;
 }

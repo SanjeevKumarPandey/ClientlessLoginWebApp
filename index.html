@@ -34,13 +34,13 @@
                <div class="row">
                   <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5" id="t3" style="background-color:transparent;">
                      <div class="row">
-                        <div class="sm_none col-xs-3 col-sm-3 col-md-3 col-lg-3" id="t4" style="background-color:transparent;">
-                           <img src='./Asset_files/img/Adobe_logo.png' class="App-logo" alt="logo" />
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" id="t4" style="background-color:transparent;">
+                           <img src='./Asset_files/img/svg/pt.svg' class="App-logo" alt="logo" />
                         </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="t5" style="background-color:transparent;">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="t5" style="background-color:transparent;">
                            <h4 class="App-title"><strong><i>TVE Clientless Demo App</i></strong> <small style="color:teal">v3.4.0</small></h4>
                         </div>
-                        <div class="sm_none col-xs-3 col-sm-3 col-md-3 col-lg-3" id="t6" style="background-color:transparent;">
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" id="t6" style="background-color:transparent;">
                            <label class="switch" style="margin-top:5px;">
                               <input id="envm" type="checkbox" onclick="boxDisable($(this))" checked>
                               <span class="slider round"></span>
@@ -74,6 +74,9 @@
                         </div>
                         <div>
                            <h5 style="display:inline-flex; margin-left: 5px;"><strong>Change APIGEE Keys</strong></h5>
+                        </div>
+                        <div class="trakcing-info">
+                           <input type="text" id="uip" readonly="true"/>
                         </div>
                      </div>
                      <div class="keys">
@@ -124,14 +127,13 @@
                      class="btn-rounded login-stuff methods" id='test' onclick="checkauthn(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto; ">Checkauthn</button>
                      <button data-toggle="tooltip" data-placement="left" title="Download Logs" 
                      class="btn-rounded login-stuff" id="create">&mapstodown; Logs</button>
-                     <span id="unauthe" class="label label-danger animate"></span>
+                     <span id="unauthe" class="animate"></span>
                      <p id="stageProdEnvSet">true</p>
                   </div>
                </div>
             </div>
          </div><!--END OF First Column-->
-         <div class="col-sm-5 col-md-5 col-lg-5" id="t12">
-            <div class="widget login-form" id="reg">
+         <div class="col-sm-5 col-md-5 col-lg-5 widget smartdevice" id="t12">
                   <span class="label label-primary">SMART DEVICE</span><br>
                   <span class="label label-default">STEP 1</span>
                      <input type="text" name="Device-Id" placeholder="Device ID (Required)" id="Device-Id">
@@ -169,7 +171,7 @@
                   <div id="tempPass" class="tab-pane fade">
                      <span class="label label-default">STEP 2 (ALT)</span>
                      <div style="width: 77%; background-color:#fffae6; border-radius: 5px; padding: 5px;">
-                        <h5>FreePreview using TeamPass</h5>
+                        <h4><small>FreePreview using TeamPass</small></h4>
                      </div>
                      <input type="text" name="REQIDTP" placeholder="REQUESTOR (Required)" id="REQIDTP">
                      <input type="text" name="DOMAIN" placeholder="Domain (Required)" id="domain">
@@ -195,7 +197,6 @@
                      <button data-toggle="tooltip" data-placement="right" title="DELETE /api/v1/logout" type="button" class="btn-rounded login-stuff methods" id="logout_btn" style="width:auto;" onclick="logout()">Logout</button>
                   </div>
                </div>
-            </div>
          </div>
       </div>
       <div class="row">

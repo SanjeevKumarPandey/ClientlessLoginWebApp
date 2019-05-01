@@ -115,7 +115,10 @@ function paramSet() {
     if(REQUESTOR){
         document.getElementById('reg_btn').style.display = 'inline-block';
     } else {
-        alert("Missing Requestor ID!");
+        let y = document.getElementById('unauthe');
+        y.style.display = 'block';
+        y.innerHTML = 'Missing Requestor ID!';
+        setTimeout(function() {y.style.display = 'none';}, 3000)
     }
 }
 
@@ -239,13 +242,15 @@ function envSet(){
         sp_fqdn = "http://api.auth.adobe.com/api/v1/";
         sp_url = "https://sp.auth.adobe.com/";
         document.getElementById('env').innerHTML = 'PROD';
-        console.log('SD is on PROD: '+reggie_fqdn+sp_fqdn+sp_url);
+        //console.log('SD is on PROD: '+reggie_fqdn+sp_fqdn+sp_url);
+        updateConsoleLogs("[Smart Device Is On PRODUCTION]" );
     } else if (env_status2 === "false"){
         reggie_fqdn = 'http://api.auth-staging.adobe.com/reggie/v1/';
         sp_fqdn = "http://api.auth-staging.adobe.com/api/v1/";
         sp_url = "https://sp.auth-staging.adobe.com/";
         document.getElementById('env').innerHTML = 'STAGE';
-        console.log('SD is on STAGE: '+reggie_fqdn+sp_fqdn+sp_url);
+        //console.log('SD is on STAGE: '+reggie_fqdn+sp_fqdn+sp_url);
+        updateConsoleLogs("[Smart Device Is On STAGE]" );
     }
 }
 
