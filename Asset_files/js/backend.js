@@ -87,30 +87,7 @@ $("#freepreview_btn").click(function(){
 
 function paramSet() {
     envSet();
-    var di = document.getElementById('Device-Id').value;
-    if (di != "") {
-        deviceId = di;
-    } else {
-        deviceId = "dummy";
-    }
-    var ua = document.getElementById('User-Agent').value;
-    if (ua != "") {
-        url_hdr = ua;
-    } else {
-        url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
-    }
-    var pbk = document.getElementById('PUBLIC_KEY').value;
-    if (pbk != "") {
-        PUBKEY = pbk;
-    } else {
-        PUBKEY = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-    }
-    var prk = document.getElementById('PRIV_KEY').value;
-    if (prk != "") {
-        PRIVKEY = prk;
-    } else {
-        PRIVKEY = 'XXXXXXXXXXXXXXX';
-    }
+    deviceInfo();
     REQUESTOR = document.getElementById('REQID').value;
     if(REQUESTOR){
         document.getElementById('reg_btn').style.display = 'inline-block';
@@ -124,18 +101,7 @@ function paramSet() {
 
 function authorize() {
     envSet();
-    var pbk2 = document.getElementById('PUBLIC_KEY').value;
-    if (pbk2 != "") {
-        PUBKEY = pbk2;
-    } else {
-        PUBKEY = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-    }
-    var prk2 = document.getElementById('PRIV_KEY').value;
-    if (prk2 != "") {
-        PRIVKEY = prk2;
-    } else {
-        PRIVKEY = 'XXXXXXXXXXXXXXXXXXXX';
-    }
+    deviceInfo();
     var r2 = document.getElementById('RESID').value;
     if (r2 != "") {
         RESOURCE =r2;
@@ -143,34 +109,11 @@ function authorize() {
         RESOURCE = '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title>BET</title><item><title></title><guid></guid><media:rating scheme="urn:v-chip">tv-14</media:rating></item></channel></rss>';
     }
     REQUESTOR = document.getElementById('REQIDZ').value; //REQIDZ - from AUTHZ Pane
-    var di2 = document.getElementById('Device-Id').value;
-    if (di2 != "") {
-        deviceId = di2;
-    } else {
-        deviceId = "dummy";
-    }
-    var ua2 = document.getElementById('User-Agent').value;
-    if (ua2 != "") {
-        url_hdr = ua2;
-    } else {
-        url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
-    }
 }
 
 function tempPass() {
     envSet();
-    var pbk3 = document.getElementById('PUBLIC_KEY').value;
-    if (pbk3 != "") {
-        PUBKEY = pbk3;
-    } else {
-        PUBKEY = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-    }
-    var prk3 = document.getElementById('PRIV_KEY').value;
-    if (prk3 != "") {
-        PRIVKEY = prk3;
-    } else {
-        PRIVKEY = 'XXXXXXXXXXXXX';
-    }
+    deviceInfo();
     var r3 = document.getElementById('RESIDF').value;
     if (r3 != "") {
         RESOURCE =r3;
@@ -178,18 +121,6 @@ function tempPass() {
         RESOURCE = '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title>BET</title><item><title></title><guid></guid><media:rating scheme="urn:v-chip">tv-14</media:rating></item></channel></rss>';
     }
     REQUESTOR = document.getElementById('REQIDTP').value;
-    var di3 = document.getElementById('Device-Id').value;
-    if (di3 != "") {
-        deviceId = di3;
-    } else {
-        deviceId = "dummy";
-    }
-    var ua3 = document.getElementById('User-Agent').value;
-    if (ua3 != "") {
-        url_hdr = ua3;
-    } else {
-        url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
-    }
     var domain_ = document.getElementById('domain').value;
     if (domain_ != "") {
         domain = domain_;
@@ -206,32 +137,9 @@ function tempPass() {
 
 function logout() {
     envSet();
-    var pbk_lo = document.getElementById('PUBLIC_KEY').value;
-    if (pbk_lo != "") {
-        PUBKEY = pbk_lo;
-    } else {
-        PUBKEY = 'XXXXXXXXXXXXXXXXXXXXXXXXXXX';
-    }
-    var prk_lo = document.getElementById('PRIV_KEY').value;
-    if (prk_lo != "") {
-        PRIVKEY = prk_lo;
-    } else {
-        PRIVKEY = 'XXXXXXXXXXXX';
-    }
+    deviceInfo();
     RESOURCE = document.getElementById('RESIDLO').value;
     REQUESTOR = document.getElementById('REQIDLO').value;
-    var di_lo = document.getElementById('Device-Id').value;
-    if (di_lo != "") {
-        deviceId = di_lo;
-    } else {
-        deviceId = "dummy";
-    }
-    var ua_lo = document.getElementById('User-Agent').value;
-    if (ua_lo != "") {
-        url_hdr = ua_lo;
-    } else {
-        url_hdr = "Dalvik/2.1.0 (Linux; U; Android 6.0; Android SDK built for x86_64 Build/MASTER)";
-    }
 }
 
 function envSet(){
@@ -242,15 +150,53 @@ function envSet(){
         sp_fqdn = "http://api.auth.adobe.com/api/v1/";
         sp_url = "https://sp.auth.adobe.com/";
         document.getElementById('env').innerHTML = 'PROD';
-        //console.log('SD is on PROD: '+reggie_fqdn+sp_fqdn+sp_url);
         updateConsoleLogs("[Smart Device Is On PRODUCTION]" );
     } else if (env_status2 === "false"){
         reggie_fqdn = 'http://api.auth-staging.adobe.com/reggie/v1/';
         sp_fqdn = "http://api.auth-staging.adobe.com/api/v1/";
         sp_url = "https://sp.auth-staging.adobe.com/";
         document.getElementById('env').innerHTML = 'STAGE';
-        //console.log('SD is on STAGE: '+reggie_fqdn+sp_fqdn+sp_url);
         updateConsoleLogs("[Smart Device Is On STAGE]" );
+    }
+}
+
+$(document).ready(function () {
+    if(localStorage['DeviceId'] == undefined) localStorage['DeviceId'] = "sampleDeviceID";
+    if(localStorage['UserAgent'] == undefined) localStorage['UserAgent'] = "Roku/DVP";
+    document.getElementById('Device-Id').value = localStorage['DeviceId'];
+    document.getElementById('User-Agent').value = localStorage['UserAgent'];
+    document.getElementById('PUBLIC_KEY').value = localStorage['_consumer'];
+    document.getElementById('PRIV_KEY').value = localStorage['_secret'];
+    
+});
+
+function deviceInfo(){
+    let di = document.getElementById('Device-Id').value;
+    if (di != "") {
+        deviceId = di;
+        localStorage['DeviceId'] = deviceId;
+    } else {
+        updateConsoleLogs("Please enter a deviceId before proceeding");
+    }
+    let ua = document.getElementById('User-Agent').value;
+    if (ua != "") {
+        url_hdr = ua;
+        localStorage['UserAgent'] = url_hdr;
+    }
+
+    let pbk = document.getElementById('PUBLIC_KEY').value;
+    if (pbk != "" && pbk !== undefined && pbk != "undefined") {
+        PUBKEY = pbk;
+        localStorage['_consumer'] = PUBKEY;
+    } else {
+        updateConsoleLogs("Please enter the public key");
+    }
+    let prk = document.getElementById('PRIV_KEY').value;
+    if (prk != "" && prk !== undefined && prk != "undefined") {
+        PRIVKEY = prk;
+        localStorage['_secret'] = PRIVKEY;
+    } else {
+        updateConsoleLogs("Please enter the private key");
     }
 }
 

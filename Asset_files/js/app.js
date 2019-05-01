@@ -179,7 +179,7 @@ function checkauthn(req, regC) {
 function updateConsoleLogs(feedback){
     let d = new Date();
     let timestamp = d.toLocaleString();
-    document.getElementById('textbox').innerHTML += `<br><strong>${timestamp}:</strong> ${feedback}`;
+    document.getElementById('textbox').innerHTML += `<br>&nbsp;&nbsp;<strong>${timestamp}:</strong> ${feedback}`;
 }
 
 function boxDisable(t) {

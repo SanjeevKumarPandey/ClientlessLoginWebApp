@@ -5,11 +5,11 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
       <meta name="description" content="LoginWebApp">
       <meta name="author" content="Sanjeev Pandey">
-      <meta name="version=" content="3.4.0">
+      <meta name="version=" content="3.5">
       <meta http-equiv="Cache-Control" content="no-cache">
       <meta http-equiv="Pragma" content="no-cache">
       <meta http-equiv="Expires" content="0">
-      <title>Clientless Sample JS App</title>
+      <title>TVE Clientless Demo App</title>
       <link href="./Asset_files/css/bootstrap.css" rel="stylesheet">
       <link href="./Asset_files/css/style.css" rel="stylesheet">
       <link href="./Asset_files/css/app.css" rel="stylesheet">
@@ -38,7 +38,7 @@
                            <img src='./Asset_files/img/svg/pt.svg' class="App-logo" alt="logo" />
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="t5" style="background-color:transparent;">
-                           <h4 class="App-title"><strong><i>TVE Clientless Demo App</i></strong> <small style="color:teal">v3.4.0</small></h4>
+                           <h4 class="App-title"><strong><i>TVE Clientless Demo App</i></strong> <small style="color:teal">v3.5.0</small></h4>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" id="t6" style="background-color:transparent;">
                            <label class="switch" style="margin-top:5px;">
@@ -58,10 +58,9 @@
                   </div>
                   <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1" id="t7">
                         <h5 onclick="showInstrcutions()"><strong>How To Use</strong></h5>
-                        <div class="instruction" id="t8">
-                              <code>HOW TO USE:<small style="color:#3700B3;" id="dir"> Generate {REGCODE}, and enter {REQUESTOR ID}, Hit <\Authenticate>. 
-                              If record is available > MVPD Picker is created. Picking the provider sets {mso} id; 
-                              Click Login to authenticate.</small></code>
+                        <div class="instruction animate" id="t8">
+                              <code>HOW TO USE:<small style="color:#3700B3;" id="dir"> Generate REGCODE, and enter Requestor > Hit <i>Get Config</i> > 
+                                MVPD Picker is created. Picking the provider sets mso id > Click <i>Authenticate</i> to login</small></code>
                         </div>
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" id="t15">
@@ -74,15 +73,19 @@
                         </div>
                         <div>
                            <h5 style="display:inline-flex; margin-left: 5px;"><strong>Change APIGEE Keys</strong></h5>
+                           <div class="keys animate">
+                                 <input type="password" placeholder="Consumer Key" id="PUBLIC_KEY">
+                                 <input type="password" placeholder="Consumer Secret" id="PRIV_KEY">
+                           </div>
                         </div>
                         <div class="trakcing-info">
                            <input type="text" id="uip" readonly="true"/>
                         </div>
                      </div>
-                     <div class="keys">
-                           <input type="password" placeholder="PUBLIC KEY" id="PUBLIC_KEY">
-                           <input type="password" placeholder="PRIVATE KEY" id="PRIV_KEY">
-                     </div>
+                     <!-- <div class="keys animate">
+                           <input type="password" placeholder="Consumer Key" id="PUBLIC_KEY">
+                           <input type="password" placeholder="Consumer Secret" id="PRIV_KEY">
+                     </div> -->
                   </div>
                   </div>
             </header>
@@ -119,8 +122,8 @@
                <div class="col-sm-6 col-md-6 col-lg-6" id="t11">
                   <div class="login-form" id="t13">
                      <span class="label label-default">STEP 3</span><br>
-                     <input type="text" name="regcode" placeholder="REGCODE" id="regcode">
-                     <input type="text" name="requestor" placeholder="REQUESTOR ID" id="requestor"><br>
+                     <input type="text" name="regcode" placeholder="Regcode" id="regcode">
+                     <input type="text" name="requestor" placeholder="Requestor" id="requestor"><br>
                      <button data-toggle="tooltip" data-placement="left" title="GET /adobe-services/config/{requestor}" 
                       class="btn-rounded login-stuff" onclick="regRecord(document.getElementById('requestor').value, document.getElementById('regcode').value)" style="width:auto; ">Get Config</button>
                      <button data-toggle="tooltip" data-placement="right" title="GET /checkauthn/{regcode}" 
@@ -136,20 +139,20 @@
          <div class="col-sm-5 col-md-5 col-lg-5 widget smartdevice" id="t12">
                   <span class="label label-primary">SMART DEVICE</span><br>
                   <span class="label label-default">STEP 1</span>
-                     <input type="text" name="Device-Id" placeholder="Device ID (Required)" id="Device-Id">
-                     <input type="text" name="User-Agent" placeholder="User-Agent (Optional)" id="User-Agent">
+                     <input class="required" type="text" name="Device-Id" placeholder="Device ID" id="Device-Id">
+                     <input type="text" name="User-Agent" placeholder="User-Agent" id="User-Agent">
                <ul class="nav nav-tabs">
-                  <li class="active"><a data-toggle="tab" href="#AUTHN">REG</a></li>
-                  <li><a data-toggle="tab" href="#AUTHZ">AUTHZ</a></li>
-                  <li><a data-toggle="tab" href="#tempPass">TEMP P</a></li>
-                  <li><a data-toggle="tab" href="#LOGOUT">LOGOUT</a></li>
+                  <li class="active"><a data-toggle="tab" href="#AUTHN">Regcode</a></li>
+                  <li><a data-toggle="tab" href="#AUTHZ">Authorize</a></li>
+                  <li><a data-toggle="tab" href="#tempPass">Temp Pass</a></li>
+                  <li><a data-toggle="tab" href="#LOGOUT">Logout</a></li>
                </ul>
                <div class="tab-content" id="t14">
                   <div id="AUTHN" class="tab-pane fade in active">
                      <span class="label label-default">STEP 2</span>
-                     <div class="animate">
-                           <div class="col-lg-6 col-md-6 col-sm-12">
-                                 <input type="text" name="REQID" placeholder="REQUESTOR ID (Required)" id="REQID">
+                     <div class="row animate">
+                           <div class="col-lg-4 col-md-4 col-sm-12">
+                                 <input class="required" type="text" name="REQID" placeholder="Requestor" id="REQID"><br>
                                  <button data-toggle="tooltip" data-placement="top" title="POST /{requestor}/regcode" id="reg_btn" class="btn-rounded login-stuff" onclick="paramSet()" style="width:auto; ">Generate Regcode</button>
                            </div>
                            <div class="col-lg-6 col-md-6 col-sm-12">
@@ -163,8 +166,8 @@
                   <div id="AUTHZ" class="tab-pane fade">
                      <span class="label label-default">STEP 5</span>
                      <div>
-                        <input type="text" name="REQIDZ" placeholder="REQUESTOR (Required)" id="REQIDZ"><br>
-                     <input type="text" name="RES" placeholder="RESOURCE (Required)" id="RESID"><br>
+                     <input class="required" type="text" name="REQIDZ" placeholder="Requestor" id="REQIDZ">
+                     <input class="required" type="text" name="RES" placeholder="Resource" id="RESID"><br>
                      <button data-toggle="tooltip" data-placement="right" title="GET /api/v1/authorize" id="authz_btn" type="button" class="btn-rounded login-stuff" onclick="authorize()" style="width:auto; ">Authorize</button>
                      </div>
                   </div>
@@ -173,10 +176,10 @@
                      <div style="width: 77%; background-color:#fffae6; border-radius: 5px; padding: 5px;">
                         <h4><small>FreePreview using TeamPass</small></h4>
                      </div>
-                     <input type="text" name="REQIDTP" placeholder="REQUESTOR (Required)" id="REQIDTP">
-                     <input type="text" name="DOMAIN" placeholder="Domain (Required)" id="domain">
-                     <input type="text" name="RESF" placeholder="RESOURCE (Required)" id="RESIDF">
-                     <input type="text" name="TEMPPASS_MVPD" placeholder="TempPass_MVPD (Required)" id="TMPPASS_MVPD">
+                     <input class="required" type="text" name="REQIDTP" placeholder="Requestor" id="REQIDTP">
+                     <input class="required" type="text" name="DOMAIN" placeholder="Domain" id="domain">
+                     <input class="required" type="text" name="RESF" placeholder="Resource" id="RESIDF">
+                     <input class="required" type="text" name="TEMPPASS_MVPD" placeholder="TempPass Name" id="TMPPASS_MVPD">
                      <button data-toggle="tooltip" data-placement="right" title="POST /api/v1/authenticate/freepreview" id="freepreview_btn" type="button" class="btn-rounded login-stuff" onclick="tempPass()" style="width:auto; margin-top: 2px; margin-bottom: 5px;  ">Get FreePreview</button>
                      <div>
                         <!-- <a id="thumbnail"><img src="./Asset_files/img/secure-layer-icon.png"></a>
@@ -191,9 +194,9 @@
                      </div>
                   </div>
                   <div id="LOGOUT" class="tab-pane fade">
-                     <span class="label label-default">STEP 6</span>
-                     <input type="text" name="REQIDLO" placeholder="REQUESTOR (Required)" id="REQIDLO">
-                     <input type="text" name="RESLO" placeholder="RESOURCE (Required)" id="RESIDLO"><br>
+                     <span class="label label-default">STEP 6</span><br>
+                     <input class="required" type="text" name="REQIDLO" placeholder="Requestor" id="REQIDLO">
+                     <input class="required" type="text" name="RESLO" placeholder="Resource" id="RESIDLO"><br>
                      <button data-toggle="tooltip" data-placement="right" title="DELETE /api/v1/logout" type="button" class="btn-rounded login-stuff methods" id="logout_btn" style="width:auto;" onclick="logout()">Logout</button>
                   </div>
                </div>
@@ -202,7 +205,7 @@
       <div class="row">
             <div class="col-lg-8 col-md-8 col-sm-8">
                   <div class="widget console">
-                     <h3>Console Logs</h3>
+                     <h5><strong>Console Logs</strong></h5>
                      <div contenteditable="true" name="comment" class="tb" id="textbox">
                      </div>
                   </div>
