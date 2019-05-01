@@ -19,7 +19,7 @@
 .env.production.local
 
 # compiled
-/compiled
+/WEB-INF/cgi/compiled
 test.py
 
 
