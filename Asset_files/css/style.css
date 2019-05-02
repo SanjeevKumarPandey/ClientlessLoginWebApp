@@ -431,14 +431,17 @@ span.psw {
   border: #888 solid 0px;
   border-radius: 5px;
   /* font: 14px "Century Gothic", Futura, sans-serif; */
-  color: #58666e;
-  background-color: #edf1f2 !important;
-  background-image: none;
-  filter: none;
+  /* color: #58666e; */
+  /* background-color: #edf1f2 !important; */
+  font: 12px "Lucida Console", sans-serif;
 }
 
-.apgticker, .console {
-  margin: 5px;
+.apgticker {
+  /* margin: 5px; */
+}
+
+.console h5 {
+  margin-bottom: 20px;
 }
 
 /*3D/shadow*/

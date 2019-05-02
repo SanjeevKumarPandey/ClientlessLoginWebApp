@@ -125,7 +125,6 @@ function getMVPD(requestor_id, sp_url) {
 
 function login(_url) {
     updateConsoleLogs("Redirecting To Login Url: "+_url);
-    localStorage['consoleLogs'] = document.getElementById('textbox').innerHTML;
     window.location.replace(_url);
 }
 
@@ -181,6 +180,7 @@ function updateConsoleLogs(feedback){
     let d = new Date();
     let timestamp = d.toLocaleString();
     document.getElementById('textbox').innerHTML += `<br>&nbsp;&nbsp;<strong>${timestamp}:</strong> ${feedback}`;
+    localStorage['consoleLogs'] = document.getElementById('textbox').innerHTML;
 }
 
 function boxDisable(t) {
