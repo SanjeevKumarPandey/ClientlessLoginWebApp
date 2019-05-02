@@ -169,6 +169,7 @@ $(document).ready(function () {
     document.getElementById('User-Agent').value = localStorage['UserAgent'];
     document.getElementById('PUBLIC_KEY').value = localStorage['_consumer'];
     document.getElementById('PRIV_KEY').value = localStorage['_secret'];
+    document.getElementById('textbox').innerHTML = localStorage['consoleLogs'];
     
 });
 

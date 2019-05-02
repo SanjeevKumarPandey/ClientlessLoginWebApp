@@ -2979,6 +2979,12 @@ html {
     background-color: #edf1f2;
   }
   
+  .bg-less-dark {
+    /* color: #a6a8b1; */
+    /* background-color: #00548c; */
+    background-color: #edf1f2;
+  }
+
   .bg-dark {
     color: #a6a8b1;
     background-color: #3a3f51;
@@ -3708,7 +3714,7 @@ html {
   }
   
   .bg-white {
-    color: #58666e;
+    /* color: #58666e; */
     background-color: #fff;
   }
   

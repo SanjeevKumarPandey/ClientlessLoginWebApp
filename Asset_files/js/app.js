@@ -63,8 +63,8 @@ function getMVPD(requestor_id, sp_url) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            updateConsoleLogs(url);
-            updateConsoleLogs("<span style='color: green'>"+xmlhttp.responseText+"</span>");
+            updateConsoleLogs(url+" "+"Status: <span style='color: green'>"+xmlhttp.status+" OK</span>");
+            //updateConsoleLogs("<span style='color: green'>"+xmlhttp.responseText+"</span>");
             try {
                 var x = $.parseXML(xmlhttp.responseText);
                 mvpds = $(x).find('mvpd');
@@ -89,8 +89,8 @@ function getMVPD(requestor_id, sp_url) {
                         function createPicker() {
                             picker.append(providersMenu);
                             picker.append($('<br/>'));
-                            picker.append($('<input data-toggle="tooltip" data-placement="bottom" title="GET /api/v1/authenticate?reg_code={regcode}&requestor_id={requestor}&domain_name={requestor.com}&noflash=true&mso_id={provider}&redirect_url={redirectUrl}" type="button" class="login-stuff" onclick="authenticate()" value="authenticate" style="width:auto; background-color:#3700B3;" />'));
-                            picker.append($('<input type="button" class="login-stuff" onclick="cancelPicker()" value="cancel" style="width:auto; background-color:tomato;" />'));
+                            picker.append($('<button class="btn-rounded login-stuff" onclick="authenticate()" value="authenticate">Authenticate</button>'));
+                            picker.append($('<button class="btn-rounded login-stuff" onclick="popupOpenClose(mvpdPicker)" value="cancel" style="background-color:tomato;">Cancel</button>'));
                             counter = false;
                         };
 
@@ -124,7 +124,8 @@ function getMVPD(requestor_id, sp_url) {
 }
 
 function login(_url) {
-
+    updateConsoleLogs("Redirecting To Login Url: "+_url);
+    localStorage['consoleLogs'] = document.getElementById('textbox').innerHTML;
     window.location.replace(_url);
 }
 

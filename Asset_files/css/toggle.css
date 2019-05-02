@@ -39,11 +39,12 @@
 }
 
 input:checked + .slider {
-  background-color: #3700B3; /*#2196F3;*/
+  background-color: #2f3342;
+  /*More options - #2f3342, #2196F3, #3700B3, blueviolet*/
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #3700B3; /*#2196F3;*/
+  box-shadow: 0 0 1px#2196F3;
 }
 
 input:checked + .slider:before {
@@ -87,7 +88,7 @@ input:checked + .slider:before {
 }
 
 input:checked + .slider2 {
-  background-color: #3700B3; /*blueviolet;*/
+  background-color:#2f3342;
 }
 
 input:focus + .slider2 {

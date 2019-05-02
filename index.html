@@ -28,7 +28,7 @@
    </head>
    <body>
       <div class="container-fluid">
-      <div class="row" id="t1" style="background-color:transparent;">
+      <div class="row" id="t1">
          <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-12" id="t2" style="background-color:transparent;">
             <header class="app-header">
                <div class="row">
@@ -82,10 +82,6 @@
                            <input type="text" id="uip" readonly="true"/>
                         </div>
                      </div>
-                     <!-- <div class="keys animate">
-                           <input type="password" placeholder="Consumer Key" id="PUBLIC_KEY">
-                           <input type="password" placeholder="Consumer Secret" id="PRIV_KEY">
-                     </div> -->
                   </div>
                   </div>
             </header>
@@ -94,34 +90,20 @@
       <div class="row">
          <div class="col-sm-7 col-md-7 col-lg-7 widget browser" >
             <div class="row">
-               <div class="col-sm-6 col-md-6 col-lg-6" id="t10" style="background-color:transparent;">
-                  <span class="label label-primary">WEB APP</span>
-                  <div id="mpicker">
-                     <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                           <div class="row">
-                              <div class="col-sm-6 col-md-8 col-lg-8">
-                                 <span class="label label-default">STEP 4</span>
-                              </div>
-                              <div class="col-sm-6 col-md-4 col-lg-4">
-                                 <h5>MVPD Picker</h5>
-                              </div>
-                           </div>
-                           <div style="width: 77%; background-color:#fffae6; border-radius: 5px; padding: 5px;">
-                              <h4><small>Enter Your Redirect URL & Authenticate</small></h4>
-                           </div>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                           <div id="mvpdPicker"></div>
-                        </div>
-                     </div>
-                     <span class="label label-info">Redirect URL</span>
-                     <input style="width:100%" type="text" name="redirectUrl" placeholder="RedirectUrl" id="redirectUrl">
+               <div class="col-sm-6 col-md-6 col-lg-6" id="t10">
+                  <div class="bg-dark dker m-t-n m-r-n-md no-m-xs no-m-sm picker">
+                        <span class="label label-success">WEB APP</span>
+                        <!-- <span class="label label-default">STEP 4</span> -->
+                  <div class="login-form" id="t9">
+                        <span>Enter Redirect URL</span>
+                        <input style="width:70%" type="text" name="redirectUrl" placeholder="RedirectUrl" id="redirectUrl">
+                        <div id="mvpdPicker"></div>
+                  </div>
                   </div>
                </div>
-               <div class="col-sm-6 col-md-6 col-lg-6" id="t11">
+               <div class="bg-light dker m-t-n  m-r-n-md no-m-xs no-m-sm col-sm-6 col-md-6 col-lg-6" id="t11">
+                  <!-- <span class="label label-default">STEP 3</span> -->
                   <div class="login-form" id="t13">
-                     <span class="label label-default">STEP 3</span><br>
                      <input type="text" name="regcode" placeholder="Regcode" id="regcode">
                      <input type="text" name="requestor" placeholder="Requestor" id="requestor"><br>
                      <button data-toggle="tooltip" data-placement="left" title="GET /adobe-services/config/{requestor}" 
@@ -136,70 +118,74 @@
                </div>
             </div>
          </div><!--END OF First Column-->
-         <div class="col-sm-5 col-md-5 col-lg-5 widget smartdevice" id="t12">
-                  <span class="label label-primary">SMART DEVICE</span><br>
-                  <span class="label label-default">STEP 1</span>
+         <div class="bg-less-dark dker m-t m-l-n-md m-r-n-md no-m-xs no-m-sm col-sm-5 col-md-5 col-lg-5 widget smartdevice" id="t12">
+               <span class="label label-primary">SMART DEVICE</span>
+               <!-- <span class="label label-default">STEP 1</span> -->
+               <div id="t16">
                      <input class="required" type="text" name="Device-Id" placeholder="Device ID" id="Device-Id">
                      <input type="text" name="User-Agent" placeholder="User-Agent" id="User-Agent">
-               <ul class="nav nav-tabs">
-                  <li class="active"><a data-toggle="tab" href="#AUTHN">Regcode</a></li>
-                  <li><a data-toggle="tab" href="#AUTHZ">Authorize</a></li>
-                  <li><a data-toggle="tab" href="#tempPass">Temp Pass</a></li>
-                  <li><a data-toggle="tab" href="#LOGOUT">Logout</a></li>
-               </ul>
-               <div class="tab-content" id="t14">
-                  <div id="AUTHN" class="tab-pane fade in active">
-                     <span class="label label-default">STEP 2</span>
-                     <div class="row animate">
-                           <div class="col-lg-4 col-md-4 col-sm-12">
-                                 <input class="required" type="text" name="REQID" placeholder="Requestor" id="REQID"><br>
-                                 <button data-toggle="tooltip" data-placement="top" title="POST /{requestor}/regcode" id="reg_btn" class="btn-rounded login-stuff" onclick="paramSet()" style="width:auto; ">Generate Regcode</button>
+                     <!--Navigation Tabs-->
+                     <ul class="nav nav-tabs">
+                           <li class="active"><a data-toggle="tab" href="#AUTHN">Regcode</a></li>
+                           <li><a data-toggle="tab" href="#AUTHZ">Authorize</a></li>
+                           <li><a data-toggle="tab" href="#tempPass">Temp Pass</a></li>
+                           <li><a data-toggle="tab" href="#LOGOUT">Logout</a></li>
+                        </ul>
+                        <div class="tab-content" id="t14">
+                              <div id="AUTHN" class="tab-pane fade in active">
+                                 <!-- <span class="label label-default">STEP 2</span> -->
+                                 <div class="row animate">
+                                       <div class="col-lg-4 col-md-4 col-sm-12">
+                                             <input class="required" type="text" name="REQID" placeholder="Requestor" id="REQID"><br>
+                                             <button data-toggle="tooltip" data-placement="top" title="POST /{requestor}/regcode" id="reg_btn" class="btn-rounded login-stuff" onclick="paramSet()" style="width:auto; ">Generate Regcode</button>
+                                       </div>
+                                       <div class="col-lg-6 col-md-6 col-sm-12">
+                                             <h5>Your REGCODE is here! &#8595;</h5>
+                                             <canvas id="canvas" width="180%" height="80%" style="border:1px solid #d3d3d3;">
+                                                Your browser does not support the HTML5 canvas tag.
+                                             </canvas>
+                                       </div>
+                                 </div>
+                              </div>
+                              <div id="AUTHZ" class="tab-pane fade">
+                                 <!-- <span class="label label-default">STEP 5</span> -->
+                                 <div>
+                                 <input class="required" type="text" name="REQIDZ" placeholder="Requestor" id="REQIDZ">
+                                 <input class="required" type="text" name="RES" placeholder="Resource" id="RESID"><br>
+                                 <button data-toggle="tooltip" data-placement="right" title="GET /api/v1/authorize" id="authz_btn" class="btn-rounded login-stuff" onclick="authorize()">Authorize</button>
+                                 </div>
+                              </div>
+                              <div id="tempPass" class="tab-pane fade">
+                                 <!-- <span class="label label-default">STEP 2 (ALT)</span> -->
+                                 <!-- <div style="width: 77%; background-color:#fffae6; border-radius: 5px; padding: 5px;">
+                                    <h4><small>FreePreview using TeamPass</small></h4>
+                                 </div> -->
+                                 <input class="required" type="text" name="REQIDTP" placeholder="Requestor" id="REQIDTP">
+                                 <input class="required" type="text" name="DOMAIN" placeholder="Domain" id="domain">
+                                 <input class="required" type="text" name="RESF" placeholder="Resource" id="RESIDF">
+                                 <input class="required" type="text" name="TEMPPASS_MVPD" placeholder="TempPass Name" id="TMPPASS_MVPD">
+                                 <button data-toggle="tooltip" data-placement="right" title="POST /api/v1/authenticate/freepreview" id="freepreview_btn" type="button" class="btn-rounded login-stuff" onclick="tempPass()" style="width:auto; margin-top: 2px; margin-bottom: 5px;  ">Get FreePreview</button>
+                                 <div>
+                                    <!-- <a id="thumbnail"><img src="./Asset_files/img/secure-layer-icon.png"></a>
+                                       <video width="320" height="240" controls>-->
+                                    <!-- <source src="https://amd-ssl.cdn.turner.com/toon/big/ads/2016/05/26/2V47J_576x324.mp4" type="video/mp4"> -->
+                                    <!-- <source src="movie.ogg" type="video/ogg"> -->
+                                    <!-- <source src="./Asset_files/video/700_.mp4" type="video/mp4">
+                                       Your browser does not support the video tag.
+                                       </video>
+                                       </div>
+                                       <div id="entitlement_lock">Content Locked!</div>                               -->
+                                 </div>
+                              </div>
+                              <div id="LOGOUT" class="tab-pane fade">
+                                 <!-- <span class="label label-default">STEP 6</span> -->
+                                 <input class="required" type="text" name="REQIDLO" placeholder="Requestor" id="REQIDLO">
+                                 <input class="required" type="text" name="RESLO" placeholder="Resource" id="RESIDLO"><br>
+                                 <button data-toggle="tooltip" data-placement="right" title="DELETE /api/v1/logout" type="button" class="btn-rounded login-stuff methods" id="logout_btn" style="width:auto;" onclick="logout()">Logout</button>
+                              </div>
                            </div>
-                           <div class="col-lg-6 col-md-6 col-sm-12">
-                                 <h5>Your REGCODE is here! &#8595;</h5>
-                                 <canvas id="canvas" width="180%" height="80%" style="border:1px solid #d3d3d3;">
-                                    Your browser does not support the HTML5 canvas tag.
-                                 </canvas>
-                           </div>
-                     </div>
-                  </div>
-                  <div id="AUTHZ" class="tab-pane fade">
-                     <span class="label label-default">STEP 5</span>
-                     <div>
-                     <input class="required" type="text" name="REQIDZ" placeholder="Requestor" id="REQIDZ">
-                     <input class="required" type="text" name="RES" placeholder="Resource" id="RESID"><br>
-                     <button data-toggle="tooltip" data-placement="right" title="GET /api/v1/authorize" id="authz_btn" type="button" class="btn-rounded login-stuff" onclick="authorize()" style="width:auto; ">Authorize</button>
-                     </div>
-                  </div>
-                  <div id="tempPass" class="tab-pane fade">
-                     <span class="label label-default">STEP 2 (ALT)</span>
-                     <div style="width: 77%; background-color:#fffae6; border-radius: 5px; padding: 5px;">
-                        <h4><small>FreePreview using TeamPass</small></h4>
-                     </div>
-                     <input class="required" type="text" name="REQIDTP" placeholder="Requestor" id="REQIDTP">
-                     <input class="required" type="text" name="DOMAIN" placeholder="Domain" id="domain">
-                     <input class="required" type="text" name="RESF" placeholder="Resource" id="RESIDF">
-                     <input class="required" type="text" name="TEMPPASS_MVPD" placeholder="TempPass Name" id="TMPPASS_MVPD">
-                     <button data-toggle="tooltip" data-placement="right" title="POST /api/v1/authenticate/freepreview" id="freepreview_btn" type="button" class="btn-rounded login-stuff" onclick="tempPass()" style="width:auto; margin-top: 2px; margin-bottom: 5px;  ">Get FreePreview</button>
-                     <div>
-                        <!-- <a id="thumbnail"><img src="./Asset_files/img/secure-layer-icon.png"></a>
-                           <video width="320" height="240" controls>-->
-                        <!-- <source src="https://amd-ssl.cdn.turner.com/toon/big/ads/2016/05/26/2V47J_576x324.mp4" type="video/mp4"> -->
-                        <!-- <source src="movie.ogg" type="video/ogg"> -->
-                        <!-- <source src="./Asset_files/video/700_.mp4" type="video/mp4">
-                           Your browser does not support the video tag.
-                           </video>
-                           </div>
-                           <div id="entitlement_lock">Content Locked!</div>                               -->
-                     </div>
-                  </div>
-                  <div id="LOGOUT" class="tab-pane fade">
-                     <span class="label label-default">STEP 6</span><br>
-                     <input class="required" type="text" name="REQIDLO" placeholder="Requestor" id="REQIDLO">
-                     <input class="required" type="text" name="RESLO" placeholder="Resource" id="RESIDLO"><br>
-                     <button data-toggle="tooltip" data-placement="right" title="DELETE /api/v1/logout" type="button" class="btn-rounded login-stuff methods" id="logout_btn" style="width:auto;" onclick="logout()">Logout</button>
-                  </div>
                </div>
+               
          </div>
       </div>
       <div class="row">
@@ -218,5 +204,6 @@
       <script src="./Asset_files/js/backend.js"></script>
       <script src="./Asset_files/js/download.js"></script>
       <script src="./Asset_files/js/settings.js"></script>
+      <script src="./Asset_files/js/confirmClose.js"></script>
    </body>
 </html>
