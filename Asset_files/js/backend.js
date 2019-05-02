@@ -10,6 +10,7 @@ var PUBKEY, PRIVKEY, RESOURCE, REQUESTOR, deviceId, url_hdr, reggie_fqdn, sp_fqd
 
 $(document).ready(function(){
 $('#textbox').attr('readonly', true);
+if(localStorage['_reg'] !== undefined) $("#regcode").val(localStorage['_reg']);
 var dt = new Date();
 tms = dt.toLocaleString();
 var feedbackConsole = $("#textbox");
@@ -28,6 +29,7 @@ success: function(result){
   feedbackConsole.val(feedbackConsole.val() + feedbackText);
   var d = ((data__.split('Regcode: ')[1]).split('device_info')[0]).slice(0, 7);
   $("#regcode").val($.trim(d));
+  localStorage['_reg'] = $.trim(d);
   var c = document.getElementById("canvas");
   var ctx = c.getContext("2d");
   ctx.clearRect(0, 0, c.width, c.height);

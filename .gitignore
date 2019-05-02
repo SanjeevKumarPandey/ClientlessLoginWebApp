@@ -22,6 +22,11 @@
 /WEB-INF/cgi/compiled
 test.py
 
+# media
+/Asset_files/img/png
+/Asset_files/img/svg
+/Asset_files/video
+
 
 npm-debug.log*
 yarn-debug.log*

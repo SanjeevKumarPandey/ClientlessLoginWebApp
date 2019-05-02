@@ -15,7 +15,7 @@
         $(th).css('background-color', 'transparent');
     }
     $('body').css('background-color', 'none');
-    $(".App-logo").attr('src', './Asset_files/img/Adobe_logo.png');
+    $(".App-logo").attr('src', './Asset_files/img/active/pt.svg');
     } else {
     $("#theme").html('DebugUI');
     $('.App-header').css('color', '#222');
@@ -36,7 +36,7 @@
     $("#t15").css('background-color', 'pink');
     $("#t16").css('background-color', 'sandybrown');
     $('head').append('<link rel="stylesheet" type="text/css" href="./Asset_files/css/debug.css">');
-    $(".App-logo").attr('src', './Asset_files/img/svg/bug.svg');
+    $(".App-logo").attr('src', './Asset_files/img/active/bug.svg');
     /*$(".App-logo").css("animation", "none");*/
     }
     }
