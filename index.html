@@ -16,12 +16,12 @@
       <link href="./Asset_files/css/toggle.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="shortcut icon" href="./Asset_files/img/active/Adobe-Logo-Small.png">
-      <script src="./Asset_files/js/jquery.min.js.download"></script>
+      <!-- <script src="./Asset_files/js/jquery.min.js.download"></script> -->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
       <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="./Asset_files/js/bootstrap.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <script src="./Asset_files/js/tracking.js"></script>
       <script src="./Asset_files/js/VisitorAPI.js"></script>
       <script src="./Asset_files/js/AppMeasurement.js"></script>
@@ -140,8 +140,8 @@
                                              <button data-toggle="tooltip" data-placement="top" title="POST /{requestor}/regcode" id="reg_btn" class="btn-rounded login-stuff" onclick="paramSet()" style="width:auto; ">Generate Regcode</button>
                                        </div>
                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                             <h5>Your REGCODE is here! &#8595;</h5>
-                                             <canvas id="canvas" width="180%" height="80%" style="border:1px solid #d3d3d3;">
+                                             <h5 id="reg_status">Your regcode is here &#8595;</h5>
+                                             <canvas id="canvas" width="180%" height="65%" style="border:1px solid #d3d3d3;">
                                                 Your browser does not support the HTML5 canvas tag.
                                              </canvas>
                                        </div>
@@ -156,10 +156,6 @@
                                  </div>
                               </div>
                               <div id="tempPass" class="tab-pane fade">
-                                 <!-- <span class="label label-default">STEP 2 (ALT)</span> -->
-                                 <!-- <div style="width: 77%; background-color:#fffae6; border-radius: 5px; padding: 5px;">
-                                    <h4><small>FreePreview using TeamPass</small></h4>
-                                 </div> -->
                                  <input class="required" type="text" name="REQIDTP" placeholder="Requestor" id="REQIDTP">
                                  <input class="required" type="text" name="DOMAIN" placeholder="Domain" id="domain">
                                  <input class="required" type="text" name="RESF" placeholder="Resource" id="RESIDF">
@@ -178,7 +174,6 @@
                                  </div>
                               </div>
                               <div id="LOGOUT" class="tab-pane fade">
-                                 <!-- <span class="label label-default">STEP 6</span> -->
                                  <input class="required" type="text" name="REQIDLO" placeholder="Requestor" id="REQIDLO">
                                  <input class="required" type="text" name="RESLO" placeholder="Resource" id="RESIDLO"><br>
                                  <button data-toggle="tooltip" data-placement="right" title="DELETE /api/v1/logout" type="button" class="btn-rounded login-stuff methods" id="logout_btn" style="width:auto;" onclick="logout()">Logout</button>
@@ -205,5 +200,6 @@
       <script src="./Asset_files/js/download.js"></script>
       <script src="./Asset_files/js/settings.js"></script>
       <script src="./Asset_files/js/confirmClose.js"></script>
+      <script src="./Asset_files/js/encrypt.js"></script>
    </body>
 </html>

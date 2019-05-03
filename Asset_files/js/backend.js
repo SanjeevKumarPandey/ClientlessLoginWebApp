@@ -11,10 +11,6 @@ var PUBKEY, PRIVKEY, RESOURCE, REQUESTOR, deviceId, url_hdr, reggie_fqdn, sp_fqd
 $(document).ready(function(){
 $('#textbox').attr('readonly', true);
 if(localStorage['_reg'] !== undefined) $("#regcode").val(localStorage['_reg']);
-var dt = new Date();
-tms = dt.toLocaleString();
-var feedbackConsole = $("#textbox");
-var feedbackText = "";
 document.getElementById('redirectUrl').value = "http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html";
 
 $("#reg_btn").click(function(){
@@ -25,9 +21,8 @@ $.ajax({
   dataType: "text",
 success: function(result){
   var data__=JSON.stringify(result);
-  feedbackText = '\n<strong>'+tms+':</strong> '+result.replace(/^\s+/, '').replace(/\s+$/, '');
-  feedbackConsole.val(feedbackConsole.val() + feedbackText);
   var d = ((data__.split('Regcode: ')[1]).split('device_info')[0]).slice(0, 7);
+  updateConsoleLogs(data__);
   $("#regcode").val($.trim(d));
   localStorage['_reg'] = $.trim(d);
   var c = document.getElementById("canvas");
@@ -35,6 +30,9 @@ success: function(result){
   ctx.clearRect(0, 0, c.width, c.height);
   ctx.font = "30px Arial";
   ctx.fillText(d,10,50);
+},
+error: function(data) {
+        updateConsoleLogs("<span style='color: red'>"+data.status+","+data.statusText+"</span>");
 }
 
 }); });
@@ -46,8 +44,12 @@ url: "cgi-bin/theApp.py",
 data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "RESID": RESOURCE, "REG_FQDN": reggie_fqdn, "SP_FQDN": sp_fqdn },
 dataType: "text",
 success: function(result){
-    feedbackText = '\n<strong>'+tms+':</strong> '+ result.replace(/^\s+/, '').replace(/\s+$/, '');
-    feedbackConsole.val(feedbackConsole.val() + feedbackText);
+    updateConsoleLogs(result.replace(/^\s+/, '').replace(/\s+$/, ''));
+},
+error: function(data) {
+        let data___ = JSON.stringify(data); 
+        console.log(data___);
+        updateConsoleLogs("<span style='color: red'>"+data___+"</span>");
 }
 
 }); });
@@ -60,13 +62,16 @@ $("#freepreview_btn").click(function(){
         data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "RESIDF": RESOURCE, "domain": domain, "SP_FQDN": sp_fqdn, "TEMPPASS_MVPD": tempPassMSO},
         dataType: "text",
     success: function(result){
-        feedbackText = '\n<strong>'+tms+':</strong> '+ result.replace(/^\s+/, '').replace(/\s+$/, '');
-        feedbackConsole.val(feedbackConsole.val() + feedbackText);
+        updateConsoleLogs(result.replace(/^\s+/, '').replace(/\s+$/, ''));
+    },
+    error: function(data) {
+            let data___ = JSON.stringify(data); 
+            console.log(data___);
+            updateConsoleLogs("<span style='color: red'>"+data___+"</span>");
     }
     }); 
 	} else {
-        feedbackText = '\n<strong>'+tms+':</strong> Error Obtaining FreePreview -TempPass Provider ID is blank';
-        feedbackConsole.val(feedbackConsole.val() + feedbackText);
+        updateConsoleLogs('Error Obtaining FreePreview -TempPass Provider ID is blank');
 	}
     });
 
@@ -77,10 +82,12 @@ $("#freepreview_btn").click(function(){
             data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "RESID": RESOURCE, "SP_FQDN": sp_fqdn},
             dataType: "text",
             success: function(result){
-                var dt2 = new Date();
-                tms = dt2.toLocaleString();
-                feedbackText = '\n<strong>'+tms+':</strong> '+ result.replace(/^\s+/, '').replace(/\s+$/, '');
-                feedbackConsole.val(feedbackConsole.val() + feedbackText);
+                updateConsoleLogs(result.replace(/^\s+/, '').replace(/\s+$/, ''));
+            },
+            error: function(data) {
+                    let data___ = JSON.stringify(data); 
+                    console.log(data___);
+                    updateConsoleLogs("<span style='color: red'>"+data___+"</span>");
             }
         
         }); 
@@ -165,11 +172,11 @@ function envSet(){
 $(document).ready(function () {
     if(localStorage['DeviceId'] == undefined) localStorage['DeviceId'] = "sampleDeviceID";
     if(localStorage['UserAgent'] == undefined) localStorage['UserAgent'] = "Roku/DVP";
+    if(localStorage['consoleLogs'] !== undefined ) document.getElementById('textbox').innerHTML = localStorage['consoleLogs'];
     document.getElementById('Device-Id').value = localStorage['DeviceId'];
     document.getElementById('User-Agent').value = localStorage['UserAgent'];
     document.getElementById('PUBLIC_KEY').value = localStorage['_consumer'];
     document.getElementById('PRIV_KEY').value = localStorage['_secret'];
-    document.getElementById('textbox').innerHTML = localStorage['consoleLogs'];
     
 });
 

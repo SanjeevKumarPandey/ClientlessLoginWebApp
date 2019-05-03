@@ -18,14 +18,20 @@
 .env.test.local
 .env.production.local
 
+#js files
+Asset_files/js/encrypt.js
+Asset_files/js/VisitorAPI.js
+Asset_files/js/AppMeasurement.js
+
 # compiled
 /WEB-INF/cgi/compiled
 test.py
 
+
 # media
 /Asset_files/img/png
-Asset_files/img/svg
-Asset_files/video
+/Asset_files/img/svg
+/Asset_files/video
 
 
 npm-debug.log*
