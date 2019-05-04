@@ -1,10 +1,8 @@
 # TVE WebApp - Clientless
 
-**Clientless WebApp** is a web application that uses REST APIs to interact with an authentication system and lets you obtain the asset playback authorization tokens and user metadata, along with the play token. This app lets you customize all inputs such as user-agent, device information, and params for REST endpoint.
+**TVE Clientless Demo App** is a web application that uses REST APIs to interact with an authentication system and lets you obtain the asset playback authorization tokens and user metadata, along with the play token. This app lets you customize all inputs such as user-agent, device information, and params for REST endpoint.
 
-_Note:_ Previous 6 versions are publically available [here](https://github.com/SanjeevKumarPandey/ClientlessLoginWebApp/releases). With v3.2 'sensitive' APIGEE Keys are embeded within the app hence this release is not available outside the access of a restricted group.
-
-![UI](/Asset_files/img/app_UI_3.4.png)
+![UI](/Asset_files/img/active/3.5.png)
 
 ## Getting Started
 
@@ -48,13 +46,9 @@ Deploy the package and use the channel and Pay-TV provider information to run a 
 First test is AuthN
 
 ```
-Use the first tab 'REG' for it
+Use the first tab 'Regcode' under Smart Device for it > Generate a REGCODE
 
-Generate a REGCODE
-
-Move to Web App (Step 3) to load the channel config
-
-Go to step 4 to initiate authentication
+Move to Web App section to load the channel config > Initiate Authentication once provider picker is loaded
 
 ```
 
@@ -63,14 +57,14 @@ Go to step 4 to initiate authentication
 Authorization and further flow
 
 ```
-Use 'AUTHZ' tab to run authorization test which also runs further tests for media-token and usermetadata
+Use 'Authorization' tab to run authorization test which also runs further tests for media-token and usermetadata
 ```
 
 ### Debugging UI
 
 To facilitate the UI debugging so that you can see where it is broken use theme toggle button on the top right and switch to UI Debug Mode
 
-![UI](/Asset_files/img/app-UI_Debug.png)
+![UI](/Asset_files/img/app-UI_Debug.png) (deprecated)
 
 ## Deployment
 
@@ -94,7 +88,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Sanjeev Pandey** - *Lead developer* - [ClientlessLoginWebApp](https://github.com/SanjeevKumarPandey)
+* **Sanjeev Pandey** - *Lead Developer* - [ClientlessLoginWebApp](https://github.com/SanjeevKumarPandey)
 
 See also the list of [contributors](https://github.com/SanjeevKumarPandey/ClientlessLoginWebApp/graphs/contributors) who participated in this project.
 
@@ -110,6 +104,26 @@ This project is licensed as **As Is** without any Warranty - see the [LICENSE.md
 
 ## Release Notes
 
+**3.5.1**
+What's New:
++ New color-coded logs console
++ Clutter-free, streamlined and clear interface
++ User IP tracking
++ App data persistence
++ Logs' preservation
++ Buttons to reset App & Console Logs
+
+Bug Fixes:
++ Persistence of application data on redirects & reload
++ Console logging overflows
++ UI overflows
++ Other minor fixes & major refactoring
++ Added gitignore and remove repo bloating
+
+Issues Closed:
++ issue#9: [App data is lost on redirect](https://github.com/SanjeevKumarPandey/ClientlessLoginWebApp/issues/9)
++ Issue#10: [Console logs are cluttering](https://github.com/SanjeevKumarPandey/ClientlessLoginWebApp/issues/10)
+
 **3.3.0**
 What's New:
 + Added freepreview feature & UI tab
@@ -121,4 +135,4 @@ Fixes:
 Issues Closed:
 + Issue#3: [TempPass Testing Feature - freepreview API](https://git.corp.adobe.com/sanpande/Primetime-clientless-sample-app/issues/3)
 
-![Freepreview UI Tab](/Asset_files/img/Freepreview.png)
+![Freepreview UI Tab](/Asset_files/img/active/Freepreview.png)

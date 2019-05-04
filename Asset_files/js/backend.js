@@ -22,7 +22,7 @@ $.ajax({
 success: function(result){
   var data__=JSON.stringify(result);
   var d = ((data__.split('Regcode: ')[1]).split('device_info')[0]).slice(0, 7);
-  updateConsoleLogs(data__);
+  updateConsoleLogs("Device Registration: "+data__, 3);
   $("#regcode").val($.trim(d));
   localStorage['_reg'] = $.trim(d);
   var c = document.getElementById("canvas");
@@ -32,7 +32,7 @@ success: function(result){
   ctx.fillText(d,10,50);
 },
 error: function(data) {
-        updateConsoleLogs("<span style='color: red'>"+data.status+","+data.statusText+"</span>");
+        updateConsoleLogs("Device Registration: "+data.status+", "+data.statusText, 4);
 }
 
 }); });
@@ -44,12 +44,10 @@ url: "cgi-bin/theApp.py",
 data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "RESID": RESOURCE, "REG_FQDN": reggie_fqdn, "SP_FQDN": sp_fqdn },
 dataType: "text",
 success: function(result){
-    updateConsoleLogs(result.replace(/^\s+/, '').replace(/\s+$/, ''));
+    updateConsoleLogs("Authorization: "+result.replace(/^\s+/, '').replace(/\s+$/, ''), 3);
 },
 error: function(data) {
-        let data___ = JSON.stringify(data); 
-        console.log(data___);
-        updateConsoleLogs("<span style='color: red'>"+data___+"</span>");
+    updateConsoleLogs("Authorization: "+data.status+", "+data.statusText, 4);
 }
 
 }); });
@@ -62,16 +60,14 @@ $("#freepreview_btn").click(function(){
         data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "RESIDF": RESOURCE, "domain": domain, "SP_FQDN": sp_fqdn, "TEMPPASS_MVPD": tempPassMSO},
         dataType: "text",
     success: function(result){
-        updateConsoleLogs(result.replace(/^\s+/, '').replace(/\s+$/, ''));
+        updateConsoleLogs("TempPass: "+result.replace(/^\s+/, '').replace(/\s+$/, ''), 3);
     },
     error: function(data) {
-            let data___ = JSON.stringify(data); 
-            console.log(data___);
-            updateConsoleLogs("<span style='color: red'>"+data___+"</span>");
+        updateConsoleLogs("Temp Pass: "+data.status+", "+data.statusText, 4);
     }
     }); 
 	} else {
-        updateConsoleLogs('Error Obtaining FreePreview -TempPass Provider ID is blank');
+        updateConsoleLogs('Error Obtaining FreePreview -TempPass Provider ID is blank', 0);
 	}
     });
 
@@ -82,12 +78,10 @@ $("#freepreview_btn").click(function(){
             data: {"PUBLIC_KEY" : PUBKEY, "PRIV_KEY": PRIVKEY, "REQID": REQUESTOR, "DEVID": deviceId, "UA": url_hdr, "RESID": RESOURCE, "SP_FQDN": sp_fqdn},
             dataType: "text",
             success: function(result){
-                updateConsoleLogs(result.replace(/^\s+/, '').replace(/\s+$/, ''));
+                updateConsoleLogs("Device Logout: "+result.replace(/^\s+/, '').replace(/\s+$/, ''), 3);
             },
             error: function(data) {
-                    let data___ = JSON.stringify(data); 
-                    console.log(data___);
-                    updateConsoleLogs("<span style='color: red'>"+data___+"</span>");
+                updateConsoleLogs("Device Logout: "+data.status+", "+data.statusText, 4);
             }
         
         }); 
@@ -139,8 +133,6 @@ function tempPass() {
 	var tempPass_ = document.getElementById('TMPPASS_MVPD').value;
 	if (tempPass_ != "") {
         tempPassMSO = tempPass_;
-    } else {
-        alert('Please Enter TempPass MVPD');
     }
 }
 
@@ -159,13 +151,13 @@ function envSet(){
         sp_fqdn = "http://api.auth.adobe.com/api/v1/";
         sp_url = "https://sp.auth.adobe.com/";
         document.getElementById('env').innerHTML = 'PROD';
-        updateConsoleLogs("[Smart Device Is On PRODUCTION]" );
+        //updateConsoleLogs("[Smart Device Is On PRODUCTION]", 3);
     } else if (env_status2 === "false"){
         reggie_fqdn = 'http://api.auth-staging.adobe.com/reggie/v1/';
         sp_fqdn = "http://api.auth-staging.adobe.com/api/v1/";
         sp_url = "https://sp.auth-staging.adobe.com/";
         document.getElementById('env').innerHTML = 'STAGE';
-        updateConsoleLogs("[Smart Device Is On STAGE]" );
+        //updateConsoleLogs("[Smart Device Is On STAGE]", 3);
     }
 }
 
@@ -186,7 +178,7 @@ function deviceInfo(){
         deviceId = di;
         localStorage['DeviceId'] = deviceId;
     } else {
-        updateConsoleLogs("Please enter a deviceId before proceeding");
+        updateConsoleLogs("Please enter a deviceId before proceeding", 3);
     }
     let ua = document.getElementById('User-Agent').value;
     if (ua != "") {
@@ -199,14 +191,14 @@ function deviceInfo(){
         PUBKEY = pbk;
         localStorage['_consumer'] = PUBKEY;
     } else {
-        updateConsoleLogs("Please enter the public key");
+        updateConsoleLogs("Please enter the public key", 3);
     }
     let prk = document.getElementById('PRIV_KEY').value;
     if (prk != "" && prk !== undefined && prk != "undefined") {
         PRIVKEY = prk;
         localStorage['_secret'] = PRIVKEY;
     } else {
-        updateConsoleLogs("Please enter the private key");
+        updateConsoleLogs("Please enter the private key", 3);
     }
 }
 

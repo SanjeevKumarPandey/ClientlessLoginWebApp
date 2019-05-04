@@ -31,7 +31,7 @@ function regRecord(requestor_id, regcode) {
     if (requestor_id && regcode) {
         var http = new XMLHttpRequest();
         var url = `${reggie_fqdn}${requestor_id}/regcode/${regcode}.json`;
-        updateConsoleLogs("Fetching Registration Record & Loading Config: "+url);
+        updateConsoleLogs("Fetching Registration Record & Loading Config: "+url, 2);
         var params = JSON.stringify({
             'deviceId': deviceId,
             'User-Agent': url_hdr
@@ -40,7 +40,7 @@ function regRecord(requestor_id, regcode) {
         http.onloadend = function() {
             if (http.readyState == 4 && http.status == 200) {
                 let a = JSON.stringify(http.responseText);
-                updateConsoleLogs("<span style='color: green'>"+a+"</span>");
+                updateConsoleLogs(a, 1);
                 getMVPD(document.getElementById('requestor').value, sp_url);
             } else {
                 let a = JSON.stringify(http.responseText);
@@ -63,8 +63,7 @@ function getMVPD(requestor_id, sp_url) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            updateConsoleLogs(url+" "+"Status: <span style='color: green'>"+xmlhttp.status+" OK</span>");
-            //updateConsoleLogs("<span style='color: green'>"+xmlhttp.responseText+"</span>");
+            updateConsoleLogs(url+" "+"Status: <span style='color: green'>"+xmlhttp.status+" OK</span>", 3);
             try {
                 var x = $.parseXML(xmlhttp.responseText);
                 mvpds = $(x).find('mvpd');
@@ -124,7 +123,7 @@ function getMVPD(requestor_id, sp_url) {
 }
 
 function login(_url) {
-    updateConsoleLogs("Redirecting To Login Url: "+_url);
+    updateConsoleLogs("Redirecting To Login Url: "+_url, 2);
     window.location.replace(_url);
 }
 
@@ -148,20 +147,18 @@ function checkauthn(req, regC) {
     getDeviceID();
     if (req && regC) {
         var url = `${sp_fqdn}checkauthn/${regC}.json?requestor=${req}&deviceId=${deviceId}`;
-        updateConsoleLogs("Checking Authentication: "+url);
+        updateConsoleLogs("Checking Authentication: url"+url, 2);
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.onloadend = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var rt = xhr.responseText,
                     st = xhr.status;
-                let feedback = `<span style="color: green">Authentication SUCCESSFUL: ${st}${rt}</span>`;
-                updateConsoleLogs(feedback);
+                updateConsoleLogs("Authentication Successful:"+ st+" "+rt, 1);
             } else if (xhr.status===403) {
-                let feedback = `<span style="color: red">NOT AUTHENTICATED - ${xhr.response}</span>`;
-                updateConsoleLogs(feedback);
+                updateConsoleLogs('Not Authenticated -'+ xhr.response, 0);
             } else {
-                updateConsoleLogs(xhr.status);
+                updateConsoleLogs(xhr.status, 3);
             }
         }
         //xhr.open('GET', url, true);
@@ -176,9 +173,30 @@ function checkauthn(req, regC) {
     }
 }
 
-function updateConsoleLogs(feedback){
+function updateConsoleLogs(feedback, type){
     let d = new Date();
     let timestamp = d.toLocaleString();
+    switch(type) {
+        case 0:
+        //failure - full red
+        feedback = `<span style="color: red">${feedback}</span>`;
+        break;
+        case 1:
+        //pass - full green
+        feedback = `<span style="color: green">${feedback}</span>`;
+        break;
+        case 2:
+        //url - normal + blue http
+        feedback = `${feedback.split('url')[0]} <span style="color: #2196F3">${feedback.split('url')[1]}</span>`;
+        break;
+        case 3:
+        //custom - as is
+        feedback = feedback;
+        break;
+        case 4:
+        //ajax failure - normal + red
+        feedback = `${feedback.split(':')[0]}: <span style="color: red">${feedback.split(':')[1]}</span>`;
+    }
     document.getElementById('textbox').innerHTML += `<br>&nbsp;&nbsp;<strong>${timestamp}:</strong> ${feedback}`;
     localStorage['consoleLogs'] = document.getElementById('textbox').innerHTML;
 }
