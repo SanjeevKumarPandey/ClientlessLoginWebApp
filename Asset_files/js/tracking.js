@@ -49,7 +49,13 @@ navigator.connection.effectiveType);
 // }
 
 //IP
-var RTCPeerConnection = /*window.RTCPeerConnection ||*/ window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+
+function updateIndicator() {
+    // Show a different icon based on offline/online
+    if(navigator.onLine) { // true|false
+      //console.log("Online");
+
+var RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
 
 if (RTCPeerConnection) (function () {
     var rtc = new RTCPeerConnection({iceServers:[]});
@@ -92,12 +98,23 @@ if (RTCPeerConnection) (function () {
                     addr = parts[2];
                 updateDisplay(addr);
             }
-        });
+        }); 
     }
 })(); else {
     console.log("<code>ifconfig | grep inet | grep -v inet6 | cut -d\" \" -f2 | tail -n1</code>");
     console.log("In Chrome and Firefox your IP should display automatically, by the power of WebRTCskull.");
 }
 
+} else {
+    //console.log("Offline");
+    $('#uip').val("Offline"); 
+  }
+
+}
+
+// Update the online status icon based on connectivity
+window.addEventListener('online',  updateIndicator);
+window.addEventListener('offline', updateIndicator);
+updateIndicator();
     
-    });
+});

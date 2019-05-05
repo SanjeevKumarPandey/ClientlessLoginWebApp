@@ -19,6 +19,7 @@ $(document).ready(function(){
  function toggleTheme(t) {
     if (t.is(':checked')) {
       $("#theme").html('DefaultUI');
+      automation();
     //$('link[rel=stylesheet][href~="./Asset_files/css/debug.css"]').remove();
     // for(i=1; i < 17; i++){
     //     var th = '#t'+i;
