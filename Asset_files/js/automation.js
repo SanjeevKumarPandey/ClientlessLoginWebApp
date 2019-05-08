@@ -1,138 +1,68 @@
 function automation(){
-    var form = document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('enctype', 'multipart/form-data');
-    form.setAttribute('id', 'formAutomation');
-    // form.setAttribute('download', 'xmlData.txt');
-    // form.href = makeTextFile(textbox.value);
-    document.body.appendChild(form);
-    var input = document.createElement('input');
-    input.setAttribute('id', 'jsonfile');
-    input.setAttribute('type', 'file');
-    input.setAttribute('value', 'i');
-    document.getElementById('formAutomation').appendChild(input);
-
-    var btn = document.createElement('button');
-    btn.setAttribute('id', 'submitbtn');
-    btn.setAttribute('type', 'button');
-    btn.setAttribute('innerHTML', 'Upload JSON');
-    document.body.appendChild(btn);
-
     displayForm();
+    document.getElementById('files').addEventListener('change', handleFileSelect, false);
 }
 
 function displayForm(){
     $('#formAutomation').css('display', 'block');
 }
 
-$(document).ready(function(){
-    $("#submitbtn").click(function(){
-        var myfile = $("#jsonfile")[0].files[0];
-        var json = Papa.parse(myfile, 
-            {
-            header: true, 
-            skipEmptyLines: true,
-            complete: function(results) {
-                var _data = JSON.stringify(results.data); //<-- Result is obtained here
-                console.log(_data);
-      //Now, write your own custom code to get the data in desired JSON Format
-      //DEFAULT -
-      //console.log("Dataframe:", JSON.stringify(results.data)); 
-      //console.log("Column names:", results.meta.fields);
-      //console.log("Errors:", results.errors);
+function handleFileSelect(evt) {
+  var files = evt.target.files;
+  var start = 0;
+  var stop = parseInt(files[0].size-1);
 
-                try {
-                //var obj = JSON.parse(_data); // parsing string into JSON 
-
-      //CUSTOMIZED - 
-                /*var _LDAP, i, j, res, f, email;	
-                for(i=0; i<obj.length; i++){
-                 f = JSON.stringify(obj[i]);
-                 j = obj[i].LDAP;
-                 h = JSON.stringify(j);
-                 email = h+':'+f;
-                 document.getElementById('textbox').innerHTML += email+',';
-                }*/
-      move();
-      document.getElementById('textbox').innerHTML += _data;
-                var textFile = null,
-                  makeTextFile = function (text) {
-                var data = new Blob([text], {type: 'text/plain'});
-
-                // while replacing a previously generated file, manually revoking the object-URL to avoid memory leaks.
-                if (textFile !== null) {
-                  window.URL.revokeObjectURL(textFile);
-                }
-
-                textFile = window.URL.createObjectURL(data);
-
-                // returns a URL to be used as a href
-                return textFile;
-                  };
-
-                var create = document.getElementById('create'),
-                textbox = document.getElementById('textbox');
-
-                  create.addEventListener('click', function () {
-                var link = document.createElement('a');
-                link.setAttribute('download', 'jsonData.json');
-                link.href = makeTextFile(textbox.value);
-                document.body.appendChild(link);
-
-                // wait for the link to be added to the document
-                window.requestAnimationFrame(function () {
-                  var event = new MouseEvent('click');
-                  link.dispatchEvent(event);
-                  document.body.removeChild(link);
-                });
-
-                  }, false);
-
-                } catch (ex) {
-                console.error(ex);
-                }
-            }
-            
-        });
-        
-    });
-    
-});
-
-
-var app= {
-
-inialize: "Initialized",
-
-clientInfo: navigator.userAgent,
-
-database: "DB currently null: As of "+Date(),
-
-config:{
-  version: 1.0,
-  AppName: "PapaLoader",
-  License: "Restricted"
-
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+    // Only process json files
+if (!f.type.match('json.*')) {
+  continue;
 }
-//Kaitlan Collins - White House Corrspondent
-};
 
-var t = setTimeout(function(){
-console.log(app.config.AppName+" "+app.config.version+" "+app.inialize);
-console.log(app.clientInfo);
-}, 3000);
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                  f.size, ' bytes, last modified: ',
+                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                  '</li>');
+    }
+    document.getElementById('listName').innerHTML = '<ul>' + output.join('') + '</ul>';
 
-function move() {
-    var elem = document.getElementById("myBar");   
-    var width = 0;
-    var id = setInterval(frame, 10);
-    function frame() {
-      if (width >= 100) {
-        clearInterval(id);
-      } else {
-        width++; 
-        elem.style.width = width + '%'; 
-        elem.innerHTML = width * 1  + '%';
+    var reader = new FileReader();
+
+    reader.onloadend = function(evt) {
+      if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+        document.getElementById('byte_content').textContent = evt.target.result;
+        document.getElementById('byte_range').textContent = 
+            ['Read bytes: ', start + 1, ' - ', stop + 1,
+             ' of ', files.size, ' byte file'].join('');
       }
-    }
-    }
+      assignValues(evt.target.result);
+    };
+    reader.readAsBinaryString(files[0]);
+}
+/*
+{
+  "requestor": "sample",
+  "resource": "sample",
+  "deviceData": {
+  "deviceId": "sample",
+  "user-agent": "sample"
+  },
+  "redirectUrl": "sample",
+  "provider": "sample",
+  "domain": "sample.com"
+  }*/
+
+  function assignValues(result) {
+    // console.log(typeof(result));
+    let __data__ = JSON.parse(result);
+    //console.log(__data__.requestor, __data__.resource);
+    //console.log(__data__.deviceData.deviceId, __data__.redirectUrl, __data__.provider);
+    __globalData__.requestor = __data__.requestor;
+    __globalData__.resource = __data__.resource;
+    __globalData__.deviceData.deviceId = __data__.deviceData.deviceId;
+    __globalData__.deviceData.user_agent = __data__.deviceData.user_agent;
+    __globalData__.redirectUrl = __data__.redirectUrl;
+    __globalData__.provider = __data__.provider;
+    __globalData__.domain = __data__.domain;
+    console.log(__globalData__);
+  }

@@ -7,7 +7,7 @@
  ************************************************************************************************/
 var uuid_filename = 'uuid.txt',
     login_page = 'mvpdLoginPage.html',
-    deviceId, ts;
+    deviceId;
 var reggie_fqdn = "http://api.auth.adobe.com/reggie/v1/",
 sp_fqdn = "http://api.auth.adobe.com/api/v1/",
 sp_url = "https://sp.auth.adobe.com/",
@@ -28,33 +28,40 @@ function getDeviceID (){
 
 function regRecord(requestor_id, regcode) {
     getDeviceID();
-    if (requestor_id && regcode) {
-        var http = new XMLHttpRequest();
-        var url = `${reggie_fqdn}${requestor_id}/regcode/${regcode}.json`;
-        updateConsoleLogs("Fetching Registration Record & Loading Config: "+url, 2);
-        var params = JSON.stringify({
-            'deviceId': deviceId,
-            'User-Agent': url_hdr
-        });
-        http.open("GET", url, true);
-        http.onloadend = function() {
-            if (http.readyState == 4 && http.status == 200) {
-                let a = JSON.stringify(http.responseText);
-                updateConsoleLogs(a, 1);
-                getMVPD(document.getElementById('requestor').value, sp_url);
-            } else {
-                let a = JSON.stringify(http.responseText);
-                updateConsoleLogs("<span style='color: red'>"+a+"</span>");
+    let pickerName = 'mvpdList';
+
+    if($("#" + pickerName).length == 0) {
+        //picker doesn't exist
+        if (requestor_id && regcode) {
+            var http = new XMLHttpRequest();
+            var url = `${reggie_fqdn}${requestor_id}/regcode/${regcode}.json`;
+            updateConsoleLogs("Fetching Registration Record & Loading Config: url"+url, 2);
+            var params = JSON.stringify({
+                'deviceId': deviceId,
+                'User-Agent': url_hdr
+            });
+            http.open("GET", url, true);
+            http.onloadend = function() {
+                if (http.readyState == 4 && http.status == 200) {
+                    let a = JSON.stringify(http.responseText);
+                    updateConsoleLogs(a, 1);
+                    getMVPD(document.getElementById('requestor').value, sp_url);
+                } else {
+                    let a = JSON.stringify(http.responseText);
+                    updateConsoleLogs("<span style='color: red'>"+a+"</span>");
+                }
             }
+            http.send(params);
+        } else {
+            var y = document.getElementById('unauthe');
+            y.style.display = 'block';
+            y.innerHTML = 'This will throw SC 404. \nEnter RequestorID and Regcode.';
+            var to = setTimeout(function() {
+                y.style.display = 'none';
+            }, 3000)
         }
-        http.send(params);
     } else {
-        var y = document.getElementById('unauthe');
-        y.style.display = 'block';
-        y.innerHTML = 'This will throw SC 404. \nEnter RequestorID and Regcode.';
-        var to = setTimeout(function() {
-            y.style.display = 'none';
-        }, 3000)
+        console.log('picker already created');
     }
 }
 

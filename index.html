@@ -9,7 +9,7 @@
       <meta http-equiv="Cache-Control" content="no-cache">
       <meta http-equiv="Pragma" content="no-cache">
       <meta http-equiv="Expires" content="0">
-      <title>TVE Clientless Demo App</title>
+      <title>HULK - TVE Clientless Demo App</title>
       <link href="./Asset_files/css/bootstrap.css" rel="stylesheet">
       <link href="./Asset_files/css/style.css" rel="stylesheet">
       <link href="./Asset_files/css/app.css" rel="stylesheet">
@@ -37,7 +37,8 @@
                            <img src='./Asset_files/img/active/pt.svg' class="App-logo reflection" alt="logo" />
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="t5" style="background-color:transparent;">
-                           <h4 class="App-title"><strong><i>TVE Clientless Demo App</i></strong> <small style="color:teal">v3.5.1</small></h4>
+                              <h4 class="App-title"><strong>HULK</strong> <small style="color:teal">v3.5.1</small></h4>
+                              <h6><i>TVE Clientless Demo App</i></h6>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" id="t6" style="background-color:transparent;">
                            <label class="switch" style="margin-top:5px;">
@@ -49,18 +50,23 @@
                      </div>
                   </div>
                   <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-                        <label class="switch" style="margin-top:5px;">
+                        <label class="switch" style="margin-top:5px; display: none;">
                               <input type="checkbox" onclick="toggleTheme($(this))" unchecked>
                               <span class="slider2 round"></span>
                               <p id='theme' style="display:inline-block; margin-left: 110%;">DefaultUI</p>
                            </label>
+                           <h5 onclick="automation()"><strong>Config Upload</strong></h5>
                   </div>
                   <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1" id="t7">
-                        <h5 onclick="showInstrcutions()"><strong>How To Use</strong></h5>
+                        <h5 id='instruction-title' onclick="showInstrcutions()"><strong>How To Use</strong></h5>
                         <div class="instruction animate" id="t8">
-                              <code>HOW TO USE:<small style="color:#3700B3;" id="dir"> Generate REGCODE, and enter Requestor > Hit <i>Get Config</i> > 
-                                MVPD Picker is created. Picking the provider sets mso id > Click <i>Authenticate</i> to login</small></code>
-                        </div>
+                           <div id="instruction-board">
+                                 App is devided into two sections, <strong>Smart Device</strong> (Clientless System) and <strong>Web App</strong> (For 2nd Screen flow).
+                                 Generate REGCODE in SD, and enter Requestor in WebApp to 'Activate' > Hit <i>Get Config</i> >
+                                MVPD Picker is created. Picking the provider sets mso id > Click <i>Authenticate</i> to login</small>
+                           </div>
+                           <button id="instruction-close" value="close" onclick="popupOpenClose(t8)">Close</button>
+                     </div>
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" id="t15">
                      <div class="row">
@@ -187,7 +193,7 @@
             <div class="col-lg-8 col-md-8 col-sm-8">
                   <div class="console">
                      <h5><i>Application Logs</i></h5>
-                     <div contenteditable="true" name="comment" class="tb bg-dark dker m-t-n m-r-n-md no-m-xs no-m-sm" id="textbox">
+                     <div contenteditable="true" autocorrect="off" spellcheck="false" name="comment" class="tb bg-dark dker m-t-n m-r-n-md no-m-xs no-m-sm" id="textbox">
                      </div>
                   </div>
                </div>
@@ -204,7 +210,17 @@
 <div class="row footer-parent">
   <div  class="col-lg-12 col-md-12 col-sm-12 text-center">
         <div class="credits">
-         Adobe Primetime. &copy; Developed by <a href="mailto:sanpande@adobe.com&subject=Clientless%20Demo%20App%20Feedback%26body%3D%3CPlease%20type%20your%20feedback%20here%3E%3A">Sanjeev Pandey</a>
+         Adobe Primetime. Developed by <a href="mailto:sanpande@adobe.com&subject=HULK-Clientless%20Demo%20App%20Feedback%26body%3D%3CPlease%20type%20your%20feedback%20here%3E%3A">Sanjeev Pandey</a>
+        </div>
+        <div class="animate" id="formAutomation">
+            <div id="formAutomation-child">
+                  <h5>Note:<i>This is an optional feature</i></h5>
+                  <input type="file" id="files">
+                  <output id="listName"></output>
+                  <div id="byte_range"></div>
+                  <div id="byte_content"></div>
+                  <button id="cancelBtn" value="close" onclick="popupOpenClose(formAutomation)">Close</button>
+            </div>
         </div>
 </div>
 </div>

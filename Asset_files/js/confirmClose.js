@@ -1,9 +1,9 @@
 function popupOpenClose(popup) {
 	
 	/* Add div inside popup for layout if one doesn't exist */
-	if ($(".wrapper").length == 0){
-		$(popup).wrapInner("<div class='wrapper'></div>");
-	}
+	// if ($(".wrapper").length == 0){
+	// 	$(popup).wrapInner("<div class='wrapper'></div>");
+	// }
 	
 	/* Open popup */
 	//$(popup).show();

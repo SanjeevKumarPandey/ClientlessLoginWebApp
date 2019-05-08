@@ -1,0 +1,11 @@
+{
+	"requestor": "REF30",
+	"resource": "REF30",
+	"deviceData": {
+		"deviceId": "someSampleDevice",
+		"user_agent": "Roku%2FDVP"
+	},
+	"redirectUrl": "http%3A%2F%2Fadobe.com%3A5500%2FLoginWebApp%2FRedirectComplete.html",
+	"provider": "Cablevision",
+	"domain": "adobe.com"
+}

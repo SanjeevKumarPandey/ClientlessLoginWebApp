@@ -5,14 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>RedirectComplete</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="./Asset_files/customstyle.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script type="text/javascript">
-    var time =setTimeout(function(){
-        var r = setTimeout(function(){document.getElementById('time').innerHTML = '3';}, 1000);
-        var rr = setTimeout(function(){document.getElementById('time').innerHTML = '2';}, 2000);
-        var rrr = setTimeout(function(){document.getElementById('time').innerHTML = '1';}, 3000);
-        var rrrr = setTimeout(function(){window.location.href = 'index.html';}, 4000);
+        var r = 0;
+        const n = 3;
+        document.getElementById('time').innerHTML = n;
+    var _time = setTimeout(function(){
+        do {
+            t.innerHTML = (n-r);
+            r++;
+        } while (r < 4);
+        //window.location.href = 'index.html';
     }, 4000);
     </script>
     <style>
@@ -39,6 +42,12 @@
     overflow:unset;
     background-color: #73AD21;
     }
+
+    #time {
+        display: inline;
+    }
+
+
 </style>
 </head>
 <body>
@@ -47,11 +56,9 @@
         <h1 style="color:black">Redirect Complete</h1>
     </div>
     <div id="img">
-        <!-- <img src="./Asset_files/success.jpg"> -->
         <i class="fa fa-check" style="font-size:24px;color:green;position:fixed; margin:8px 0px 0px 12px"></i>
         <i class="fa fa-tv" style="font-size:48px;position:relative"></i>
-        <h2>You have activated it successfully! Sending you back to LoginApp in ..<p id='time'></p></h2>
-        <img id="image" src="./Asset_files/success.jpg">
+        <h2>Activation Successful. Sending you back to application in.. <p id='time'></p></h2>
     </div>
     </div>
     <script>

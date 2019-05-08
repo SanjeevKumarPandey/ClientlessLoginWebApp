@@ -8,12 +8,27 @@
   
 var _floatMenu = "#floatMenu";
 var menuYloc = null; 
+var __globalData__;
 $(document).ready(function(){
    menuYloc = parseInt($(_floatMenu).css("top").substring(0,$(_floatMenu).css("top").indexOf("px")))
    $(window).scroll(function () { 
    let offset = menuYloc+$(document).scrollTop()+"px";
    $(_floatMenu).animate({top:offset},{duration:500,queue:false});
    });
+
+   //appDataObject
+
+  __globalData__ = {
+    requestor : "",
+    resource : "",
+    deviceData: {
+    deviceId: "",
+    user_agent: ""
+    },
+    redirectUrl: "",
+    provider: "",
+    domain: "adobe.com"
+    }
 });   
  
  function toggleTheme(t) {
@@ -63,8 +78,12 @@ $(document).ready(function(){
     function showInstrcutions(){
       if($('.instruction').css('display') == "block"){
         $('.instruction').css('display', 'none');
+        // $('#instruction-title').css('background-color','transparent');
+        // $('#instruction-title').css('color','inherit');
       } else {
         $('.instruction').css('display', 'block');
+        // $('#instruction-title').css('background-color','gray');
+        // $('#instruction-title').css('color','#edf1f2');
       }
     }
     
