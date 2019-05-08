@@ -10,7 +10,7 @@
       <meta http-equiv="Pragma" content="no-cache">
       <meta http-equiv="Expires" content="0">
       <title>HULK - TVE Clientless Demo App</title>
-      <link href="./Asset_files/css/bootstrap.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
       <link href="./Asset_files/css/style.css" rel="stylesheet">
       <link href="./Asset_files/css/app.css" rel="stylesheet">
       <link href="./Asset_files/css/toggle.css" rel="stylesheet">
@@ -28,17 +28,17 @@
    <body>
       <div class="container-fluid">
       <div class="row" id="t1">
-         <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-12" id="t2" style="background-color:transparent;">
+         <div class="col-md-12 col-lg-12" id="t2" style="background-color:transparent;">
             <header class="app-header">
                <div class="row">
-                  <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5" id="t3" style="background-color:transparent;">
+                  <div class="col-md-5 col-lg-5" id="t3" style="background-color:transparent;">
                      <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" id="t4" style="background-color:transparent;">
+                        <div class="col-md-3 col-lg-3" id="t4" style="background-color:transparent;">
                            <img src='./Asset_files/img/active/pt.svg' class="App-logo reflection" alt="logo" />
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="t5" style="background-color:transparent;">
-                              <h4 class="App-title"><strong>HULK</strong> <small style="color:teal">v3.5.1</small></h4>
-                              <h6><i>TVE Clientless Demo App</i></h6>
+                        <div class="col-md-6 col-lg-6" id="t5" style="background-color:transparent;">
+                           <h4 class="App-title"><strong>HULK</strong> <small style="color:teal">v3.5.1</small></h4>
+                           <h6><i>TVE Clientless Demo App</i></h6>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" id="t6" style="background-color:transparent;">
                            <label class="switch" style="margin-top:5px;">
@@ -70,20 +70,20 @@
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" id="t15">
                      <div class="row">
-                        <div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
                            <label class="switch" style="margin-top:5px; margin-left:5px; ">
                                     <input type="checkbox" onclick="toggleKeyShow($(this))" unchecked>
                                     <span class="slider3 round"></span>
                                     </label>
                         </div>
-                        <div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                            <h5 style="display:inline-flex; margin-left: 5px;"><strong>Change APIGEE Keys</strong></h5>
                            <div class="keys animate">
                                  <input type="text" placeholder="Consumer Key" id="PUBLIC_KEY">
                                  <input type="text" placeholder="Consumer Secret" id="PRIV_KEY">
                            </div>
-                        </div>
-                        <div class="trakcing-info">
+                           </div>
+                        <div class="trakcing-info col-xs-12 col-sm-12 col-md-3 col-lg-3">
                            <input type="text" id="uip" readonly="true"/>
                         </div>
                      </div>
@@ -143,7 +143,7 @@
                                  <div class="row animate">
                                        <div class="col-lg-4 col-md-4 col-sm-12">
                                              <input class="required" type="text" name="REQID" placeholder="Requestor" id="REQID"><br>
-                                             <button data-toggle="tooltip" data-placement="top" title="POST /{requestor}/regcode" id="reg_btn" class="btn-rounded login-stuff" onclick="paramSet()" style="width:auto; ">Generate Regcode</button>
+                                             <button data-toggle="tooltip" data-placement="top" title="POST /{requestor}/regcode" id="reg_btn" class="btn-rounded login-stuff" onclick="paramSet()">Generate Regcode</button>
                                        </div>
                                        <div class="col-lg-6 col-md-6 col-sm-12">
                                              <h5 id="reg_status">Your regcode is here &#8595;</h5>

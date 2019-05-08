@@ -1,7 +1,7 @@
 /************************************************************************************************
 
  * tracking.js
- * Clientless Sample JS App
+ * Project HULK
  * Created by Sanjeev Pandey on 5/3/19.
  
  ************************************************************************************************/
@@ -13,9 +13,8 @@ $(document).ready(function(){
 console.log("Device: "+
 navigator.platform,
 navigator.userAgent,
-navigator.vendor,
-navigator.connection.effectiveType);
-
+navigator.vendor);
+if(navigator.connection !== undefined) console.log(navigator.connection.effectiveType); //handled FF & Safari's case - Sanjeev Pandey 08/05/2019
 
 
 //geo
@@ -54,6 +53,9 @@ function updateIndicator() {
     // Show a different icon based on offline/online
     if(navigator.onLine) { // true|false
       //console.log("Online");
+      if(navigator.vendor.indexOf('Apple') !== -1) { //handling Safari's case - Sanjeev Pandey 08/05/2019
+        $('#uip').val("Online");
+      } else {$('#uip').val("Offline");}
 
 var RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
 
@@ -105,11 +107,10 @@ if (RTCPeerConnection) (function () {
     console.log("In Chrome and Firefox your IP should display automatically, by the power of WebRTCskull.");
 }
 
-} else {
+    } else {
     //console.log("Offline");
     $('#uip').val("Offline"); 
-  }
-
+    }
 }
 
 // Update the online status icon based on connectivity

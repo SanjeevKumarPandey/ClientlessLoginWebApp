@@ -1,3 +1,11 @@
+/************************************************************************************************
+
+ * confirmClose.js
+ * Project HULK 3.5
+ * Created by Sanjeev Pandey on 6/5/19.
+ 
+ ************************************************************************************************/
+
 function popupOpenClose(popup) {
 	
 	/* Add div inside popup for layout if one doesn't exist */
